@@ -1,0 +1,45 @@
+/*========================================NAVBAR==========================================*/
+
+div.navbar {
+    width: 100%;
+    box-sizing: border-box;
+    background-color: white;
+    border: .3px solid rgb(201, 201, 201);
+    display: flex;
+    flex-direction: row;
+    padding: 7px 40px 3px 40px;
+
+    div.menu-hamburger {
+        width: 100%;
+
+        i {
+            font-size: 30px;
+            position: relative;
+            left: 0px;
+            top: 7px;
+            cursor: pointer;
+        }
+    }
+
+    div.options {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+
+        i {
+            position: relative;
+            top: 8px;
+            font-size: 22px;
+            margin: 0 6px 0 6px;
+            cursor: pointer;
+        }
+    }
+}
+
+.dark {
+    div.navbar {
+        background-color: #52525b;
+        border: none;
+    }
+}
