@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\PaymentPlanController;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -25,15 +26,18 @@ Route::get('/', function () {
     ]);
 });
 
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-
 });
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-Route::group(['prefix' => 'admin/'], function () {
-    // Route::get('/dashboard', [DashboardController::class, 'dashboardAdmin'])->name('admin.dashboard');
-    Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('admin.dashboard')->middleware('auth:admin');
+
+
+Route::group(['prefix' => 'admin/', 'middleware' => 'auth:admin'], function () {
+    Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('admin.dashboard');
+    Route::group(['prefix' => 'payment_plan/'], function () {
+        Route::get('/create', [PaymentPlanController::class, 'createView'])->name('payment_plan.createView');
+    });
 });

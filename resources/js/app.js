@@ -30,11 +30,18 @@ createInertiaApp({
 
             app.directive('ripple',Ripple);
             app.directive('Badge',Components.primevue.directive.BadgeDirective);
-
-            app.component('Button', Components.primevue.Button)
+            //layout
+            app.component('AppLayout', Components.layouts.AppLayout);
+            //primevue
+            app.
+            component('Button', Components.primevue.Button)
             .component('PanelMenu', Components.primevue.PanelMenu)
             .component('Breadcrumb', Components.primevue.Breadcrumb)
+            .component('Panel', Components.primevue.Panel)
+            .component('InputText', Components.primevue.InputText)
             .component('Badge', Components.primevue.Badge);
+            //custom
+            //inertia
             app.component('Link', Link);
             return app.mount(el);
     },

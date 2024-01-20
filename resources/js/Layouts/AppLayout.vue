@@ -61,14 +61,19 @@
             <div class="flex mt-2">
                 <div class="flex px-3 py-2 bg-white border rounded-md dark:bg-zinc-600">
                     <i class="text-3xl text-blue-500 fa-solid fa-info"></i>
-                    <h1 class="ml-2 text-3xl">{{ title }}</h1>
+                    <h1 class="ml-2 text-3xl">{{ title_page ?? title }}</h1>
                 </div>
             </div>
         </div>
         <div class="relative custom-container">
 
-            <div class="box-border relative px-3 py-2 my-2 bg-white border rounded-md shadow-4 dark:bg-zinc-600">
+            <div class="box-border relative px-3 py-2 my-2 bg-white border rounded-md shadow-4 dark:bg-zinc-600" v-if="!$slots.center">
                 <slot></slot>
+            </div>
+            <div class="box-border relative flex justify-center px-3 py-2 my-2 bg-white border rounded-md shadow-4 dark:bg-zinc-600" v-if="$slots.center">
+                <div class="w-full xl:w-[80%] 2xl:w-[70%]">
+                    <slot name="center"></slot>
+                </div>
             </div>
         </div>
     </div>
@@ -81,10 +86,9 @@ import Navbar from "@/Components/Navigate/NavBar.vue";
 import Sidebar from "@/Components/Navigate/Sidebar.vue";
 import IconButtonDropdown from "@/Components/DropDown/IconButton.vue";
 import LinkDropdown from "@/Components/DropDown/Link.vue";
-import DropdownLink from '@/Components/DropdownLink.vue';
 import SidebarGuard from '../Src/SidebarGuards.js';
 const page = usePage();
-const links = ref(SidebarGuard.generateForGuard('web'));
+const links = ref(SidebarGuard.generateForGuard(page.props.auth_more.guard));
 const sidebar_isOpen = ref(false);
 
 const breadcrumb = ref(page.props.breadcrumb_show ? {
@@ -97,6 +101,7 @@ const breadcrumb = ref(page.props.breadcrumb_show ? {
 
 defineProps({
     title: String,
+    title_page: String,
 });
 
 //ref attr, reference

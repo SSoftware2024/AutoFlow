@@ -7,81 +7,7 @@ let common = [
             router.get('/dashboard');
         }
     },
-    {
-        label: 'Files',
-        icon: 'fa-solid fa-money-bill',
-        items: [
-            {
-                label: 'Documents',
-                icon: 'pi pi-file',
-                items: [
-                    {
-                        label: 'Invoices',
-                        icon: 'pi pi-file-pdf',
-                        items: [
-                            {
-                                label: 'Pending',
-                                icon: 'pi pi-stop',
-                                command: () => {
-                                    alert('item pending');
-                                }
-                            },
-                            {
-                                label: 'Paid',
-                                icon: 'pi pi-check-circle'
-                            }
-                        ]
-                    },
-                ]
-            },
-            {
-                label: 'Images',
-                icon: 'pi pi-image',
-                items: [
-                    {
-                        label: 'Logos',
-                        icon: 'pi pi-image'
-                    }
-                ]
-            }
-        ]
-    },
-    {
-        label: 'Cloud',
-        icon: 'pi pi-cloud',
-        items: [
-            {
-                label: 'Upload',
-                icon: 'pi pi-cloud-upload'
-            },
-            {
-                label: 'Download',
-                icon: 'pi pi-cloud-download'
-            },
-            {
-                label: 'Sync',
-                icon: 'pi pi-refresh'
-            }
-        ]
-    },
-    {
-        label: 'Devices',
-        icon: 'pi pi-desktop',
-        items: [
-            {
-                label: 'Phone',
-                icon: 'pi pi-mobile'
-            },
-            {
-                label: 'Desktop',
-                icon: 'pi pi-desktop'
-            },
-            {
-                label: 'Tablet',
-                icon: 'pi pi-tablet'
-            }
-        ]
-    }
+
 ];
 let web = [
     {
@@ -89,13 +15,84 @@ let web = [
         icon: 'fa-solid fa-money-bill',
     }
 ];
+let admin = [
+    {
+        label: 'Administrdores',
+        icon: 'fa-solid fa-user-tie',
+        items: [
+            {
+                label: 'Novo',
+                icon: 'fa-solid fa-user-plus',
+            },
+            {
+                label: 'Lista',
+                icon: 'fa-solid fa-list',
+            },
+        ]
+    },
+    {
+        label: 'Plano de pagamento',
+        icon: 'fa-solid fa-credit-card',
+        items: [
+            {
+                label: 'Novo',
+                icon: 'fa-solid fa-plus',
+                command: () => {
+                    router.get(window.route('payment_plan.createView'));
+                    // router.get('/admin/payment_plan/create');
+                }
+            },
+            {
+                label: 'Lista',
+                icon: 'fa-solid fa-list',
+            },
+        ]
+    },
+    {
+        label: 'Empresas',
+        icon: 'fa-solid fa-building',
+        items: [
+            {
+                label: 'Nova',
+                icon: 'fa-solid fa-plus',
+            },
+            {
+                label: 'Lista',
+                icon: 'fa-solid fa-list',
+            },
+            {
+                label: 'Plano de pagamento',
+                icon: 'fa-solid fa-credit-card',
+            },
+            {
+                label: 'Históricos de pagamento',
+                icon: 'fa-solid fa-timeline',
+            }
+        ]
+    },
+    {
+        label: 'Clientes',
+        icon: 'fa-solid fa-user',
+        items: [
+            {
+                label: 'Novo',
+                icon: 'fa-solid fa-user-plus',
+            },
+            {
+                label: 'Lista',
+                icon: 'fa-solid fa-list',
+            },
+        ]
+    },
+];
 
 let guard = {
     generateForGuard: (guard) => {
         switch (guard) {
             case 'web':
                 return [...common, ...web];
-                break;
+            case 'admin':
+                return [...common, ...admin];
         }
     }
 }
