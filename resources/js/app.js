@@ -13,6 +13,7 @@ import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
 import { createPinia } from 'pinia';
 import PrimeVue from 'primevue/config';
 import Ripple from 'primevue/ripple';
+import Swal from 'sweetalert2'
 import * as Components from './components';
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 const pinia = createPinia();
@@ -30,19 +31,23 @@ createInertiaApp({
 
             app.directive('ripple',Ripple);
             app.directive('Badge',Components.primevue.directive.BadgeDirective);
+            app.directive('Tooltip',Components.primevue.directive.Tooltip);
             //layout
             app.component('AppLayout', Components.layouts.AppLayout);
             //primevue
             app.
-            component('Button', Components.primevue.Button)
-            .component('PanelMenu', Components.primevue.PanelMenu)
-            .component('Breadcrumb', Components.primevue.Breadcrumb)
-            .component('Panel', Components.primevue.Panel)
-            .component('InputText', Components.primevue.InputText)
-            .component('Badge', Components.primevue.Badge);
+            component('Button', Components.primevue.button.Button)
+            .component('PanelMenu', Components.primevue.menu.PanelMenu)
+            .component('Breadcrumb', Components.primevue.menu.Breadcrumb)
+            .component('Panel', Components.primevue.panel.Panel)
+            .component('InputText', Components.primevue.form.InputText)
+            .component('InputNumber', Components.primevue.form.InputNumber)
+            .component('Badge', Components.primevue.misc.Badge);
             //custom
             //inertia
             app.component('Link', Link);
+            //global
+            app.provide('Swal',Swal);
             return app.mount(el);
     },
     progress: {

@@ -19,4 +19,12 @@ class PaymentPlanController extends Controller
             'breadcrumb' => $breadcrumb->generate()
         ]);
     }
+    /**===================================METODOS=================================== */
+    public function create(Request $request)
+    {
+        $request->validate([
+            'title' => ['required']
+        ]);
+        dd($request->money,$request->title);
+    }
 }
