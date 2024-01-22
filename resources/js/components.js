@@ -7,6 +7,8 @@ import Panel from 'primevue/panel';
 import InputText from 'primevue/inputtext';
 import InputNumber from 'primevue/inputnumber';
 import Tooltip from 'primevue/tooltip';
+import Toast from 'primevue/toast';
+import ToastService from 'primevue/toastservice';
 //layouts
 import AppLayout from '@/Layouts/AppLayout.vue';
 //custom
@@ -38,6 +40,10 @@ let primevue = {
     menu: {
         PanelMenu,
         Breadcrumb,
+    },
+    messages: {
+        ToastService, //use
+        Toast
     }
 
 };

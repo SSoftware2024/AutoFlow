@@ -2,11 +2,12 @@
 
 namespace App\Providers;
 
-use App\Facade\RequestMacro;
 use Illuminate\Support\Str;
+use App\Facade\RequestMacro;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Validator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -15,6 +16,18 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        Request::macro('validateContent', function ($rules = [], $messages = [], $attributes = [], $container = 'content') {
+            $data = request()->input($container) ?? [];
+            if (empty($data)) {
+                throw new \Exception("Request '$container' value not found");
+            }
+            $validator = Validator::make($data, $rules, $messages, $attributes);
+
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator->errors());
+            }
+            return;
+        });
         Request::macro('guardName', function () {
             $guards = config('auth.guards');
             unset($guards['sanctum']);

@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class PaymentPlan extends Model
 {
     use HasFactory;
+    protected $guarded = [];
     /** Relationship */
     public function company(): BelongsTo
     {

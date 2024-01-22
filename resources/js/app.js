@@ -27,6 +27,7 @@ createInertiaApp({
             app.use(plugin)
             .use(pinia)
             .use(PrimeVue)
+            .use(Components.primevue.messages.ToastService)
             .use(ZiggyVue);
 
             app.directive('ripple',Ripple);
@@ -42,6 +43,7 @@ createInertiaApp({
             .component('Panel', Components.primevue.panel.Panel)
             .component('InputText', Components.primevue.form.InputText)
             .component('InputNumber', Components.primevue.form.InputNumber)
+            .component('Toast', Components.primevue.messages.Toast)
             .component('Badge', Components.primevue.misc.Badge);
             //custom
             //inertia

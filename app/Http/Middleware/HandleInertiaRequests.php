@@ -44,6 +44,9 @@ class HandleInertiaRequests extends Middleware
             'auth_more' => [
                 'guard' => $request->guardName(),
                 'isAdmin' => $request->isAdmin()
+            ],
+            'toast' => [
+                'time' => 1000 * 7,
             ]
         ]);
     }
