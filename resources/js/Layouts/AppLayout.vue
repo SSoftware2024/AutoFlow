@@ -69,10 +69,12 @@
         </div>
         <div class="relative custom-container">
 
-            <div class="box-border relative px-3 py-2 my-2 bg-white border rounded-md shadow-4 dark:bg-zinc-600" v-if="!$slots.center">
+            <div class="box-border relative px-3 py-2 my-2 bg-white border rounded-md shadow-4 dark:bg-zinc-600"
+                v-if="!$slots.center">
                 <slot></slot>
             </div>
-            <div class="box-border relative flex justify-center px-3 py-2 my-2 bg-white border rounded-md shadow-4 dark:bg-zinc-600" v-if="$slots.center">
+            <div class="box-border relative flex justify-center px-3 py-2 my-2 bg-white border rounded-md shadow-4 dark:bg-zinc-600"
+                v-if="$slots.center">
                 <div class="w-full xl:w-[80%] 2xl:w-[70%]">
                     <slot name="center"></slot>
                 </div>
@@ -83,6 +85,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { Head, Link, router, usePage } from '@inertiajs/vue3';
+import { useToast } from "primevue/usetoast";
 import Banner from '@/Components/Banner.vue';
 import Navbar from "@/Components/Navigate/NavBar.vue";
 import Sidebar from "@/Components/Navigate/Sidebar.vue";
@@ -90,6 +93,7 @@ import IconButtonDropdown from "@/Components/DropDown/IconButton.vue";
 import LinkDropdown from "@/Components/DropDown/Link.vue";
 import SidebarGuard from '../Src/SidebarGuards.js';
 const page = usePage();
+const toast = useToast();
 const links = ref(SidebarGuard.generateForGuard(page.props.auth_more.guard));
 const sidebar_isOpen = ref(false);
 
@@ -136,6 +140,14 @@ const closeSidebar = () => {
 const logout = () => {
     router.post(route('logout'));
 };
+
+router.on('error', (event) => {
+    let errors = event.detail.errors;
+    errors.catch ?
+        toast.add({ severity: 'error', summary: 'Erro', detail: errors.catch })
+        :
+        null;
+})
 
 onMounted(() => {
     startTheme();
