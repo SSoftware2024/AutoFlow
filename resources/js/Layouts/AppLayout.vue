@@ -3,6 +3,7 @@
     <Banner />
     <!-- Primevue -->
     <Toast />
+    <ConfirmDialog></ConfirmDialog>
     <div class="relative min-h-screen bg-gray-100 dark:bg-zinc-800">
         <sidebar :links="links" :isOpen="sidebar_isOpen" @click:close="closeSidebar"></sidebar>
         <navbar icon="fa-solid fa-bars" @click:icon="openSidebar">

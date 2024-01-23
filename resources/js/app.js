@@ -7,11 +7,12 @@ if(localStorage.getItem('theme') == 'dark'){
 }
 import 'primeicons/primeicons.css';
 import { createApp, h } from 'vue';
-import { createInertiaApp, Link } from '@inertiajs/vue3';
+import { createInertiaApp, Link, router } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
 import { createPinia } from 'pinia';
 import PrimeVue from 'primevue/config';
+import * as PrimeVueLocale from '@/Src/primevue-locale.js';
 import Ripple from 'primevue/ripple';
 import Swal from 'sweetalert2'
 import * as Components from './components';
@@ -26,8 +27,11 @@ createInertiaApp({
 
             app.use(plugin)
             .use(pinia)
-            .use(PrimeVue)
+            .use(PrimeVue, {
+                locale: PrimeVueLocale.pt
+            })
             .use(Components.primevue.messages.ToastService)
+            .use(Components.primevue.overlay.ConfirmationService)
             .use(ZiggyVue);
 
             app.directive('ripple',Ripple);
@@ -44,12 +48,20 @@ createInertiaApp({
             .component('InputText', Components.primevue.form.InputText)
             .component('InputNumber', Components.primevue.form.InputNumber)
             .component('Toast', Components.primevue.messages.Toast)
+            .component('DataTable', Components.primevue.data.table.DataTable)
+            .component('Column', Components.primevue.data.table.Column)
+            .component('ColumnGroup', Components.primevue.data.table.ColumnGroup)
+            .component('Row', Components.primevue.data.table.Row)
+            .component('ConfirmDialog', Components.primevue.overlay.ConfirmDialog)
             .component('Badge', Components.primevue.misc.Badge);
             //custom
             //inertia
             app.component('Link', Link);
             //global
             app.provide('Swal',Swal);
+            app.config.globalProperties.$toRoute = (url) => {
+                router.get(url);
+            };
             return app.mount(el);
     },
     progress: {

@@ -9,6 +9,12 @@ import InputNumber from 'primevue/inputnumber';
 import Tooltip from 'primevue/tooltip';
 import Toast from 'primevue/toast';
 import ToastService from 'primevue/toastservice';
+import DataTable from 'primevue/datatable';
+import Column from 'primevue/column';
+import ColumnGroup from 'primevue/columngroup';   // optional
+import Row from 'primevue/row';                   // optional
+import ConfirmDialog from 'primevue/confirmdialog';
+import ConfirmationService from 'primevue/confirmationservice';
 //layouts
 import AppLayout from '@/Layouts/AppLayout.vue';
 //custom
@@ -26,7 +32,14 @@ let primevue = {
     misc: {
         Badge,
     },
-
+    data: {
+        table:{
+            DataTable,
+            Column,
+            ColumnGroup,
+            Row,
+        }
+    },
     panel: {
         Panel,
     },
@@ -44,6 +57,10 @@ let primevue = {
     messages: {
         ToastService, //use
         Toast
+    },
+    overlay: {
+        ConfirmDialog,
+        ConfirmationService, //use
     }
 
 };

@@ -19,6 +19,15 @@ final class Breadcrumb extends Navigate
             'route' => route('dashboard'),
         ];
     }
+    /**
+     * Adciona caminho ou link ao breadcrumb
+     *
+     * @param string $label
+     * @param boolean $isIcon
+     * @param string|null $route
+     * @param boolean $isHome
+     * @return Breadcrumb
+     */
     public function setLink(string $label, bool $isIcon = false, ?string $route = null, bool $isHome = false): Breadcrumb
     {
         $jsonLabel = 'label';

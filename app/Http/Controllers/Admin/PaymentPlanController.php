@@ -13,11 +13,22 @@ use Illuminate\Support\Facades\Validator;
 
 class PaymentPlanController extends Controller
 {
+    public function index(Request $request)
+    {
+        $breadcrumb =  NavigateFactory::breadcrumb()
+            ->setLink('Plano de pagamento')
+            ->setLink('Lista');
+        $paymentPlan = PaymentPlan::cursor();
+        return Inertia::render('Admin/PaymentPlan/List', [
+            'breadcrumb' => $breadcrumb->generate(),
+            'payment_plan' => $paymentPlan
+        ]);
+    }
     public function createView(Request $request)
     {
         $breadcrumb =  NavigateFactory::breadcrumb()
             ->setLink('Plano de pagamento')
-            ->setLink('Lista')
+            ->setLink('Lista', false, route('payment_plan.index'))
             ->setLink('Novo');
         return Inertia::render('Admin/PaymentPlan/Create', [
             'breadcrumb' => $breadcrumb->generate()
@@ -40,7 +51,7 @@ class PaymentPlanController extends Controller
             ])) {
                 return;
             }
-            PaymentPlan::creat([
+            PaymentPlan::create([
                 'title' => $content->title,
                 'price' => $content->money,
             ]);

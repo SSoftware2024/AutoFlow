@@ -39,12 +39,12 @@ let admin = [
                 icon: 'fa-solid fa-plus',
                 command: () => {
                     router.get(window.route('payment_plan.createView'));
-                    // router.get('/admin/payment_plan/create');
                 }
             },
             {
                 label: 'Lista',
                 icon: 'fa-solid fa-list',
+                command: () => router.get(window.route('payment_plan.index'))
             },
         ]
     },
