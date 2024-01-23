@@ -13,7 +13,7 @@
                         <Column header="Ações">
                             <template #body="slotProps">
                                 <Button label="Editar" class="mr-2" severity="warning" icon="fa-solid fa-edit"
-                                    iconPos="left" />
+                                    iconPos="left" @click="$toRoute(route('payment_plan.editView', [slotProps.data.id]))"/>
                                 <Button label="Deletar" severity="danger" icon="fa-solid fa-trash" iconPos="left" @click="excludeQuestion" />
                             </template>
                         </Column>
@@ -24,7 +24,7 @@
     </AppLayout>
 </template>
 <script setup>
-import { onMounted, inject } from 'vue';
+import { onMounted, } from 'vue';
 import { useForm, usePage, router } from '@inertiajs/vue3';
 import { useToast } from "primevue/usetoast";
 import { useConfirm } from "primevue/useconfirm";
@@ -39,7 +39,7 @@ function exclude() {
 function excludeQuestion() {
     confirm.require({
         message: 'Deseja deletar o registro?',
-        header: 'Confirmação Exclusão',
+        header: 'Exclusão',
         icon: 'pi pi-question-circle',
         rejectClass: 'p-button-text p-button-text',
         acceptClass: 'p-button-danger p-button-text',
