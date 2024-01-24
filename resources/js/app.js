@@ -10,14 +10,12 @@ import { createApp, h } from 'vue';
 import { createInertiaApp, Link, router } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
-import { createPinia } from 'pinia';
 import PrimeVue from 'primevue/config';
 import * as PrimeVueLocale from '@/Src/primevue-locale.js';
 import Ripple from 'primevue/ripple';
 import Swal from 'sweetalert2'
 import * as Components from './components';
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
-const pinia = createPinia();
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
@@ -26,7 +24,6 @@ createInertiaApp({
         const app =  createApp({ render: () => h(App, props) });
 
             app.use(plugin)
-            .use(pinia)
             .use(PrimeVue, {
                 locale: PrimeVueLocale.pt
             })
@@ -61,6 +58,11 @@ createInertiaApp({
             app.provide('Swal',Swal);
             app.config.globalProperties.$toRoute = (url) => {
                 router.get(url);
+            };
+            app.config.globalProperties.$openNewWindow = (url) => {
+                let width = window.innerWidth * 0.5;
+                let height = window.innerHeight * 0.5;
+                window.open(url, "", `width=${width},height=${height}`);
             };
             return app.mount(el);
     },

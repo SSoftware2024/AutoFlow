@@ -43,7 +43,7 @@ const page = usePage();
 const form = useForm({
     content: {
         title: '',
-        money: 0
+        money: null
     }
 });
 

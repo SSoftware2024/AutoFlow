@@ -43,5 +43,6 @@ Route::group(['prefix' => 'admin/', 'middleware' => 'auth:admin'], function () {
         Route::get('/list', [PaymentPlanController::class, 'index'])->name('payment_plan.index');
         Route::post('/create', [PaymentPlanController::class, 'create'])->name('payment_plan.create');
         Route::put('/update', [PaymentPlanController::class, 'update'])->name('payment_plan.update');
+        Route::delete('/delete/{id}', [PaymentPlanController::class, 'delete'])->name('payment_plan.delete');
     });
 });
