@@ -55,6 +55,9 @@ let admin = [
             {
                 label: 'Nova',
                 icon: 'fa-solid fa-plus',
+                command: () => {
+                    router.get(window.route('company.createView'));
+                }
             },
             {
                 label: 'Lista',

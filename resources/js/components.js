@@ -1,11 +1,9 @@
-//primevue
+/*==========PRIMEVUE==========*/
 import Button from 'primevue/button';
 import PanelMenu from 'primevue/panelmenu';
 import Badge from 'primevue/badge';
 import Breadcrumb from 'primevue/breadcrumb';
 import Panel from 'primevue/panel';
-import InputText from 'primevue/inputtext';
-import InputNumber from 'primevue/inputnumber';
 import Tooltip from 'primevue/tooltip';
 import Toast from 'primevue/toast';
 import ToastService from 'primevue/toastservice';
@@ -15,6 +13,17 @@ import ColumnGroup from 'primevue/columngroup';   // optional
 import Row from 'primevue/row';                   // optional
 import ConfirmDialog from 'primevue/confirmdialog';
 import ConfirmationService from 'primevue/confirmationservice';
+//form
+import InputText from 'primevue/inputtext';
+import InputNumber from 'primevue/inputnumber';
+import Dropdown from 'primevue/dropdown';
+import InputMask from 'primevue/inputmask';
+import FileUpload from 'primevue/fileupload';
+//media
+import Image from 'primevue/image';
+
+/*==========END PRIMEVUE==========*/
+
 //layouts
 import AppLayout from '@/Layouts/AppLayout.vue';
 //custom
@@ -32,6 +41,9 @@ let primevue = {
     misc: {
         Badge,
     },
+    media: {
+        Image
+    },
     data: {
         table:{
             DataTable,
@@ -48,7 +60,10 @@ let primevue = {
     },
     form: {
         InputText,
-        InputNumber
+        InputNumber,
+        Dropdown,
+        InputMask,
+        FileUpload,
     },
     menu: {
         PanelMenu,

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CompanyController;
 use App\Http\Controllers\Admin\PaymentPlanController;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Foundation\Application;
@@ -44,5 +45,9 @@ Route::group(['prefix' => 'admin/', 'middleware' => 'auth:admin'], function () {
         Route::post('/create', [PaymentPlanController::class, 'create'])->name('payment_plan.create');
         Route::put('/update', [PaymentPlanController::class, 'update'])->name('payment_plan.update');
         Route::delete('/delete/{id}', [PaymentPlanController::class, 'delete'])->name('payment_plan.delete');
+    });
+    Route::group(['prefix' => 'company/'], function () {
+        Route::get('/create', [CompanyController::class, 'createView'])->name('company.createView');
+        Route::post('/create', [CompanyController::class, 'create'])->name('company.create');
     });
 });

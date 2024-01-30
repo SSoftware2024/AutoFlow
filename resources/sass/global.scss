@@ -2,3 +2,27 @@
     width: 100%;
     padding: 0 40px;
 }
+
+.row{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    @media (min-width: 640px) {
+        flex-direction: row;
+    }
+}
+.row-col{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+.row-only{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+.center-col{
+    align-items: center;
+    justify-content: center;
+}
+

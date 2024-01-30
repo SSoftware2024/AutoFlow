@@ -59,7 +59,7 @@ class PaymentPlanController extends Controller
             try {
                 $content = (object) $request->content;
                 if ($request->validateContent([
-                    'title' => ['required',],
+                    'title' => ['required'],
                     'money' => ['required', 'max:8', function (string $attribute, mixed $value, Closure $fail) {
                         if ($value < 100) {
                             $fail("O valor do campo 'valor mensal' deve ser maior ou igual a 100.");
@@ -79,7 +79,7 @@ class PaymentPlanController extends Controller
                 $errors->add('catch', $e->getMessage());
                 return redirect()->back()->withErrors($errors);
             }
-        },);
+        });
     }
     public function update(Request $request)
     {
@@ -87,7 +87,7 @@ class PaymentPlanController extends Controller
             try {
                 $content = (object) $request->content;
                 if ($request->validateContent([
-                    'title' => ['required',],
+                    'title' => ['required'],
                     'money' => ['required', 'max:8', function (string $attribute, mixed $value, Closure $fail) {
                         if ($value < 100) {
                             $fail("O valor do campo 'valor mensal' deve ser maior ou igual a 100.");

@@ -44,12 +44,16 @@ createInertiaApp({
             .component('Panel', Components.primevue.panel.Panel)
             .component('InputText', Components.primevue.form.InputText)
             .component('InputNumber', Components.primevue.form.InputNumber)
+            .component('InputMask', Components.primevue.form.InputMask)
+            .component('Dropdown', Components.primevue.form.Dropdown)
+            .component('FileUpload', Components.primevue.form.FileUpload)
             .component('Toast', Components.primevue.messages.Toast)
             .component('DataTable', Components.primevue.data.table.DataTable)
             .component('Column', Components.primevue.data.table.Column)
             .component('ColumnGroup', Components.primevue.data.table.ColumnGroup)
             .component('Row', Components.primevue.data.table.Row)
             .component('ConfirmDialog', Components.primevue.overlay.ConfirmDialog)
+            .component('Image', Components.primevue.media.Image)
             .component('Badge', Components.primevue.misc.Badge);
             //custom
             //inertia

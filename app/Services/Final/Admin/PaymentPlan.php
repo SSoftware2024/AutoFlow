@@ -20,6 +20,10 @@ final class PaymentPlan
         }
         return $data;
     }
+    public function getDataSelect()
+    {
+        return ModelPaymentPlan::select('id', 'title')->get();
+    }
     public function create(array $data): ModelPaymentPlan
     {
         return ModelPaymentPlan::create($data);
