@@ -9,7 +9,7 @@
     </div>
 </template>
 <script setup>
-import { ref, defineExpose } from 'vue';
+import { ref } from 'vue';
 import { useToast } from "primevue/usetoast";
 import {usePage} from '@inertiajs/vue3';
 const file = ref(null);

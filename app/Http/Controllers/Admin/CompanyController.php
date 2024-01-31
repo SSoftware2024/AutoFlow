@@ -11,11 +11,15 @@ use Illuminate\Support\MessageBag;
 use App\Http\Controllers\Controller;
 use Illuminate\Validation\Rules\File;
 use App\Services\Final\Admin\PaymentPlan;
+use Intervention\Image\Laravel\Facades\Image;
 
 class CompanyController extends Controller
 {
     public function createView()
     {
+
+        $img = Image::read(file_get_contents(public_path('img/company-94.png')));
+        $img->resize(10,10)->save("img/teste-cp.png");
         $breadcrumb =  NavigateFactory::breadcrumb()
             ->setLink('Empresa')
             ->setLink('Lista')
