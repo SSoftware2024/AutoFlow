@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Facade\MoneyConvert;
 use App\Models\Company;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -22,5 +23,19 @@ class PaymentPlan extends Model
     public function user(): HasMany
     {
         return $this->hasMany(Company::class);
+    }
+    /**============================================METODOS ESTATICOS================================================*/
+    public static function read(bool $changeMoney = false)
+    {
+        $data = null;
+        if($changeMoney){
+            $data = PaymentPlan::get()->map(function ($value) {
+                $value->price = MoneyConvert::getDbMoney($value->price);
+                return $value;
+            });
+        }else{
+            $data =  PaymentPlan::cursor();
+        }
+        return $data;
     }
 }

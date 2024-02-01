@@ -6,7 +6,7 @@
                     <div class="flex flex-col sm:space-x-3 sm:flex-row">
                         <div class="flex flex-col w-full">
                             <label for="username">Título</label>
-                            <InputText id="username" v-model="form.content.title" :class="{
+                            <InputText id="username" v-model="form.title" :class="{
                                 'p-invalid': form.errors.title
                             }" />
                             <span v-if="form.errors.title" class="text-danger-600">
@@ -15,7 +15,7 @@
                         </div>
                         <div class="flex flex-col w-full">
                             <label for="minmaxfraction" class="block"> Valor mensal </label>
-                            <InputNumber v-model="form.content.money" inputId="minmaxfraction" :minFractionDigits="2"
+                            <InputNumber v-model="form.money" inputId="minmaxfraction" :minFractionDigits="2"
                                 :maxFractionDigits="2" mode="currency" currency="BRL" :class="{
                                     'p-invalid': form.errors.money
                                 }" />
@@ -41,10 +41,8 @@ const alert = inject('Swal');
 const toast = useToast();
 const page = usePage();
 const form = useForm({
-    content: {
-        title: '',
-        money: null
-    }
+    title: '',
+    money: null
 });
 
 function create() {

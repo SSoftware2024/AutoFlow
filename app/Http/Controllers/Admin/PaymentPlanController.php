@@ -10,22 +10,20 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\MessageBag;
 use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\Model;
-use App\Services\Final\Admin\PaymentPlan;
-use App\Models\PaymentPlan as ModelPaymentPlan;
+use App\Models\PaymentPlan;
 
 class PaymentPlanController extends Controller
 {
-    private PaymentPlan $paymentPlan;
+
     public function __construct()
     {
-        $this->paymentPlan = new PaymentPlan();
     }
     public function index(Request $request)
     {
         $breadcrumb =  NavigateFactory::breadcrumb()
             ->setLink('Plano de pagamento')
             ->setLink('Lista');
-        $paymentPlan = $this->paymentPlan->read(changeMoney:true);
+        $paymentPlan = PaymentPlan::read(changeMoney:true);
         return Inertia::render('Admin/PaymentPlan/List', [
             'breadcrumb' => $breadcrumb->generate(),
             'payment_plan' => $paymentPlan
@@ -41,7 +39,7 @@ class PaymentPlanController extends Controller
             'breadcrumb' => $breadcrumb->generate()
         ]);
     }
-    public function editView(Request $request, ModelPaymentPlan $paymentPlan)
+    public function editView(Request $request, PaymentPlan $paymentPlan)
     {
         $breadcrumb =  NavigateFactory::breadcrumb()
             ->setLink('Plano de pagamento')
@@ -55,74 +53,65 @@ class PaymentPlanController extends Controller
     /**===================================METODOS=================================== */
     public function create(Request $request)
     {
-        DB::transaction(function () use ($request) {
-            try {
-                $content = (object) $request->content;
-                if ($request->validateContent([
-                    'title' => ['required'],
-                    'money' => ['required', 'max:8', function (string $attribute, mixed $value, Closure $fail) {
-                        if ($value < 100) {
-                            $fail("O valor do campo 'valor mensal' deve ser maior ou igual a 100.");
-                        }
-                    }],
-                ], [], [
-                    'money' => 'valor mensal'
-                ])) {
-                    return;
+        $request->validate([
+            'title' => ['required'],
+            'money' => ['required', 'max:8', function (string $attribute, mixed $value, Closure $fail) {
+                if ($value < 100) {
+                    $fail("O valor do campo 'valor mensal' deve ser maior ou igual a 100.");
                 }
-                $this->paymentPlan->create([
-                    'title' => $content->title,
-                    'price' => $content->money,
+            }],
+        ], [], [
+            'money' => 'valor mensal'
+        ]);
+        try {
+            DB::transaction(function () use ($request) {
+                PaymentPlan::create([
+                    'title' => $request->title,
+                    'price' => $request->money,
                 ]);
-            } catch (\Exception $e) {
-                $errors = new MessageBag();
-                $errors->add('catch', $e->getMessage());
-                return redirect()->back()->withErrors($errors);
-            }
-        });
+            });
+        } catch (\Exception $e) {
+            $errors = new MessageBag();
+            $errors->add('catch', $e->getMessage());
+            return redirect()->back()->withErrors($errors);
+        }
     }
     public function update(Request $request)
     {
-        DB::transaction(function () use ($request) {
-            try {
-                $content = (object) $request->content;
-                if ($request->validateContent([
-                    'title' => ['required'],
-                    'money' => ['required', 'max:8', function (string $attribute, mixed $value, Closure $fail) {
-                        if ($value < 100) {
-                            $fail("O valor do campo 'valor mensal' deve ser maior ou igual a 100.");
-                        }
-                    }],
-                ], [], [
-                    'money' => 'valor mensal'
-                ])) {
-                    return;
+        $request->validate([
+            'title' => ['required'],
+            'money' => ['required', 'max:8', function (string $attribute, mixed $value, Closure $fail) {
+                if ($value < 100) {
+                    $fail("O valor do campo 'valor mensal' deve ser maior ou igual a 100.");
                 }
-                $this->paymentPlan->update($request->id,[
-                    'title' => $content->title,
-                    'price' => $content->money,
+            }],
+        ], [], [
+            'money' => 'valor mensal'
+        ]);
+        try {
+            DB::transaction(function () use ($request) {
+                PaymentPlan::where('id', $request->id)->update([
+                    'title' => $request->title,
+                    'price' => $request->money,
                 ]);
-                DB::commit();
-            } catch (\Exception $e) {
-                DB::rollback();
-                $errors = new MessageBag();
-                $errors->add('catch', $e->getMessage());
-                return redirect()->back()->withErrors($errors);
-            }
-        });
+            });
+        } catch (\Exception $e) {
+            $errors = new MessageBag();
+            $errors->add('catch', $e->getMessage());
+            return redirect()->back()->withErrors($errors);
+        }
     }
     public function delete(Request $request)
     {
-        DB::transaction(function () use ($request) {
-            try {
-                $this->paymentPlan->delete($request->id);
-                DB::commit();
-            } catch (\Exception $e) {
-                DB::rollback();
-                $errors = new MessageBag();
-                $errors->add('catch', $e->getMessage());
-                return redirect()->back()->withErrors($errors);
-            }
-        });
+        try {
+            DB::transaction(function () use ($request) {
+                PaymentPlan::where('id', $request->id)->delete();
+            });
+        } catch (\Exception $e) {
+            $errors = new MessageBag();
+            $errors->add('catch', $e->getMessage());
+            return redirect()->back()->withErrors($errors);
+        }
+
     }
 }
