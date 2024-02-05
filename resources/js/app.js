@@ -39,6 +39,7 @@ createInertiaApp({
             //primevue
             app.
             component('Button', Components.primevue.button.Button)
+            .component('SplitButton', Components.primevue.button.SplitButton)
             .component('PanelMenu', Components.primevue.menu.PanelMenu)
             .component('Breadcrumb', Components.primevue.menu.Breadcrumb)
             .component('Panel', Components.primevue.panel.Panel)

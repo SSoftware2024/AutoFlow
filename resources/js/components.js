@@ -1,5 +1,6 @@
 /*==========PRIMEVUE==========*/
 import Button from 'primevue/button';
+import SplitButton from 'primevue/splitbutton';
 import PanelMenu from 'primevue/panelmenu';
 import Badge from 'primevue/badge';
 import Breadcrumb from 'primevue/breadcrumb';
@@ -57,6 +58,7 @@ let primevue = {
     },
     button: {
         Button,
+        SplitButton
     },
     form: {
         InputText,

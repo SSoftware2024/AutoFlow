@@ -1,9 +1,6 @@
 <template>
     <AppLayout title="Empresa" title_page="Nova empresa">
         <template #center>
-            <div class="flex justify-end mb-2">
-                <SplitButton label="Recarregar" icon="pi pi-refresh" severity="info" @click="reload" :model="options" />
-            </div>
             <Panel header="Cadastro">
                 <form @submit.prevent="create" enctype="multipart/form-data">
                     <div class="row-col">
@@ -62,8 +59,8 @@
                     <div class="row">
                         <div class="row-col">
                             <label for="">Plano de pagamento</label>
-                            <Dropdown v-model="form.payment_plan" :options="page.props.payment_plans" optionLabel="title"
-                                optionValue="id" placeholder="Selecione" class="w-full" :class="{
+                            <Dropdown v-model="form.payment_plan" :options="page.props.payment_plans"
+                                optionLabel="title" optionValue="id" placeholder="Selecione" class="w-full" :class="{
                                     'p-invalid': form.errors.payment_plan
                                 }" />
                             <span v-if="form.errors.payment_plan" class="text-danger-600">
@@ -82,23 +79,14 @@
 </template>
 <script setup>
 import { ref, onMounted, inject } from 'vue';
-import { useForm, usePage, router } from '@inertiajs/vue3';
+import { useForm, usePage } from '@inertiajs/vue3';
 import { useToast } from "primevue/usetoast";
-import { navigation } from '@/Src/Utils/functions';
 import SimpleFile from '@/Components/FileUpload/Simple.vue';
 const alert = inject('Swal');
 const toast = useToast();
 const page = usePage();
+
 const image = ref(null);
-const options = [
-    {
-        label: 'Novo plano pagamento',
-        icon: 'pi pi-plus',
-        command: () => {
-            navigation.openWindow(route('payment_plan.createView'));
-        }
-    },
-];
 //refs
 const inputFile = ref(null);
 
@@ -112,21 +100,13 @@ const form = useForm({
 
 function create() {
     form.post(route('company.create'), {
-        onSuccess: () => {
-            toast.add({ severity: 'success', summary: 'Sucesso', detail: 'Cadastro realizado com sucesso', life: page.props.toast.time });
-            form.reset();
-            deleteImage();
-        },
-    });
+            onSuccess: () => {
+                toast.add({ severity: 'success', summary: 'Sucesso', detail: 'Cadastro realizado com sucesso', life: page.props.toast.time });
+                form.reset();
+                deleteImage();
+            },
+        });
 }
-function reload() {
-    router.visit(page.url, {
-        method: 'GET',
-        preserveState: true,
-        onSuccess: () => toast.add({ severity: 'success', summary: 'Sucesso', detail: 'Página atualizada com sucesso', life: page.props.toast.time })
-    });
-}
-
 function deleteImage() {
     inputFile.value.deleteImage();
 
