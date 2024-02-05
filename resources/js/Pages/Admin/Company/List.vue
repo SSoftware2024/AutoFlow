@@ -2,8 +2,12 @@
     <AppLayout title="Empresa" title_page="Lista empresas">
         <template #center>
             <Panel header="Lista">
+                <div class="flex justify-end">
+                    <Button label="Nova" link icon="fa-solid fa-plus" iconPos="right"
+                        @click="$toRoute(route('company.createView'))" />
+                </div>
                 <Accordion :activeIndex="0">
-                    <AccordionTab v-for="value in page.props.companys.data" :key="value.id">
+                    <AccordionTab v-for="value in  page.props.companys.data " :key="value.id">
                         <template #header>
                             <span class="flex w-full gap-2 align-items-center">
 
@@ -23,23 +27,48 @@
                                 </template>
                             </Image>
                         </div>
-                        <ul class="list-none">
-                            <li>
-                                <span class="font-bold">Razão:</span> {{ value.name }}
-                            </li>
-                            <li>
-                                <span class="font-bold">Apelido:</span> {{ value.surname }}
-                            </li>
-                            <li>
-                                <span class="font-bold">CNPJ:</span> {{ value.cnpj }}
-                            </li>
-                            <li>
-                                <span class="font-bold">Plano de pagamento:</span> {{ value.payment_plan.title }}
-                            </li>
-                            <li>
-                                <span class="font-bold">Clientes:</span> 0
-                            </li>
-                        </ul>
+                        <div>
+                            <ul class="list-none">
+                                <li>
+                                    <span class="font-bold">Razão:</span> {{ value.name }}
+                                </li>
+                                <li>
+                                    <span class="font-bold">Apelido:</span> {{ value.surname }}
+                                </li>
+                                <li>
+                                    <span class="font-bold">CNPJ:</span> {{ value.cnpj }}
+                                </li>
+                                <li>
+                                    <span class="font-bold">Plano de pagamento:</span> {{ value.payment_plan.title }}
+                                </li>
+                                <li>
+                                    <span class="font-bold">Clientes:</span> 0
+                                </li>
+                            </ul>
+                        </div>
+                        <div
+                            class="relative flex flex-col justify-between p-3 border rounded-md sm:flex-row border-slate-300">
+                            <div class="flex justify-start">
+                                <icon-button-dropdown id="company-options" class="bg-[#0EA5E9] w-auto text-white p-2 rounded-md" :default-icon="true">
+                                    <template #icon>
+                                        <i class="mr-2 fa-solid fa-gear"></i>
+                                    </template>
+                                    <link-dropdown title="Editar" icon="fa fa-edit"></link-dropdown>
+                                    <link-button-dropdown title="Deletar" icon="fa fa-trash"></link-button-dropdown>
+                                </icon-button-dropdown>
+                            </div>
+                            <div class="flex flex-wrap relative sm:top-[5px]">
+                                <Link href="#"
+                                    class="transition duration-150 ease-in-out text-success hover:text-success-600 hover:underline focus:text-success-600 active:text-success-700">
+                                Clientes
+                                </Link>
+                                <span class="mx-3 font-bold"> / </span>
+                                <Link href="#"
+                                    class="transition duration-150 ease-in-out text-success hover:text-success-600 hover:underline focus:text-success-600 active:text-success-700">
+                                Histórico de pagamentos
+                                </Link>
+                            </div>
+                        </div>
                     </AccordionTab>
                 </Accordion>
                 <div>
@@ -53,14 +82,20 @@
 import { ref, onMounted, inject } from 'vue';
 import { useForm, usePage, router } from '@inertiajs/vue3';
 import { useToast } from "primevue/usetoast";
-import Pagination from '@/Components/Navigate/Paginate.vue';
+
 const toast = useToast();
 const page = usePage();
-
-const image = ref(null);
 //refs
-const inputFile = ref(null);
-
+//data
+const options = [
+    {
+        label: 'Novo plano pagamento',
+        icon: 'pi pi-plus',
+        command: () => {
+            // navigation.openWindow(route('payment_plan.createView'));
+        }
+    },
+];
 const form = useForm({
     photo: null,
     name: '',
@@ -77,10 +112,6 @@ function create() {
             deleteImage();
         },
     });
-}
-function deleteImage() {
-    inputFile.value.deleteImage();
-
 }
 
 function paginate(page_link) {

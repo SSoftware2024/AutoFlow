@@ -1,18 +1,23 @@
 /*==========PRIMEVUE==========*/
-import Button from 'primevue/button';
-import SplitButton from 'primevue/splitbutton';
-import PanelMenu from 'primevue/panelmenu';
 import Badge from 'primevue/badge';
-import Breadcrumb from 'primevue/breadcrumb';
 import Tooltip from 'primevue/tooltip';
 import Toast from 'primevue/toast';
 import ToastService from 'primevue/toastservice';          // optional
 import ConfirmDialog from 'primevue/confirmdialog';
 import ConfirmationService from 'primevue/confirmationservice';
+//button
+import Button from 'primevue/button';
+import SplitButton from 'primevue/splitbutton';
+import SpeedDial from 'primevue/speeddial';
+//menu
+import Menu from 'primevue/menu';
+import Breadcrumb from 'primevue/breadcrumb';
+import PanelMenu from 'primevue/panelmenu';
 //panel
 import Panel from 'primevue/panel';
 import Accordion from 'primevue/accordion';
 import AccordionTab from 'primevue/accordiontab';
+import Toolbar from 'primevue/toolbar';
 //form
 import InputText from 'primevue/inputtext';
 import InputNumber from 'primevue/inputnumber';
@@ -33,11 +38,19 @@ import Image from 'primevue/image';
 //layouts
 import AppLayout from '@/Layouts/AppLayout.vue';
 //custom
-
+import IconButtonDropdown from '@/Components/DropDown/IconButton.vue';
+import LinkDropdown from '@/Components/DropDown/Link.vue';
+import LinkButtonDropdown from '@/Components/DropDown/Button.vue';
+import Pagination from '@/Components/Navigate/Paginate.vue';
 //directives
 import BadgeDirective from 'primevue/badgedirective';
 let custom = {
-
+    dropdown: {
+        IconButtonDropdown,
+        LinkDropdown,
+        LinkButtonDropdown
+    },
+    Pagination
 }
 let primevue = {
     directive: {
@@ -62,12 +75,14 @@ let primevue = {
     panel: {
         Panel,
         Accordion,
-        AccordionTab
+        AccordionTab,
+        Toolbar
 
     },
     button: {
         Button,
-        SplitButton
+        SplitButton,
+        SpeedDial
     },
     form: {
         InputText,
@@ -79,6 +94,7 @@ let primevue = {
     menu: {
         PanelMenu,
         Breadcrumb,
+        Menu
     },
     messages: {
         ToastService, //use

@@ -1,5 +1,5 @@
 <template>
-    <nav role="navigation" aria-label="Pagination Navigation" class="flex flex-col sm:flex-row sm:justify-between">
+    <nav role="navigation" aria-label="Pagination Navigation" class="flex flex-col sm:flex-row sm:justify-between" v-if="pagination.last_page > 1">
         <div>
             <p class="text-sm leading-5 text-gray-700 dark:text-gray-400">
                 Mostrando
