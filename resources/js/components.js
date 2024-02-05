@@ -1,10 +1,12 @@
 /*==========PRIMEVUE==========*/
 import Badge from 'primevue/badge';
-import Tooltip from 'primevue/tooltip';
 import Toast from 'primevue/toast';
 import ToastService from 'primevue/toastservice';          // optional
 import ConfirmDialog from 'primevue/confirmdialog';
 import ConfirmationService from 'primevue/confirmationservice';
+//overlay
+import Dialog from 'primevue/dialog';
+import Tooltip from 'primevue/tooltip';
 //button
 import Button from 'primevue/button';
 import SplitButton from 'primevue/splitbutton';
@@ -103,6 +105,7 @@ let primevue = {
     overlay: {
         ConfirmDialog,
         ConfirmationService, //use
+        Dialog
     }
 
 };

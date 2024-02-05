@@ -60,6 +60,7 @@ createInertiaApp({
             .component('ColumnGroup', Components.primevue.data.table.ColumnGroup)
             .component('Row', Components.primevue.data.table.Row)
             .component('ConfirmDialog', Components.primevue.overlay.ConfirmDialog)
+            .component('Dialog', Components.primevue.overlay.Dialog)
             .component('Image', Components.primevue.media.Image)
             .component('Badge', Components.primevue.misc.Badge);
             //custom

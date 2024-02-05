@@ -1,0 +1,115 @@
+<template>
+    <Panel header="Lista">
+        <div class="flex justify-end">
+            <Button label="Nova" link icon="fa-solid fa-plus" iconPos="right"
+                @click="$toRoute(route('company.createView'))" />
+        </div>
+        <Accordion :activeIndex="0">
+            <AccordionTab v-for="value in  page.props.companys.data " :key="value.id">
+                <template #header>
+                    <span class="flex w-full gap-2 align-items-center">
+
+                        <span class="font-bold white-space-nowrap">{{ value.name }}</span>
+                        <Badge value="05/02 - PAGO" class="ml-auto mr-2" />
+                    </span>
+                </template>
+                <div class="flex justify-start w-full">
+                    <Image alt="Image" preview v-if="value.logo">
+                        <template #image>
+                            <img :src="`/storage/company/brand_logo/thumbmail/` + value.logo" alt="image"
+                                class="w-[100px]" />
+                        </template>
+                        <template #preview="slotProps">
+                            <img :src="`/storage/company/brand_logo/` + value.logo" alt="preview" :style="slotProps.style"
+                                @click="slotProps.previewCallback" />
+                        </template>
+                    </Image>
+                </div>
+                <div>
+                    <ul class="list-none">
+                        <li>
+                            <span class="font-bold">Razão:</span> {{ value.name }}
+                        </li>
+                        <li>
+                            <span class="font-bold">Apelido:</span> {{ value.surname }}
+                        </li>
+                        <li>
+                            <span class="font-bold">CNPJ:</span> {{ value.cnpj }}
+                        </li>
+                        <li>
+                            <span class="font-bold">Plano de pagamento:</span> {{ value.payment_plan.title }}
+                        </li>
+                        <li>
+                            <span class="font-bold">Clientes:</span> 0
+                        </li>
+                    </ul>
+                </div>
+                <div class="relative flex flex-col justify-between p-3 border rounded-md sm:flex-row border-slate-300">
+                    <div class="flex justify-start">
+                        <icon-button-dropdown id="company-options" class="bg-[#0EA5E9] w-auto text-white p-2 rounded-md"
+                            :default-icon="true">
+                            <template #icon>
+                                <i class="mr-2 fa-solid fa-gear"></i>
+                            </template>
+                            <link-dropdown title="Editar" icon="fa fa-edit"></link-dropdown>
+                            <link-button-dropdown title="Deletar" icon="fa fa-trash"></link-button-dropdown>
+                        </icon-button-dropdown>
+                    </div>
+                    <div class="flex flex-wrap relative sm:top-[5px]">
+                        <Link href="#"
+                            class="transition duration-150 ease-in-out text-success hover:text-success-600 hover:underline focus:text-success-600 active:text-success-700">
+                        Clientes
+                        </Link>
+                        <span class="mx-3 font-bold"> / </span>
+                        <Link href="#"
+                            class="transition duration-150 ease-in-out text-success hover:text-success-600 hover:underline focus:text-success-600 active:text-success-700">
+                        Histórico de pagamentos
+                        </Link>
+                    </div>
+                </div>
+            </AccordionTab>
+        </Accordion>
+        <div>
+            <Pagination :pagination="page.props.companys" @paginate="paginate"></Pagination>
+        </div>
+    </Panel>
+</template>
+<script setup>
+import { ref, onMounted, inject } from 'vue';
+import { useForm, usePage, router } from '@inertiajs/vue3';
+import { useToast } from "primevue/usetoast";
+
+const toast = useToast();
+const page = usePage();
+//refs
+//data
+const form = useForm({
+    photo: null,
+    name: '',
+    surname: '',
+    cnpj: '',
+    payment_plan: 0
+});
+
+function create() {
+    form.post(route('company.create'), {
+        onSuccess: () => {
+            toast.add({ severity: 'success', summary: 'Sucesso', detail: 'Cadastro realizado com sucesso', life: page.props.toast.time });
+            form.reset();
+            deleteImage();
+        },
+    });
+}
+
+function paginate(page_link) {
+    router.visit(page.url, {
+        data: {
+            page: page_link
+        },
+        only: ['companys'],
+        preserveState: true
+    });
+}
+onMounted(() => {
+});
+</script>

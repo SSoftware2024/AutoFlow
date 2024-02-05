@@ -22,7 +22,7 @@
             </div>
         </div>
         <div class="flex justify-end mt-2">
-            <Button label="Cadastrar" type="submit" icon="fa-solid fa-plus" iconPos="right" severity="success"
+            <Button label="Salvar" type="submit" icon="fa-solid fa-save" iconPos="right" severity="success"
                 :loading="form.processing" />
         </div>
     </form>
@@ -31,24 +31,24 @@
 import { onMounted, inject } from 'vue';
 import { useForm, usePage } from '@inertiajs/vue3';
 import { useToast } from "primevue/usetoast";
-const emit = defineEmits(['close:modal']);
-// const alert = inject('Swal');
-
+const alert = inject('Swal');
 const toast = useToast();
 const page = usePage();
 const form = useForm({
-    title: '',
-    money: null
+    title: page.props.payment_plan.title,
+    money: page.props.payment_plan.price
 });
 
 function create() {
-    form.post(route('payment_plan.create'), {
-        onSuccess: () => {
-            toast.add({ severity: 'success', summary: 'Sucesso', detail: 'Cadastro realizado com sucesso', life: page.props.toast.time });
-            form.reset();
-            emit('close:modal');
-        },
-    });
+    form.transform(data => ({
+        ...data,
+        id: page.props.payment_plan.id,
+    }))
+        .put(route('payment_plan.update'), {
+            onSuccess: () => {
+                toast.add({ severity: 'success', summary: 'Sucesso', detail: 'Atualização salva com sucesso', life: page.props.toast.time });
+            },
+        });
 
 }
 
