@@ -24,7 +24,7 @@ class CompanyController extends Controller
     {
         $breadcrumb =  NavigateFactory::breadcrumb()
             ->setLink('Empresa')
-            ->setLink('Lista')
+            ->setLink('Lista', route: route('company.listView'))
             ->setLink('Nova');
         return Inertia::render('Admin/Company/Create', [
             'breadcrumb' => $breadcrumb->generate(),
@@ -32,6 +32,17 @@ class CompanyController extends Controller
             'images' => [
                 'company' => asset('img/company-94.png')
             ]
+        ]);
+    }
+    public function listView()
+    {
+        $breadcrumb =  NavigateFactory::breadcrumb()
+            ->setLink('Empresa')
+            ->setLink('Lista');
+        $companys = Company::with('paymentPlan')->paginate(10);
+        return Inertia::render('Admin/Company/List', [
+            'breadcrumb' => $breadcrumb->generate(),
+            'companys' => $companys
         ]);
     }
     /**===================================METODOS=================================== */
@@ -68,7 +79,7 @@ class CompanyController extends Controller
                 ]);
                 if ($request->hasFile('photo')) {
                     $photo = $request->photo;
-                    $company->logo = $this->uploadStorage($photo, $this->company_paths['brand_logo'],'brand', [200,200], true);
+                    $company->logo = $this->uploadStorage($photo, $this->company_paths['brand_logo'],'brand', [100,100], true);
                     $company->save();
                 }
             });

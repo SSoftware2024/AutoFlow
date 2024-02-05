@@ -23,8 +23,9 @@ trait UploadStorage
      * @return string
      * Retorna do arquivo gerado
      */
-    public function uploadStorage(UploadedFile $file, string $path, $newName = '', array $resize = [], bool $thumbmail = false, string $disk = 'local'): string
+    public function uploadStorage(UploadedFile $file, string $path, $newName = '', array $resize = [], bool $thumbmail = false, string $disk = 'public'): string
     {
+        $path = $path;
         if ($file instanceof UploadedFile && $file->isValid()) {
             $filename = uniqid($newName . '_') . '.' . $file->extension();
             $path_thumbmail = $thumbmail ? 'thumbmail/' : ''; //caso thumbmail
@@ -37,7 +38,8 @@ trait UploadStorage
             if (!empty($resize)) { //caso redimensionamento especificado
                 $image = Image::read($file->getRealPath());
                 $image->resize($resize[0], $resize[1]);
-                $image->save(storage_path('app/' . $path . $path_thumbmail . $filename));
+                $disk_path = ($disk == 'local') ? 'app/' : 'app/public/';
+                $image->save(storage_path($disk_path . $path . $path_thumbmail . $filename));
             }
             if (
                 empty($resize) || ($thumbmail && !empty($resize)) //caso tamanho não definido ou thumbail gerada acima

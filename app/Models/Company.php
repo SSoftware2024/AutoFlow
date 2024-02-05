@@ -19,6 +19,8 @@ use App\Models\InvoiceCategory;
 use App\Models\OperatorCashier;
 use App\Models\PaymentHistorySystem;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -27,7 +29,8 @@ class Company extends Model
 {
     use HasFactory;
     protected $guarded = [];
-    /** Relationship */
+    /** =============================MUTATORS================================ */
+    /** ============================ Relationship =============================*/
     /** ==== 1 ==== */
     public function paymentPlan(): BelongsTo
     {
@@ -95,4 +98,8 @@ class Company extends Model
     {
         return $this->hasMany(Sale::class);
     }
+
+    /** ==========================================METODOS ESTATICOS============================================= */
+
+    /** ==========================================METODOS============================================= */
 }
