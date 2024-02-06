@@ -29,7 +29,19 @@ class Company extends Model
 {
     use HasFactory;
     protected $guarded = [];
+    protected $appends = [
+        'logo_url'
+    ];
     /** =============================MUTATORS================================ */
+    public function logoUrl(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value, $attributes) => (object)[
+                'default' => Storage::url('company/brand_logo/'.$attributes['logo']),
+                'thumbmail' => Storage::url('company/brand_logo/thumbmail/'.$attributes['logo'])
+            ],
+        );
+    }
     /** ============================ Relationship =============================*/
     /** ==== 1 ==== */
     public function paymentPlan(): BelongsTo

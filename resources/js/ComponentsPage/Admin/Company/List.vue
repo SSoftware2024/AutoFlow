@@ -16,11 +16,11 @@
                 <div class="flex justify-start w-full">
                     <Image alt="Image" preview v-if="value.logo">
                         <template #image>
-                            <img :src="`/storage/company/brand_logo/thumbmail/` + value.logo" alt="image"
+                            <img :src="value.logo_url.thumbmail" alt="image"
                                 class="w-[100px]" />
                         </template>
                         <template #preview="slotProps">
-                            <img :src="`/storage/company/brand_logo/` + value.logo" alt="preview" :style="slotProps.style"
+                            <img :src=" value.logo_url.default" alt="preview" :style="slotProps.style"
                                 @click="slotProps.previewCallback" />
                         </template>
                     </Image>
@@ -51,7 +51,7 @@
                             <template #icon>
                                 <i class="mr-2 fa-solid fa-gear"></i>
                             </template>
-                            <link-dropdown title="Editar" icon="fa fa-edit"></link-dropdown>
+                            <link-dropdown title="Editar" icon="fa fa-edit" :href="route('company.editView', {company: value.id})"></link-dropdown>
                             <link-button-dropdown title="Deletar" icon="fa fa-trash"></link-button-dropdown>
                         </icon-button-dropdown>
                     </div>

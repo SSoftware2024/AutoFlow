@@ -20,11 +20,22 @@ class CompanyController extends Controller
     public array $company_paths = [
         'brand_logo' => 'company/brand_logo/',
     ];
+    public function index()
+    {
+        $breadcrumb =  NavigateFactory::breadcrumb()
+            ->setLink('Empresa')
+            ->setLink('Lista');
+        $companys = Company::with('paymentPlan')->paginate(10);
+        return Inertia::render('Admin/Company/List', [
+            'breadcrumb' => $breadcrumb->generate(),
+            'companys' => $companys
+        ]);
+    }
     public function createView()
     {
         $breadcrumb =  NavigateFactory::breadcrumb()
             ->setLink('Empresa')
-            ->setLink('Lista', route: route('company.listView'))
+            ->setLink('Lista', route: route('company.index'))
             ->setLink('Nova');
         return Inertia::render('Admin/Company/Create', [
             'breadcrumb' => $breadcrumb->generate(),
@@ -34,15 +45,19 @@ class CompanyController extends Controller
             ]
         ]);
     }
-    public function listView()
+    public function editView(Company $company)
     {
         $breadcrumb =  NavigateFactory::breadcrumb()
             ->setLink('Empresa')
-            ->setLink('Lista');
-        $companys = Company::with('paymentPlan')->paginate(10);
-        return Inertia::render('Admin/Company/List', [
+            ->setLink('Lista', route: route('company.index'))
+            ->setLink('Editar');
+        return Inertia::render('Admin/Company/Edit', [
             'breadcrumb' => $breadcrumb->generate(),
-            'companys' => $companys
+            'payment_plans' => PaymentPlan::select('id', 'title')->get(),
+            'company' => $company,
+            'images' => [
+                'company' => asset('img/company-94.png')
+            ]
         ]);
     }
     /**===================================METODOS=================================== */
@@ -79,7 +94,7 @@ class CompanyController extends Controller
                 ]);
                 if ($request->hasFile('photo')) {
                     $photo = $request->photo;
-                    $company->logo = $this->uploadStorage($photo, $this->company_paths['brand_logo'],'brand', [100,100], true);
+                    $company->logo = $this->uploadStorage($photo, $this->company_paths['brand_logo'], 'brand', [100, 100], true);
                     $company->save();
                 }
             });

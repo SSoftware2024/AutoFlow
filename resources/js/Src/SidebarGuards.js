@@ -62,7 +62,7 @@ let admin = [
             {
                 label: 'Lista',
                 icon: 'fa-solid fa-list',
-                command: () => router.get(window.route('company.listView'))
+                command: () => router.get(window.route('company.index'))
             },
             {
                 label: 'Plano de pagamento',
