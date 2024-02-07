@@ -6,6 +6,7 @@ use Illuminate\Support\Str;
 use App\Facade\RequestMacro;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Validator;
 

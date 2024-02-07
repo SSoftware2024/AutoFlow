@@ -114,7 +114,7 @@ defineProps({
 //ref attr, reference
 const theme = ref(null);
 //functions
-function startTheme() {
+function _startTheme() {
     theme.value.innerHTML = (
         localStorage.getItem('theme') && localStorage.getItem('theme') == 'dark'
     ) ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
@@ -150,8 +150,19 @@ router.on('error', (event) => {
         null;
 })
 
+function _flash_toast(queque_toast) {
+    if (queque_toast) {
+        queque_toast.forEach(element => {
+            toast.add({ severity: element.type, summary: element.title, detail: element.message, life: page.props.toast.time });
+        });
+    }
+}
+router.on('success', (event) => {
+    _flash_toast(event.detail.page.props.flash.flash_toast);
+})
+
 onMounted(() => {
-    startTheme();
+    _startTheme();
 })
 
 </script>
