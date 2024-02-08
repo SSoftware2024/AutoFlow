@@ -5,7 +5,6 @@ namespace App\Trait;
 
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Laravel\Facades\Image;
 
 trait UploadStorage
@@ -21,7 +20,7 @@ trait UploadStorage
      * @param boolean $thumbmail
      * @param string $disk
      * @return string
-     * Retorna do arquivo gerado
+     * Retorna nome do arquivo gerado
      */
     public function uploadStorage(UploadedFile $file, string $path, $newName = '', array $resize = [], bool $thumbmail = false, string $disk = 'public'): string
     {
@@ -49,6 +48,24 @@ trait UploadStorage
             return $filename;
         } else {
             throw new \Exception("Invalid upload file. Expected UploadedFile, but received: '" . get_debug_type($file) . "'");
+        }
+    }
+
+    /**
+     * Deleta arquivo caso exista, caso não retorna false
+     *
+     * @param string $path
+     * @param string $filename
+     * @return boolean
+     */
+    public function deleteStorage(string $path, ?string $filename):bool
+    {
+        if (Storage::exists($path.$filename)) {
+           Storage::delete($path.$filename);
+           Storage::exists($path.'thumbmail/'.$filename) ? Storage::delete($path.'thumbmail/'.$filename) :'';
+           return true;
+        }else{
+            return false;
         }
     }
 }

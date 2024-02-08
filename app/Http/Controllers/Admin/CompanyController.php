@@ -107,42 +107,49 @@ class CompanyController extends Controller
     }
     public function update(Request $request)
     {
-        // $request->validate([
-        //     'name' => ['required', 'min:5'],
-        //     'surname' => ['required'],
-        //     'cnpj' => ['required'],
-        //     'photo' => [
-        //         'required', 'file', File::types('jpg,jpeg,png')->max('2mb')
-        //     ],
-        //     'payment_plan' => [
-        //         'required', 'integer',
-        //         function (string $attribute, mixed $value, Closure $fail) {
-        //             if ($value <= 0) {
-        //                 $fail("O plano de pagamento, precisa ser um valor válido.");
-        //             }
-        //         }
-        //     ]
-        // ], [], [
-        //     'name' => 'razão social',
-        //     'surname' => 'apelido',
-        //     'photo' => 'foto',
-        // ]);
+        $request->validate([
+            'name' => ['required', 'min:5'],
+            'surname' => ['required'],
+            'cnpj' => ['required'],
+            'photo' => [
+                'nullable', 'file', File::types('jpg,jpeg,png')->max('2mb')
+            ],
+            'payment_plan' => [
+                'required', 'integer',
+                function (string $attribute, mixed $value, Closure $fail) {
+                    if ($value <= 0) {
+                        $fail("O plano de pagamento, precisa ser um valor válido.");
+                    }
+                }
+            ]
+        ], [], [
+            'name' => 'razão social',
+            'surname' => 'apelido',
+            'photo' => 'foto',
+        ]);
 
         try {
             DB::transaction(function () use ($request) {
-                // $company = Company::where('id', $request->id)->update([
-                //     'name' => $request->name,
-                //     'surname' => $request->surname,
-                //     'cnpj' => $request->cnpj,
-                //     'payment_plan_id' => $request->payment_plan,
-                // ]);
-                $this->deleteImage(new Request());
-                //verficar se tem nova imagem a ser colocada
+                $company = Company::find($request->id);
+                $company->update([
+                    'name' => $request->name,
+                    'surname' => $request->surname,
+                    'cnpj' => $request->cnpj,
+                    'payment_plan_id' => $request->payment_plan,
+                ]);
+                if ($request->hasFile('photo')) {
+                    $photo = $request->photo;
+                    $this->deleteImage(new Request([
+                        'id' => $request->id
+                    ]));
+                    $company->logo = $this->uploadStorage($photo, $this->company_paths['brand_logo'], 'brand', [100, 100], true);
+                    $company->save();
+                }
                 MessagesFactory::toast()
-                ->create('Sucesso', 'Empresa atualizada com sucesso', 'success')
-                ->create('Sucesso', 'Foto deletada com sucesso', 'success')
-                ->generate();
+                    ->create('Sucesso', 'Empresa atualizada com sucesso', 'success')
+                    ->generate();
             });
+            return redirect()->back();
         } catch (\Exception $e) {
             $errors = new MessageBag();
             $errors->add('catch', $e->getMessage());
@@ -153,16 +160,22 @@ class CompanyController extends Controller
     {
         try {
             DB::transaction(function () use ($request) {
-                //verficar se tem arquivo de iamgem para remover
-                //remover arquivo de imagem
-                // Company::where('id', $request->id)->update([
-                //     'logo' => null
-                // ]);
-                MessagesFactory::toast()
-                ->create('Sucesso', 'Imagem deletada com sucesso', 'success')
-                ->generate();
+                $company = Company::find($request->id);
+                $isDeleted = $this->deleteStorage($this->company_paths['brand_logo'], $company->logo);
+                if ($isDeleted) {
+                    $company->logo = null;
+                    $company->save();
+                    MessagesFactory::toast()
+                        ->create('Sucesso', 'Imagem deletada com sucesso', 'success')
+                        ->generate();
+                }
+                return redirect()->back();
             });
         } catch (\Exception $e) {
+            $errors = new MessageBag();
+            $errors->add('catch', $e->getMessage());
+            return redirect()->back()->withErrors($errors);
+        } catch (\Error $e) {
             $errors = new MessageBag();
             $errors->add('catch', $e->getMessage());
             return redirect()->back()->withErrors($errors);

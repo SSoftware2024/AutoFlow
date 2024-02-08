@@ -51,7 +51,7 @@ Route::group(['prefix' => 'admin/', 'middleware' => 'auth:admin'], function () {
         Route::get('/list', [CompanyController::class, 'index'])->name('company.index');
         Route::get('/edit/{company}', [CompanyController::class, 'editView'])->name('company.editView');
         Route::post('/create', [CompanyController::class, 'create'])->name('company.create');
-        Route::put('/update', [CompanyController::class, 'update'])->name('company.update');
+        Route::post('/update', [CompanyController::class, 'update'])->name('company.update');
         Route::patch('/deleteImage', [CompanyController::class, 'deleteImage'])->name('company.deleteImage');
     });
 });

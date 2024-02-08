@@ -93,11 +93,10 @@
     </div>
 </template>
 <script setup>
-import { ref, onMounted, inject } from 'vue';
+import { ref } from 'vue';
 import { useForm, usePage, router } from '@inertiajs/vue3';
 import { useToast } from "primevue/usetoast";
 import SimpleFile from '@/Components/FileUpload/Simple.vue';
-const alert = inject('Swal');
 const toast = useToast();
 const page = usePage();
 const image = ref(null);
@@ -105,18 +104,18 @@ const image = ref(null);
 const inputFile = ref(null);
 
 const form = useForm({
-    photo: null,
     name: page.props.company.name,
     surname: page.props.company.surname,
     cnpj: page.props.company.cnpj,
-    payment_plan: page.props.company.payment_plan_id
+    payment_plan: page.props.company.payment_plan_id,
+    photo: null,
 });
 
 function update() {
-    form.transform(data => ({
+    form.transform((data) => ({
+        ...data,
         id: page.props.company.id,
-        ...data
-    })).put(route('company.update'));
+    })).post(route('company.update'));
 }
 
 function deleteImage() {
@@ -124,9 +123,7 @@ function deleteImage() {
         inputFile.value.deleteImage();
         toast.add({ severity: 'info', summary: 'Informação', detail: 'Foto temporaria removida', life: page.props.toast.time });
     } else if (page.props.company.logo) {
-        router.patch(route('company.deleteImage'), {
-            id: page.props.company.id
-        });
+        router.patch(route('company.deleteImage', {id: page.props.company.id}));
     }
 }
 </script>

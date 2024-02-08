@@ -84,7 +84,7 @@
     </div>
 </template>
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 import { Head, Link, router, usePage } from '@inertiajs/vue3';
 import { useToast } from "primevue/usetoast";
 import Banner from '@/Components/Banner.vue';
@@ -142,28 +142,33 @@ const logout = () => {
     router.post(route('logout'));
 };
 
-router.on('error', (event) => {
-    let errors = event.detail.errors;
-    errors.catch ?
-        toast.add({ severity: 'error', summary: 'Erro', detail: errors.catch })
-        :
-        null;
-})
-
 function _flash_toast(queque_toast) {
     if (queque_toast) {
+        // console.log(queque_toast.length);
         queque_toast.forEach(element => {
             toast.add({ severity: element.type, summary: element.title, detail: element.message, life: page.props.toast.time });
         });
     }
 }
-router.on('success', (event) => {
-    _flash_toast(event.detail.page.props.flash.flash_toast);
-})
+
 
 onMounted(() => {
     _startTheme();
 })
+onUnmounted(
+    router.on('success', (event) => {
+        _flash_toast(event.detail.page.props.flash.flash_toast);
+    })
+)
+onUnmounted(
+    router.on('error', (event) => {
+        let errors = event.detail.errors;
+        errors.catch ?
+            toast.add({ severity: 'error', summary: 'Erro', detail: errors.catch })
+            :
+            null;
+    })
+)
 
 </script>
 <style scoped>
