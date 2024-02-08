@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /** Planos do sistema */
 class PaymentPlan extends Model
 {
+
     use HasFactory, SoftDeletes;
     protected $guarded = [];
     /** Relationship */

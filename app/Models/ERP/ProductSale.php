@@ -1,12 +1,12 @@
 <?php
+namespace App\Models\ERP;
 
-namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-/** Historico do caixa */
-class HistoryCashier extends Model
+/** Produto e Venda(historico) */
+class ProductSale extends Model
 {
     use HasFactory;
 }

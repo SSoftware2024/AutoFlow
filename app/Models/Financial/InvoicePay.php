@@ -1,6 +1,5 @@
 <?php
-
-namespace App\Models;
+namespace App\Models\Financial;
 
 use App\Models\User;
 use App\Models\Company;
@@ -8,10 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-/** Historico de pagamentos, despezas, contas a pagar e a receber */
-class PaymentHistory extends Model
+/** Contas a pagar */
+class InvoicePay extends Model
 {
     use HasFactory;
+    /** Relationship */
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);

@@ -1,12 +1,12 @@
 <?php
 
 use App\Models\User;
-use App\Models\Income;
+use App\Models\Financial\Income;
 use App\Models\Company;
-use App\Models\Expense;
-use App\Models\InvoicePay;
-use App\Models\PaymentMethod;
-use App\Models\SalaryHistory;
+use App\Models\Financial\Expense;
+use App\Models\Financial\InvoicePay;
+use App\Models\Financial\PaymentMethod;
+use App\Models\Financial\SalaryHistory;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;

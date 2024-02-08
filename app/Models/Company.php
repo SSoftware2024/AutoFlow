@@ -2,21 +2,21 @@
 
 namespace App\Models;
 
-use App\Models\Sale;
+use App\Models\ERP\Sale;
 use App\Models\User;
 use App\Models\Client;
-use App\Models\Income;
-use App\Models\Cashier;
-use App\Models\Expense;
-use App\Models\Product;
-use App\Models\Supplier;
-use App\Models\InvoicePay;
-use App\Models\PaymentMethod;
-use App\Models\SalaryHistory;
-use App\Models\PaymentHistory;
-use App\Models\InvoiceCategory;
+use App\Models\Financial\Income;
+use App\Models\ERP\Cashier;
+use App\Models\Financial\Expense;
+use App\Models\ERP\Product;
+use App\Models\ERP\Supplier;
+use App\Models\Financial\InvoicePay;
+use App\Models\Financial\PaymentMethod;
+use App\Models\Financial\SalaryHistory;
+use App\Models\Financial\PaymentHistory;
+use App\Models\Financial\InvoiceCategory;
 use App\Models\OperatorCashier;
-use App\Models\PaymentHistorySystem;
+use App\Models\Financial\PaymentHistorySystem;
 use App\Models\Financial\PaymentPlan;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;

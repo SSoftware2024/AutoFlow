@@ -2,8 +2,8 @@
 
 use App\Models\Company;
 use  App\Models\Financial\PaymentPlan;;
-use App\Models\InvoiceCategory;
-use App\Models\IntervalRecurrence;
+use App\Models\Financial\InvoiceCategory;
+use App\Models\Financial\IntervalRecurrence;
 use App\Models\User;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;

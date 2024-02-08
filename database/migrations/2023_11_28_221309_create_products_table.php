@@ -2,7 +2,7 @@
 
 use App\Models\User;
 use App\Models\Company;
-use App\Models\Supplier;
+use App\Models\ERP\Supplier;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;

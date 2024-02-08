@@ -7,7 +7,7 @@ namespace Database\Seeders;
 use App\Models\Team;
 use App\Models\User;
 use App\Models\Client;
-use  App\Models\Financial\PaymentPlan;;
+use  App\Models\Financial\PaymentPlan;
 use App\Models\Administrator;
 use App\Models\Company;
 use App\Models\OperatorCashier;

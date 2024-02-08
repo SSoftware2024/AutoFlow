@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Financial;
 
 use App\Models\User;
 use App\Models\Company;
@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-/** CategoriaConta */
-class InvoiceCategory extends Model
+/** Formas de pagamento */
+class PaymentMethod extends Model
 {
     use HasFactory;
     /** Relationship */
