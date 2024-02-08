@@ -96,9 +96,11 @@
 import { ref } from 'vue';
 import { useForm, usePage, router } from '@inertiajs/vue3';
 import { useToast } from "primevue/usetoast";
+import { useConfirm } from "primevue/useconfirm";
 import SimpleFile from '@/Components/FileUpload/Simple.vue';
 const toast = useToast();
 const page = usePage();
+const confirm = useConfirm();
 const image = ref(null);
 //refs
 const inputFile = ref(null);
@@ -123,7 +125,22 @@ function deleteImage() {
         inputFile.value.deleteImage();
         toast.add({ severity: 'info', summary: 'Informação', detail: 'Foto temporaria removida', life: page.props.toast.time });
     } else if (page.props.company.logo) {
-        router.patch(route('company.deleteImage', {id: page.props.company.id}));
+        confirm.require({
+            message: 'Deseja deletar sua foto atual?',
+            header: 'Exclusão',
+            icon: 'pi pi-question-circle',
+            rejectClass: 'p-button-danger p-button-text',
+            acceptClass: 'p-button-text p-button-text',
+            rejectLabel: 'Aceitar',
+            acceptLabel: 'Rejeitar',
+            accept: () => {
+
+            },
+            reject: () => {
+                router.patch(route('company.deleteImage', { id: page.props.company.id }));
+            }
+        });
+
     }
 }
 </script>

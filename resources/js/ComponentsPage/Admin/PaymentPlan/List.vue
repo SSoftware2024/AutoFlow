@@ -23,7 +23,7 @@
 </template>
 <script setup>
 import { onMounted, reactive } from 'vue';
-import { useForm, usePage, router } from '@inertiajs/vue3';
+import { usePage, router } from '@inertiajs/vue3';
 import { useToast } from "primevue/usetoast";
 import { useConfirm } from "primevue/useconfirm";
 const toast = useToast();
@@ -61,7 +61,7 @@ function excludeQuestion(id) {
 
         },
         reject: () => {
-            toast.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected', life: 3000 });
+
         }
     });
 }

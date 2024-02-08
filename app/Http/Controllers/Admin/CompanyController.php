@@ -18,6 +18,7 @@ use Illuminate\Validation\Rules\File;
 class CompanyController extends Controller
 {
     use UploadStorage;
+    private string $max_size_file = '1mb';
     public array $company_paths = [
         'brand_logo' => 'company/brand_logo/',
     ];
@@ -69,7 +70,7 @@ class CompanyController extends Controller
             'surname' => ['required'],
             'cnpj' => ['required'],
             'photo' => [
-                'required', 'file', File::types('jpg,jpeg,png')->max('2mb')
+                'required', 'file', File::types('jpg,jpeg,png')->max($this->max_size_file)
             ],
             'payment_plan' => [
                 'required', 'integer',
@@ -112,7 +113,7 @@ class CompanyController extends Controller
             'surname' => ['required'],
             'cnpj' => ['required'],
             'photo' => [
-                'nullable', 'file', File::types('jpg,jpeg,png')->max('2mb')
+                'nullable', 'file', File::types('jpg,jpeg,png')->max($this->max_size_file)
             ],
             'payment_plan' => [
                 'required', 'integer',
