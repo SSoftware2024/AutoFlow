@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Financial;
 
 use Closure;
 use Inertia\Inertia;
@@ -9,8 +9,7 @@ use App\Facade\NavigateFactory;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\MessageBag;
 use App\Http\Controllers\Controller;
-use Illuminate\Database\Eloquent\Model;
-use App\Models\PaymentPlan;
+use  App\Models\Financial\PaymentPlan;;
 
 class PaymentPlanController extends Controller
 {

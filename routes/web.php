@@ -1,11 +1,11 @@
 <?php
 
-use App\Http\Controllers\Admin\CompanyController;
-use App\Http\Controllers\Admin\PaymentPlanController;
-use App\Http\Controllers\DashboardController;
-use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Application;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Admin\CompanyController;
+use App\Http\Controllers\Financial\PaymentPlanController;
 
 /*
 |--------------------------------------------------------------------------

@@ -11,20 +11,20 @@ use App\Models\Expense;
 use App\Models\Product;
 use App\Models\Supplier;
 use App\Models\InvoicePay;
-use App\Models\PaymentPlan;
 use App\Models\PaymentMethod;
 use App\Models\SalaryHistory;
 use App\Models\PaymentHistory;
 use App\Models\InvoiceCategory;
 use App\Models\OperatorCashier;
 use App\Models\PaymentHistorySystem;
+use App\Models\Financial\PaymentPlan;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Company extends Model
 {

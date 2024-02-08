@@ -6,7 +6,7 @@ use App\Facade\MessagesFactory;
 use Closure;
 use Inertia\Inertia;
 use App\Models\Company;
-use App\Models\PaymentPlan;
+use  App\Models\Financial\PaymentPlan;;
 use App\Trait\UploadStorage;
 use Illuminate\Http\Request;
 use App\Facade\NavigateFactory;

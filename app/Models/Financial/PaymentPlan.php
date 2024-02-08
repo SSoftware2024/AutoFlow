@@ -1,6 +1,5 @@
 <?php
-
-namespace App\Models;
+namespace App\Models\Financial;
 
 use App\Facade\MoneyConvert;
 use App\Models\Company;

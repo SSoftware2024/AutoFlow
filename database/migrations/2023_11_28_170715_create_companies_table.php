@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\PaymentPlan;
+use  App\Models\Financial\PaymentPlan;;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;

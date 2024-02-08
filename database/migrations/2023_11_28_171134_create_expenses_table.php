@@ -1,7 +1,7 @@
 <?php
 
 use App\Models\Company;
-use App\Models\PaymentPlan;
+use  App\Models\Financial\PaymentPlan;;
 use App\Models\InvoiceCategory;
 use App\Models\IntervalRecurrence;
 use App\Models\User;
