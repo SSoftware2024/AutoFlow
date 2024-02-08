@@ -182,4 +182,25 @@ class CompanyController extends Controller
             return redirect()->back()->withErrors($errors);
         }
     }
+    public function delete(int $id = 0)
+    {
+        try {
+            DB::transaction(function () use ($id) {
+                $company = Company::where('id',$id)->select('id','logo')->first();
+                $this->deleteStorage($this->company_paths['brand_logo'], $company->logo);
+                $company->delete();
+                MessagesFactory::toast()
+                ->success('Registro deletado com sucesso')
+                ->generate();
+            });
+        } catch (\Exception $e) {
+            $errors = new MessageBag();
+            $errors->add('catch', $e->getMessage());
+            return redirect()->back()->withErrors($errors);
+        } catch (\Error $e) {
+            $errors = new MessageBag();
+            $errors->add('catch', $e->getMessage());
+            return redirect()->back()->withErrors($errors);
+        }
+    }
 }

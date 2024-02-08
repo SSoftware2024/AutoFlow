@@ -16,11 +16,10 @@
                 <div class="flex justify-start w-full">
                     <Image alt="Image" preview v-if="value.logo">
                         <template #image>
-                            <img :src="value.logo_url.thumbmail" alt="image"
-                                class="w-[100px]" />
+                            <img :src="value.logo_url.thumbmail" alt="image" class="w-[100px]" />
                         </template>
                         <template #preview="slotProps">
-                            <img :src=" value.logo_url.default" alt="preview" :style="slotProps.style"
+                            <img :src="value.logo_url.default" alt="preview" :style="slotProps.style"
                                 @click="slotProps.previewCallback" />
                         </template>
                     </Image>
@@ -51,8 +50,9 @@
                             <template #icon>
                                 <i class="mr-2 fa-solid fa-gear"></i>
                             </template>
-                            <link-dropdown title="Editar" icon="fa fa-edit" :href="route('company.editView', {company: value.id})"></link-dropdown>
-                            <link-button-dropdown title="Deletar" icon="fa fa-trash"></link-button-dropdown>
+                            <link-dropdown title="Editar" icon="fa fa-edit"
+                                :href="route('company.editView', { company: value.id })"></link-dropdown>
+                            <link-button-dropdown title="Deletar" icon="fa fa-trash" @click="toDelete(value.id, value.name)"></link-button-dropdown>
                         </icon-button-dropdown>
                     </div>
                     <div class="flex flex-wrap relative sm:top-[5px]">
@@ -75,29 +75,28 @@
     </Panel>
 </template>
 <script setup>
-import { ref, onMounted, inject } from 'vue';
-import { useForm, usePage, router } from '@inertiajs/vue3';
-import { useToast } from "primevue/usetoast";
-
-const toast = useToast();
+import { onMounted } from 'vue';
+import { usePage, router } from '@inertiajs/vue3';
+import { useConfirm } from "primevue/useconfirm";
+const confirm = useConfirm();
 const page = usePage();
 //refs
 //data
-const form = useForm({
-    photo: null,
-    name: '',
-    surname: '',
-    cnpj: '',
-    payment_plan: 0
-});
+function toDelete(id, company_name) {
+    confirm.require({
+        message: `Deseja deletar o registro: ${company_name}`,
+        header: 'Exclusão',
+        icon: 'pi pi-question-circle',
+        rejectClass: 'p-button-danger p-button-text',
+        acceptClass: 'p-button-text p-button-text',
+        rejectLabel: 'Aceitar',
+        acceptLabel: 'Rejeitar',
+        accept: () => {
 
-function create() {
-    form.post(route('company.create'), {
-        onSuccess: () => {
-            toast.add({ severity: 'success', summary: 'Sucesso', detail: 'Cadastro realizado com sucesso', life: page.props.toast.time });
-            form.reset();
-            deleteImage();
         },
+        reject: () => {
+            router.delete(route('company.delete', [id]));
+        }
     });
 }
 

@@ -53,5 +53,6 @@ Route::group(['prefix' => 'admin/', 'middleware' => 'auth:admin'], function () {
         Route::post('/create', [CompanyController::class, 'create'])->name('company.create');
         Route::post('/update', [CompanyController::class, 'update'])->name('company.update');
         Route::patch('/deleteImage', [CompanyController::class, 'deleteImage'])->name('company.deleteImage');
+        Route::delete('/delete/{id}', [CompanyController::class, 'delete'])->name('company.delete');
     });
 });
