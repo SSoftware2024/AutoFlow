@@ -147,7 +147,7 @@ class CompanyController extends Controller
                     $company->save();
                 }
                 MessagesFactory::toast()
-                    ->create('Sucesso', 'Empresa atualizada com sucesso', 'success')
+                    ->success('Empresa atualizada com sucesso')
                     ->generate();
             });
             return redirect()->back();
@@ -167,7 +167,7 @@ class CompanyController extends Controller
                     $company->logo = null;
                     $company->save();
                     MessagesFactory::toast()
-                        ->create('Sucesso', 'Imagem deletada com sucesso', 'success')
+                        ->success('Imagem deletada com sucesso')
                         ->generate();
                 }
                 return redirect()->back();
