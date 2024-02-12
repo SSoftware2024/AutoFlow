@@ -91,7 +91,7 @@ const form = useForm({
 });
 
 function create() {
-    form.post(route('company.create'), {
+    form.post(route('adm.company.create'), {
         onSuccess: () => {
             toast.add({ severity: 'success', summary: 'Sucesso', detail: 'Cadastro realizado com sucesso', life: page.props.toast.time });
             form.reset();

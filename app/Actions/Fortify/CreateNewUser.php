@@ -18,21 +18,28 @@ class CreateNewUser implements CreatesNewUsers
      * Create a newly registered user.
      *
      * @param  array<string, string>  $input
+     * @param  bool  $validate_default
      */
-    public function create(array $input): User
+    public function create(array $input, bool $validate_default = true): User
     {
-        Validator::make($input, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => $this->passwordRules(),
-            'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
-        ])->validate();
+        if ($validate_default) {
+            Validator::make($input, [
+                'name' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                'password' => $this->passwordRules(),
+                'company_id' => ['required','bigger_then'],
+                'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
+            ])->validate();
+        }
 
         return DB::transaction(function () use ($input) {
             return tap(User::create([
                 'name' => $input['name'],
                 'email' => $input['email'],
                 'password' => Hash::make($input['password']),
+                'email_verified_at' => now(),
+                'company_id' => $input['company_id'],
+                'responsible' => $input['responsible'],
             ]), function (User $user) {
                 $this->createTeam($user);
             });
@@ -46,7 +53,7 @@ class CreateNewUser implements CreatesNewUsers
     {
         $user->ownedTeams()->save(Team::forceCreate([
             'user_id' => $user->id,
-            'name' => explode(' ', $user->name, 2)[0]."'s Team",
+            'name' => explode(' ', $user->name, 2)[0] . "'s Team",
             'personal_team' => true,
         ]));
     }

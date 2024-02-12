@@ -2,7 +2,7 @@
     <Panel header="Lista">
         <div class="flex justify-end">
             <Button label="Nova" link icon="fa-solid fa-plus" iconPos="right"
-                @click="$toRoute(route('company.createView'))" />
+                @click="$toRoute(route('adm.company.createView'))" />
         </div>
         <Accordion :activeIndex="0">
             <AccordionTab v-for="value in  page.props.companys.data " :key="value.id">
@@ -51,7 +51,7 @@
                                 <i class="mr-2 fa-solid fa-gear"></i>
                             </template>
                             <link-dropdown title="Editar" icon="fa fa-edit"
-                                :href="route('company.editView', { company: value.id })"></link-dropdown>
+                                :href="route('adm.company.editView', { company: value.id })"></link-dropdown>
                             <link-button-dropdown title="Deletar" icon="fa fa-trash" @click="toDelete(value.id, value.name)"></link-button-dropdown>
                         </icon-button-dropdown>
                     </div>
@@ -95,7 +95,7 @@ function toDelete(id, company_name) {
 
         },
         reject: () => {
-            router.delete(route('company.delete', [id]));
+            router.delete(route('adm.company.delete', [id]));
         }
     });
 }

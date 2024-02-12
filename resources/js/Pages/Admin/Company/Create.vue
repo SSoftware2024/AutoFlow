@@ -5,12 +5,12 @@
                 <SplitButton label="Recarregar" icon="pi pi-refresh" severity="info" @click="reload" :model="options" />
             </div>
             <Panel header="Cadastro">
-                <company.Create></company.Create>
+                <company.AdminCreate></company.AdminCreate>
             </Panel>
 
 
             <Dialog v-model:visible="visible" modal header="Cadastrar novo plano" :style="{ width: '50%' }" position="top">
-                <payment_plan.Create @close:modal="reload"></payment_plan.Create>
+                <payment_plan.AdminCreate @close:modal="reload"></payment_plan.AdminCreate>
             </Dialog>
         </template>
     </AppLayout>

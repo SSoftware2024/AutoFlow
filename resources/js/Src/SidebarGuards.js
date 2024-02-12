@@ -56,17 +56,13 @@ let admin = [
                 label: 'Nova',
                 icon: 'fa-solid fa-plus',
                 command: () => {
-                    router.get(window.route('company.createView'));
+                    router.get(window.route('adm.company.createView'));
                 }
             },
             {
                 label: 'Lista',
                 icon: 'fa-solid fa-list',
-                command: () => router.get(window.route('company.index'))
-            },
-            {
-                label: 'Plano de pagamento',
-                icon: 'fa-solid fa-credit-card',
+                command: () => router.get(window.route('adm.company.index'))
             },
             {
                 label: 'Históricos de pagamento',
@@ -75,12 +71,13 @@ let admin = [
         ]
     },
     {
-        label: 'Clientes',
+        label: 'Usuários',
         icon: 'fa-solid fa-user',
         items: [
             {
                 label: 'Novo',
                 icon: 'fa-solid fa-user-plus',
+                command: () => router.get(window.route('adm.user.createView'))
             },
             {
                 label: 'Lista',

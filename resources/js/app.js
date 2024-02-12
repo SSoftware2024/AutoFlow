@@ -49,6 +49,8 @@ createInertiaApp({
             .component('Accordion', Components.primevue.panel.Accordion)
             .component('AccordionTab', Components.primevue.panel.AccordionTab)
             .component('InputText', Components.primevue.form.InputText)
+            .component('Password', Components.primevue.form.Password)
+            .component('Checkbox', Components.primevue.form.Checkbox)
             .component('InputNumber', Components.primevue.form.InputNumber)
             .component('InputMask', Components.primevue.form.InputMask)
             .component('Dropdown', Components.primevue.form.Dropdown)

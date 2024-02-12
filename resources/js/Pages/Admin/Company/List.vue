@@ -1,7 +1,7 @@
 <template>
     <AppLayout title="Empresa" title_page="Lista empresas">
         <template #center>
-            <company.List></company.List>
+            <company.AdminList></company.AdminList>
         </template>
     </AppLayout>
 </template>

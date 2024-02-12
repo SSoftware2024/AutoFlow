@@ -37,7 +37,7 @@ class CompanyController extends Controller
     {
         $breadcrumb =  NavigateFactory::breadcrumb()
             ->setLink('Empresa')
-            ->setLink('Lista', route: route('company.index'))
+            ->setLink('Lista', route: route('adm.company.index'))
             ->setLink('Nova');
         return Inertia::render('Admin/Company/Create', [
             'breadcrumb' => $breadcrumb->generate(),
@@ -51,7 +51,7 @@ class CompanyController extends Controller
     {
         $breadcrumb =  NavigateFactory::breadcrumb()
             ->setLink('Empresa')
-            ->setLink('Lista', route: route('company.index'))
+            ->setLink('Lista', route: route('adm.company.index'))
             ->setLink('Editar');
         return Inertia::render('Admin/Company/Edit', [
             'breadcrumb' => $breadcrumb->generate(),

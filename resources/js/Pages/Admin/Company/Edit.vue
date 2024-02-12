@@ -8,5 +8,5 @@
     </AppLayout>
 </template>
 <script setup>
-    import { Edit as EditCompany } from '@/ComponentsPage/js/company';
+    import { AdminEdit as EditCompany } from '@/ComponentsPage/js/company';
 </script>

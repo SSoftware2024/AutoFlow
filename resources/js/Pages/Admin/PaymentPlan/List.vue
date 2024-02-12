@@ -2,7 +2,7 @@
     <AppLayout title="Plano Pagamento" title_page="Lista de planos de pagamento">
         <template #center>
             <Panel header="Listagem">
-                <payment_plan.List></payment_plan.List>
+                <payment_plan.AdminList></payment_plan.AdminList>
             </Panel>
         </template>
     </AppLayout>

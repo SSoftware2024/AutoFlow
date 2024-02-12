@@ -37,10 +37,16 @@ class Company extends Model
     public function logoUrl(): Attribute
     {
         return Attribute::make(
-            get: fn ($value, $attributes) => (object)[
-                'default' => Storage::url('company/brand_logo/'.$attributes['logo']),
-                'thumbmail' => Storage::url('company/brand_logo/thumbmail/'.$attributes['logo'])
-            ],
+            get: function ($value, $attributes){
+                if(empty($value)){
+                    return null;
+                }else{
+                    return (object)[
+                        'default' => Storage::url('company/brand_logo/'.$attributes['logo']),
+                        'thumbmail' => Storage::url('company/brand_logo/thumbmail/'.$attributes['logo'])
+                    ];
+                }
+            },
         );
     }
     /** ============================ Relationship =============================*/
