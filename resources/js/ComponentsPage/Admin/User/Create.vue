@@ -1,6 +1,6 @@
 <template>
     <form @submit.prevent="create">
-        <div class="space-x-1 row">
+        <div class="sm:space-x-1 row">
             <div class="row-col">
                 <label>Nome:</label>
                 <InputText v-model="form.name" id="username" :class="{
@@ -20,7 +20,7 @@
                 </span>
             </div>
         </div>
-        <div class="space-x-1 row">
+        <div class="sm:space-x-1 row">
             <div class="row-col">
                 <label>Senha:</label>
                 <Password v-model="form.password" :feedback="false" toggleMask :class="{
@@ -60,7 +60,7 @@
                 </span>
             </div>
         </div>
-        <div class="justify-end mt-2 row">
+        <div class="flex justify-end mt-2">
             <Button label="Cadastrar" type="submit" icon="fa-solid fa-plus" iconPos="right" severity="success"
                 :loading="form.processing" />
         </div>

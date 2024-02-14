@@ -75,6 +75,7 @@ import { ref, onMounted, inject } from 'vue';
 import { useForm, usePage, router } from '@inertiajs/vue3';
 import { useToast } from "primevue/usetoast";
 import SimpleFile from '@/Components/FileUpload/Simple.vue';
+const emit = defineEmits(['close:modal']);
 const alert = inject('Swal');
 const toast = useToast();
 const page = usePage();
@@ -96,6 +97,7 @@ function create() {
             toast.add({ severity: 'success', summary: 'Sucesso', detail: 'Cadastro realizado com sucesso', life: page.props.toast.time });
             form.reset();
             deleteImage();
+            emit('close:modal');
         },
     });
 }

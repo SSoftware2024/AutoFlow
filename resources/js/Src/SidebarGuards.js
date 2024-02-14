@@ -82,6 +82,7 @@ let admin = [
             {
                 label: 'Lista',
                 icon: 'fa-solid fa-list',
+                command: () => router.get(window.route('adm.user.index'))
             },
         ]
     },

@@ -13,6 +13,7 @@ use App\Facade\NavigateFactory;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\MessageBag;
 use App\Http\Controllers\Controller;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Validation\Rules\File;
 
 class CompanyController extends Controller
@@ -41,7 +42,7 @@ class CompanyController extends Controller
             ->setLink('Nova');
         return Inertia::render('Admin/Company/Create', [
             'breadcrumb' => $breadcrumb->generate(),
-            'payment_plans' => PaymentPlan::select('id', 'title')->get(),
+            'payment_plans' => $this->getPaymentPlans(),
             'images' => [
                 'company' => asset('img/company-94.png')
             ]
@@ -55,14 +56,14 @@ class CompanyController extends Controller
             ->setLink('Editar');
         return Inertia::render('Admin/Company/Edit', [
             'breadcrumb' => $breadcrumb->generate(),
-            'payment_plans' => PaymentPlan::select('id', 'title')->get(),
+            'payment_plans' => $this->getPaymentPlans(),
             'company' => $company,
             'images' => [
                 'company' => asset('img/company-94.png')
             ]
         ]);
     }
-    /**===================================METODOS=================================== */
+    /**===================================METODOS ROUTES=================================== */
     public function create(Request $request)
     {
         $request->validate([
@@ -203,4 +204,12 @@ class CompanyController extends Controller
             return redirect()->back()->withErrors($errors);
         }
     }
+    /**===================================METODOS ROUTES AXIOS=================================== */
+    /**===================================METODOS VARIADOS=================================== */
+    public function getPaymentPlans():Collection
+    {
+        return PaymentPlan::select('id', 'title')->get();
+    }
+
+
 }

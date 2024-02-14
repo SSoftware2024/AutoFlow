@@ -18,10 +18,28 @@ use App\Actions\Fortify\PasswordValidationRules;
 class UserController extends Controller
 {
     use PasswordValidationRules;
+    private CompanyController $company_controller;
+    /**
+     * Class constructor.
+     */
+    public function __construct()
+    {
+        $this->company_controller = new CompanyController();
+    }
+    public function index()
+    {
+        $breadcrumb =  NavigateFactory::breadcrumb()
+            ->setLink('Usuários')
+            ->setLink('Lista');
+        return Inertia::render('Admin/User/List', [
+            'breadcrumb' => $breadcrumb->generate(),
+        ]);
+    }
     public function createView(Request $request)
     {
         $breadcrumb =  NavigateFactory::breadcrumb()
             ->setLink('Usuários')
+            ->setLink('Lista', route: route('adm.user.index'))
             ->setLink('Novo');
         $responsible = filter_var($request->responsible ?? false, FILTER_VALIDATE_BOOLEAN);
         $companies = null;
@@ -43,8 +61,12 @@ class UserController extends Controller
         return Inertia::render('Admin/User/Create', [
             'breadcrumb' => $breadcrumb->generate(),
             'companies' => $companies,
+            'payment_plans' => $this->company_controller->getPaymentPlans(),
             'filter' => [
                 'responsible' => $responsible
+            ],
+            'images' => [
+                'company' => asset('img/company-94.png')
             ]
         ]);
     }

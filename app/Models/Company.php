@@ -38,7 +38,7 @@ class Company extends Model
     {
         return Attribute::make(
             get: function ($value, $attributes){
-                if(empty($value)){
+                if(empty($attributes['logo'])){
                     return null;
                 }else{
                     return (object)[
