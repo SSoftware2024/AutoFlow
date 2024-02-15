@@ -67,6 +67,10 @@ let admin = [
             {
                 label: 'Históricos de pagamento',
                 icon: 'fa-solid fa-timeline',
+            },
+            {
+                label: 'Controle responsável',
+                icon: 'fa-solid fa-users-gear',
             }
         ]
     },

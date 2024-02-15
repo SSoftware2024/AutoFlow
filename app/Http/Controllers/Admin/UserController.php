@@ -14,6 +14,7 @@ use App\Actions\Fortify\CreateNewUser;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Validator;
 use App\Actions\Fortify\PasswordValidationRules;
+use App\Models\User;
 
 class UserController extends Controller
 {
@@ -31,8 +32,12 @@ class UserController extends Controller
         $breadcrumb =  NavigateFactory::breadcrumb()
             ->setLink('Usuários')
             ->setLink('Lista');
+        $users = User::with(['company' => function ($query) {
+            $query->select('id', 'name');
+        }])->get();
         return Inertia::render('Admin/User/List', [
             'breadcrumb' => $breadcrumb->generate(),
+            'users' => $users
         ]);
     }
     public function createView(Request $request)
@@ -43,7 +48,7 @@ class UserController extends Controller
             ->setLink('Novo');
         $responsible = filter_var($request->responsible ?? false, FILTER_VALIDATE_BOOLEAN);
         $companies = null;
-        if ($responsible) {
+        if ($responsible) { //caso usuario resposanvel, busca empresas sem responsaveis
             $companies = Company::select('id', 'name')->withCount([
                 'users' => function (Builder $query) {
                     $query->where('responsible', 1);
@@ -70,8 +75,25 @@ class UserController extends Controller
             ]
         ]);
     }
+    public function editView(User $user)
+    {
+        $breadcrumb =  NavigateFactory::breadcrumb()
+            ->setLink('Usuários')
+            ->setLink('Lista', route: route('adm.user.index'))
+            ->setLink('Editar');
 
-    /**===================================METODOS=================================== */
+        $companies = Company::select('id', 'name')->whereHas('users', function ($query) {
+            $query->where('responsible', 1);
+        })->cursor();
+        return Inertia::render('Admin/User/Edit', [
+            'breadcrumb' => $breadcrumb->generate(),
+            'companies' => $companies,
+            'user' => $user,
+            'companies' => $companies,
+        ]);
+    }
+
+    /**===================================METODOS ROTAS=================================== */
     public function create(Request $request)
     {
         $data = [
@@ -85,16 +107,16 @@ class UserController extends Controller
         Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'company_id' => ['required','bigger_then'],
+            'company_id' => ['required', 'bigger_then'],
             'password' => $this->passwordRules(),
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
-        ],[],[
+        ], [], [
             'company_id' => 'empresa'
         ])->validate();
         try {
             $user = new CreateNewUser();
             $user->create($data, false);
-            $message = $request->responsible ? 'Usuário responsável cadastrado com sucesso':'Usuário afiliado cadastrado com sucesso';
+            $message = $request->responsible ? 'Usuário responsável cadastrado com sucesso' : 'Usuário afiliado cadastrado com sucesso';
             MessagesFactory::toast()
                 ->success($message)
                 ->generate();
