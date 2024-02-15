@@ -2,26 +2,29 @@
 
 namespace App\Models;
 
-use App\Models\ERP\Sale;
 use App\Models\User;
 use App\Models\Client;
-use App\Models\Financial\Income;
+use App\Models\ERP\Sale;
 use App\Models\ERP\Cashier;
-use App\Models\Financial\Expense;
 use App\Models\ERP\Product;
 use App\Models\ERP\Supplier;
+use App\Models\OperatorCashier;
+use App\Models\Financial\Income;
+use App\Models\Financial\Expense;
+use Illuminate\Support\Collection;
 use App\Models\Financial\InvoicePay;
+use App\Models\Financial\PaymentPlan;
+use Illuminate\Support\LazyCollection;
 use App\Models\Financial\PaymentMethod;
 use App\Models\Financial\SalaryHistory;
-use App\Models\Financial\PaymentHistory;
-use App\Models\Financial\InvoiceCategory;
-use App\Models\OperatorCashier;
-use App\Models\Financial\PaymentHistorySystem;
-use App\Models\Financial\PaymentPlan;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Financial\PaymentHistory;
+use App\Models\Financial\InvoiceCategory;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Financial\PaymentHistorySystem;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -119,6 +122,34 @@ class Company extends Model
     }
 
     /** ==========================================METODOS ESTATICOS============================================= */
-
+    /**
+     * Retorna uma coleção de empresas que contem um responsável
+     *
+     * @return LazyCollection
+     */
+    public static function companiesWithResponsible():LazyCollection
+    {
+        return Company::select('id', 'name')->whereHas('users', function ($query) {
+            $query->where('responsible', 1);
+        })->cursor();
+    }
+    /**
+     * Retorna uma coleção de empresas que não contenham um responsável
+     *
+     * @return Collection
+     */
+    public static function companiesWithoutResponsible():Collection
+    {
+        $companies = Company::select('id', 'name')->withCount([
+            'users' => function (Builder $query) {
+                $query->where('responsible', 1);
+            }
+        ])->get()->map(function ($company) {
+            if ($company->users_count == 0) {
+                return $company;
+            }
+        })->filter()->values();
+        return $companies;
+    }
     /** ==========================================METODOS============================================= */
 }

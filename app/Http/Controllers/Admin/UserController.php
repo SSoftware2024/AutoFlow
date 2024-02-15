@@ -49,19 +49,9 @@ class UserController extends Controller
         $responsible = filter_var($request->responsible ?? false, FILTER_VALIDATE_BOOLEAN);
         $companies = null;
         if ($responsible) { //caso usuario resposanvel, busca empresas sem responsaveis
-            $companies = Company::select('id', 'name')->withCount([
-                'users' => function (Builder $query) {
-                    $query->where('responsible', 1);
-                }
-            ])->get()->map(function ($company) {
-                if ($company->users_count == 0) {
-                    return $company;
-                }
-            })->filter()->values();
+            $companies = Company::companiesWithoutResponsible();
         } else {
-            $companies = Company::select('id', 'name')->whereHas('users', function ($query) {
-                $query->where('responsible', 1);
-            })->cursor();
+            $companies = Company::companiesWithResponsible();
         }
         return Inertia::render('Admin/User/Create', [
             'breadcrumb' => $breadcrumb->generate(),
@@ -82,9 +72,7 @@ class UserController extends Controller
             ->setLink('Lista', route: route('adm.user.index'))
             ->setLink('Editar');
 
-        $companies = Company::select('id', 'name')->whereHas('users', function ($query) {
-            $query->where('responsible', 1);
-        })->cursor();
+        $companies = Company::companiesWithResponsible();
         return Inertia::render('Admin/User/Edit', [
             'breadcrumb' => $breadcrumb->generate(),
             'companies' => $companies,
