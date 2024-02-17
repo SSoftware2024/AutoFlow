@@ -30,6 +30,7 @@ Route::group(['prefix' => 'admin/', 'middleware' => 'auth:admin'], function () {
         Route::get('/list', [UserController::class, 'index'])->name('adm.user.index');
         Route::get('/edit/{user}', [UserController::class, 'editView'])->name('adm.user.editView');
         Route::post('/create', [UserController::class, 'create'])->name('adm.user.create');
+        Route::patch('/update', [UserController::class, 'update'])->name('adm.user.update');
 
     });
 });

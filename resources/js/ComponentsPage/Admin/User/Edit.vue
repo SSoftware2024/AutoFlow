@@ -1,5 +1,5 @@
 <template>
-    <form @submit.prevent="create">
+    <form @submit.prevent="update">
         <div class="sm:space-x-1 row">
             <div class="row-col">
                 <label>Nome:</label>
@@ -43,7 +43,7 @@
         <div class="my-1 row">
             <div class="row-col">
                 <div class="flex cursor-pointer align-items-center">
-                    <Checkbox v-model="form.responsible" inputId="responsible" :binary="true" disabled @change="companyForUser" @click="_alertGoControlResponsive" />
+                    <Checkbox v-model="form.responsible" inputId="responsible" :binary="true" disabled @click="_alertGoControlResponsive" />
                     <label for="responsible" class="ml-2 cursor-pointer" @click="_alertGoControlResponsive" > Responsável </label>
                 </div>
             </div>
@@ -52,7 +52,7 @@
             <div class="row-col">
                 <label for="">Empresas com responsável</label>
                 <Dropdown v-model="form.company_id" :options="page.props.companies" optionLabel="name" optionValue="id"
-                    placeholder="Selecione" class="w-full" filter :class="{
+                    placeholder="Selecione" class="w-full" filter :disabled="form.responsible" :class="{
                         'p-invalid': false
                     }" />
                 <span v-if="form.errors.company_id" class="text-danger-600">
@@ -82,10 +82,11 @@ const form = useForm({
 });
 
 
-function create() {
-    form.post(route('adm.user.create'), {
-        onSuccess: () => form.reset(),
-    });
+function update() {
+    form.transform((data) => ({
+        ...data,
+        id: page.props.user.id,
+    })).patch(route('adm.user.update'));
 }
 
 function _alertGoControlResponsive(){

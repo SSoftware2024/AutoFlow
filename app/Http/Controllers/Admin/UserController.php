@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\User;
 use Inertia\Inertia;
 use App\Models\Company;
 use Illuminate\Http\Request;
 use App\Facade\MessagesFactory;
 use App\Facade\NavigateFactory;
+use Illuminate\Validation\Rule;
 use Laravel\Jetstream\Jetstream;
 use Illuminate\Support\MessageBag;
 use App\Http\Controllers\Controller;
@@ -14,7 +16,7 @@ use App\Actions\Fortify\CreateNewUser;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Validator;
 use App\Actions\Fortify\PasswordValidationRules;
-use App\Models\User;
+use App\Actions\Fortify\UpdateUserProfileInformation;
 
 class UserController extends Controller
 {
@@ -107,6 +109,34 @@ class UserController extends Controller
             $message = $request->responsible ? 'Usuário responsável cadastrado com sucesso' : 'Usuário afiliado cadastrado com sucesso';
             MessagesFactory::toast()
                 ->success($message)
+                ->generate();
+        } catch (\Exception $e) {
+            $errors = new MessageBag();
+            $errors->add('catch', $e->getMessage());
+            return redirect()->back()->withErrors($errors);
+        }
+    }
+    public function update(Request $request)
+    {
+        $data = [
+            'name' => $request->name,
+            'email' => $request->email,
+            'company_id' => $request->company_id,
+        ];
+        Validator::make(['id' => $request->id, ...$data], [
+            'id' => ['required', 'integer', 'bigger_then'],
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($request->id)],
+            'company_id' => ['required', 'bigger_then'],
+            'photo' => ['nullable', 'mimes:jpg,jpeg,png', 'max:1024'],
+        ], [], [
+            'company_id' => 'empresa'
+        ])->validate();
+        try {
+            $user = new UpdateUserProfileInformation();
+            $user->update(User::find($request->id), $data, false);
+            MessagesFactory::toast()
+                ->success('Registro atualizado com sucesso')
                 ->generate();
         } catch (\Exception $e) {
             $errors = new MessageBag();
