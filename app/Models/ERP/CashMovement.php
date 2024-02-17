@@ -1,12 +1,11 @@
 <?php
-
-namespace App\Models;
+namespace App\Models\ERP;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-/** Historico de pagamento do perador de caixa*/
-class CashPaymentHistory extends Model
+/** Movimento do caixa */
+class CashMovement extends Model
 {
     use HasFactory;
 }

@@ -1,14 +1,14 @@
 <?php
-
-namespace App\Models;
+namespace App\Models\Financial;
 
 use App\Models\User;
 use App\Models\Company;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-/** Produto */
-class Product extends Model
+
+/** CategoriaConta */
+class InvoiceCategory extends Model
 {
     use HasFactory;
     /** Relationship */

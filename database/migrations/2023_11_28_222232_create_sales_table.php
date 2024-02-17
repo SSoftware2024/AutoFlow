@@ -3,7 +3,7 @@
 use App\Models\User;
 use App\Models\Client;
 use App\Models\Company;
-use App\Models\PaymentMethod;
+use App\Models\Financial\PaymentMethod;
 use App\Models\OperatorCashier;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;

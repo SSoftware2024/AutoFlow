@@ -2,29 +2,32 @@
 
 namespace App\Models;
 
-use App\Models\Sale;
 use App\Models\User;
 use App\Models\Client;
-use App\Models\Income;
-use App\Models\Cashier;
-use App\Models\Expense;
-use App\Models\Product;
-use App\Models\Supplier;
-use App\Models\InvoicePay;
-use App\Models\PaymentPlan;
-use App\Models\PaymentMethod;
-use App\Models\SalaryHistory;
-use App\Models\PaymentHistory;
-use App\Models\InvoiceCategory;
+use App\Models\ERP\Sale;
+use App\Models\ERP\Cashier;
+use App\Models\ERP\Product;
+use App\Models\ERP\Supplier;
 use App\Models\OperatorCashier;
-use App\Models\PaymentHistorySystem;
+use App\Models\Financial\Income;
+use App\Models\Financial\Expense;
+use Illuminate\Support\Collection;
+use App\Models\Financial\InvoicePay;
+use App\Models\Financial\PaymentPlan;
+use Illuminate\Support\LazyCollection;
+use App\Models\Financial\PaymentMethod;
+use App\Models\Financial\SalaryHistory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Financial\PaymentHistory;
+use App\Models\Financial\InvoiceCategory;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Financial\PaymentHistorySystem;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Company extends Model
 {
@@ -37,10 +40,16 @@ class Company extends Model
     public function logoUrl(): Attribute
     {
         return Attribute::make(
-            get: fn ($value, $attributes) => (object)[
-                'default' => Storage::url('company/brand_logo/'.$attributes['logo']),
-                'thumbmail' => Storage::url('company/brand_logo/thumbmail/'.$attributes['logo'])
-            ],
+            get: function ($value, $attributes){
+                if(empty($attributes['logo'])){
+                    return null;
+                }else{
+                    return (object)[
+                        'default' => Storage::url('company/brand_logo/'.$attributes['logo']),
+                        'thumbmail' => Storage::url('company/brand_logo/thumbmail/'.$attributes['logo'])
+                    ];
+                }
+            },
         );
     }
     /** ============================ Relationship =============================*/
@@ -113,6 +122,34 @@ class Company extends Model
     }
 
     /** ==========================================METODOS ESTATICOS============================================= */
-
+    /**
+     * Retorna uma coleção de empresas que contem um responsável
+     *
+     * @return LazyCollection
+     */
+    public static function companiesWithResponsible():LazyCollection
+    {
+        return Company::select('id', 'name')->whereHas('users', function ($query) {
+            $query->where('responsible', 1);
+        })->cursor();
+    }
+    /**
+     * Retorna uma coleção de empresas que não contenham um responsável
+     *
+     * @return Collection
+     */
+    public static function companiesWithoutResponsible():Collection
+    {
+        $companies = Company::select('id', 'name')->withCount([
+            'users' => function (Builder $query) {
+                $query->where('responsible', 1);
+            }
+        ])->get()->map(function ($company) {
+            if ($company->users_count == 0) {
+                return $company;
+            }
+        })->filter()->values();
+        return $companies;
+    }
     /** ==========================================METODOS============================================= */
 }

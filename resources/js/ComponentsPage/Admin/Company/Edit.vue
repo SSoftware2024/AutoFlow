@@ -117,7 +117,7 @@ function update() {
     form.transform((data) => ({
         ...data,
         id: page.props.company.id,
-    })).post(route('company.update'));
+    })).post(route('adm.company.update'));
 }
 
 function deleteImage() {
@@ -137,7 +137,7 @@ function deleteImage() {
 
             },
             reject: () => {
-                router.patch(route('company.deleteImage', { id: page.props.company.id }));
+                router.patch(route('adm.company.deleteImage', { id: page.props.company.id }));
             }
         });
 

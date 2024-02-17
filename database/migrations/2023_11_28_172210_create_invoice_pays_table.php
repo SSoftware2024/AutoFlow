@@ -2,8 +2,8 @@
 
 use App\Models\User;
 use App\Models\Company;
-use App\Models\PaymentMethod;
-use App\Models\InvoiceCategory;
+use App\Models\Financial\PaymentMethod;
+use App\Models\Financial\InvoiceCategory;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;

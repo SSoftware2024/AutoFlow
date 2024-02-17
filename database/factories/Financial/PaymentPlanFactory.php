@@ -1,11 +1,11 @@
 <?php
+namespace Database\Factories\Financial;
 
-namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-
+use App\Models\Financial\PaymentPlan;
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\PaymentPlan>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<PaymentPlan>
  */
 class PaymentPlanFactory extends Factory
 {

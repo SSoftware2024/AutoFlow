@@ -1,7 +1,7 @@
 <?php
 
-use App\Models\Income;
-use App\Models\InvoicePay;
+use App\Models\Financial\Income;
+use App\Models\Financial\InvoicePay;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;

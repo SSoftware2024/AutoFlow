@@ -1,6 +1,5 @@
 <?php
-
-namespace App\Models;
+namespace App\Models\ERP;
 
 use App\Models\User;
 use App\Models\Company;

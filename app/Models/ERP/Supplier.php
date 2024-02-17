@@ -1,16 +1,17 @@
 <?php
-
-namespace App\Models;
+namespace App\Models\ERP;
 
 use App\Models\User;
 use App\Models\Company;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-/** Despeza */
-class Expense extends Model
+
+/** Fornecedores */
+class Supplier extends Model
 {
     use HasFactory;
+
     /** Relationship */
     public function company(): BelongsTo
     {

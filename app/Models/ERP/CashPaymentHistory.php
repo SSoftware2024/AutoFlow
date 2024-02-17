@@ -1,11 +1,11 @@
 <?php
-
-namespace App\Models;
+namespace App\Models\ERP;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-/** Recorrencia de despeza, intervalo customizado */
-class IntervalRecurrence extends Model
+
+/** Historico de pagamento do perador de caixa*/
+class CashPaymentHistory extends Model
 {
     use HasFactory;
 }

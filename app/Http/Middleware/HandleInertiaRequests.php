@@ -41,6 +41,10 @@ class HandleInertiaRequests extends Middleware
     {
         return array_merge(parent::share($request), [
             'breadcrumb_show' => NavigateFactory::breadcrumb()->isShow(),
+            'application' => [
+                'production' => app()->environment('production'),
+                'local' => app()->environment('local')
+            ],
             'auth_more' => [
                 'guard' => $request->guardName(),
                 'isAdmin' => $request->isAdmin()

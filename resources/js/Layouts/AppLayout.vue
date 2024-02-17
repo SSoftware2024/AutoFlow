@@ -98,13 +98,19 @@ const toast = useToast();
 const links = ref(SidebarGuard.generateForGuard(page.props.auth_more.guard));
 const sidebar_isOpen = ref(false);
 
-const breadcrumb = ref(page.props.breadcrumb_show ? {
-    home: {
-        icon: page.props.breadcrumb.home.icon ?? '',
-        route: page.props.breadcrumb.home.route ?? ''
-    },
-    items: page.props.breadcrumb.items ?? '',
-} : {});
+let breadcrumb = ref(null);
+try {
+    breadcrumb = ref(page.props.breadcrumb_show ? {
+        home: {
+            icon: page.props.breadcrumb.home.icon ?? '',
+            route: page.props.breadcrumb.home.route ?? ''
+        },
+        items: page.props.breadcrumb.items ?? '',
+    } : {});
+} catch (error) {
+    console.log("%cBreadcrumb obrigatório nesta página", "color: red; font-size: 18px; font-weight: bold; background-color: white; text-shadow: white .4px .4px");
+    console.error("Necessário informar breadcrumb no back-end a página exige. Ou coloque pagina na lista de 'routes_excpet' do breadcrumb", error);
+}
 
 defineProps({
     title: String,

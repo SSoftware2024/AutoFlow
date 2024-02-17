@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\PaymentPlan;
+use  App\Models\Financial\PaymentPlan;;
 use Faker\Factory as FakerFactory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
