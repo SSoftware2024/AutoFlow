@@ -16,7 +16,9 @@ use App\Actions\Fortify\CreateNewUser;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Validator;
 use App\Actions\Fortify\PasswordValidationRules;
+use App\Actions\Fortify\UpdateUserPassword;
 use App\Actions\Fortify\UpdateUserProfileInformation;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -118,25 +120,33 @@ class UserController extends Controller
     }
     public function update(Request $request)
     {
-        $data = [
-            'name' => $request->name,
-            'email' => $request->email,
-            'company_id' => $request->company_id,
-        ];
+        $data = $request->all();
         Validator::make(['id' => $request->id, ...$data], [
             'id' => ['required', 'integer', 'bigger_then'],
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($request->id)],
             'company_id' => ['required', 'bigger_then'],
             'photo' => ['nullable', 'mimes:jpg,jpeg,png', 'max:1024'],
+            'password' => $this->passwordRulesExists()
         ], [], [
             'company_id' => 'empresa'
         ])->validate();
         try {
-            $user = new UpdateUserProfileInformation();
-            $user->update(User::find($request->id), $data, false);
-            MessagesFactory::toast()
-                ->success('Registro atualizado com sucesso')
+            $toast = MessagesFactory::toast();
+            $user = User::find($request->id);
+            if (empty($data['password'])) {
+                unset($data['password'], $data['password_confirmation']);
+            } else {
+                unset($data['password_confirmation']);
+                $data['password'] = Hash::make($data['password']);
+                $user->update([
+                    'password' => $data['password'],
+                ]);
+                $toast->success('Senha atualizada com sucesso');
+            }
+            $user_action = new UpdateUserProfileInformation();
+            $user_action->update($user, $data, false);
+            $toast->success('Registro atualizado com sucesso')
                 ->generate();
         } catch (\Exception $e) {
             $errors = new MessageBag();

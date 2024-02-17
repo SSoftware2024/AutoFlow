@@ -45,6 +45,7 @@ createInertiaApp({
             .component('Breadcrumb', Components.primevue.menu.Breadcrumb)
             .component('Menu', Components.primevue.menu.Menu)
             .component('Toolbar', Components.primevue.panel.Toolbar)
+            .component('Fieldset', Components.primevue.panel.Fieldset)
             .component('Panel', Components.primevue.panel.Panel)
             .component('Accordion', Components.primevue.panel.Accordion)
             .component('AccordionTab', Components.primevue.panel.AccordionTab)

@@ -20,6 +20,7 @@ import Panel from 'primevue/panel';
 import Accordion from 'primevue/accordion';
 import AccordionTab from 'primevue/accordiontab';
 import Toolbar from 'primevue/toolbar';
+import Fieldset from 'primevue/fieldset';
 //form
 import InputText from 'primevue/inputtext';
 import InputNumber from 'primevue/inputnumber';
@@ -80,8 +81,8 @@ let primevue = {
         Panel,
         Accordion,
         AccordionTab,
-        Toolbar
-
+        Toolbar,
+        Fieldset
     },
     button: {
         Button,

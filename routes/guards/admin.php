@@ -31,6 +31,7 @@ Route::group(['prefix' => 'admin/', 'middleware' => 'auth:admin'], function () {
         Route::get('/edit/{user}', [UserController::class, 'editView'])->name('adm.user.editView');
         Route::post('/create', [UserController::class, 'create'])->name('adm.user.create');
         Route::patch('/update', [UserController::class, 'update'])->name('adm.user.update');
+        Route::patch('/update-password', [UserController::class, 'updatePassword'])->name('adm.user.updatePassword');
 
     });
 });
