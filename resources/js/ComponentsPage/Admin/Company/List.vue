@@ -56,9 +56,14 @@
                         </icon-button-dropdown>
                     </div>
                     <div class="flex flex-wrap relative sm:top-[5px]">
-                        <Link href="#"
+                        <Link :href="route('adm.user.index', {company_id: value.id})"
                             class="transition duration-150 ease-in-out text-success hover:text-success-600 hover:underline focus:text-success-600 active:text-success-700">
                         Clientes
+                        </Link>
+                        <span class="mx-3 font-bold"> / </span>
+                        <Link href="#"
+                            class="transition duration-150 ease-in-out text-success hover:text-success-600 hover:underline focus:text-success-600 active:text-success-700">
+                        Controle Responsável
                         </Link>
                         <span class="mx-3 font-bold"> / </span>
                         <Link href="#"

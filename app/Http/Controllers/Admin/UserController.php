@@ -13,10 +13,8 @@ use Laravel\Jetstream\Jetstream;
 use Illuminate\Support\MessageBag;
 use App\Http\Controllers\Controller;
 use App\Actions\Fortify\CreateNewUser;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Validator;
 use App\Actions\Fortify\PasswordValidationRules;
-use App\Actions\Fortify\UpdateUserPassword;
 use App\Actions\Fortify\UpdateUserProfileInformation;
 use Illuminate\Support\Facades\Hash;
 
@@ -31,17 +29,24 @@ class UserController extends Controller
     {
         $this->company_controller = new CompanyController();
     }
-    public function index()
+    public function index(Request $request)
     {
         $breadcrumb =  NavigateFactory::breadcrumb()
             ->setLink('Usuários')
             ->setLink('Lista');
-        $users = User::with(['company' => function ($query) {
-            $query->select('id', 'name');
-        }])->get();
+        $company_id = $request->company_id ?? 0;
+        if($company_id){
+            $users = User::with(['company' => fn ($query) => $query->select('id', 'name')])->whereHas('company', function ($query) use($company_id) {
+                $query->where('id', $company_id);
+            })->orderBy('responsible', 'desc')->paginate(10);
+        }else{
+            $users = User::with(['company' => fn ($query) => $query->select('id', 'name')])->orderBy('id', 'desc')->paginate(10);
+        }
+
         return Inertia::render('Admin/User/List', [
             'breadcrumb' => $breadcrumb->generate(),
-            'users' => $users
+            'users' => $users,
+            'companies' => Company::select('id','name')->cursor()
         ]);
     }
     public function createView(Request $request)
