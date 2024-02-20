@@ -52,6 +52,7 @@ createInertiaApp({
             .component('InputText', Components.primevue.form.InputText)
             .component('Password', Components.primevue.form.Password)
             .component('Checkbox', Components.primevue.form.Checkbox)
+            .component('InputSwitch', Components.primevue.form.InputSwitch)
             .component('InputNumber', Components.primevue.form.InputNumber)
             .component('InputMask', Components.primevue.form.InputMask)
             .component('Dropdown', Components.primevue.form.Dropdown)

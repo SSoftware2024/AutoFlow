@@ -40,7 +40,7 @@
                                 <link-button-dropdown title="Deletar foto" icon="fa fa-trash"
                                     @click=""></link-button-dropdown>
                                 <link-button-dropdown title="Deletar usuário" icon="fa fa-trash" class="text-red-500"
-                                    @click=""></link-button-dropdown>
+                                    @click="questionDelete(slotProps.data.id)"></link-button-dropdown>
                             </icon-button-dropdown>
                         </div>
                     </template>
@@ -56,6 +56,9 @@
 import { onMounted, ref } from 'vue';
 import { router, usePage } from '@inertiajs/vue3';
 import { useToast } from "primevue/usetoast";
+import { useConfirm } from "primevue/useconfirm";
+import { alert } from '@/Src/Utils/functions'
+// const confirm = useConfirm();
 const props = defineProps({
     filter_method: {
         type: String,
@@ -82,6 +85,27 @@ function paginate(page_link) {
             page: page_link
         },
         preserveState: true
+    });
+}
+
+function questionDelete(id) {
+    alert.questionDeleteInvert(() => {
+        router.delete(route('adm.user.delete', { user: id }), {
+            onSuccess: () => {
+                alert[page.props.flash.alert_swal.type](page.props.flash.alert_swal.title, page.props.flash.alert_swal.data, () => {
+                    router.delete(route('adm.user.deleteAndDisableCompany', { user: id }));
+                });
+            }
+        });
+    });
+
+}
+
+function del() {
+    router.delete(route('adm.user.delete', [id]), {
+        onSuccess: (result) => {
+            console.log(result);
+        }
     });
 }
 

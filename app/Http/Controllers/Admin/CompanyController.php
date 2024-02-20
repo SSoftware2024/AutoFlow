@@ -137,6 +137,7 @@ class CompanyController extends Controller
                     'name' => $request->name,
                     'surname' => $request->surname,
                     'cnpj' => $request->cnpj,
+                    'active' => $request->active,
                     'payment_plan_id' => $request->payment_plan,
                 ]);
                 if ($request->hasFile('photo')) {

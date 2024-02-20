@@ -41,6 +41,14 @@
                     </span>
                 </div>
             </div>
+            <div class="my-1 row">
+                <div class="row-col">
+                    <div class="flex cursor-pointer align-items-center">
+                        <Checkbox v-model="form.active"  inputId="responsible" :binary="true" />
+                        <label for="responsible" class="ml-2 cursor-pointer"> Ativa</label>
+                    </div>
+                </div>
+            </div>
             <div class="row">
                 <div class="row-col">
                     <label for="cnpj">CNPJ</label>
@@ -110,12 +118,14 @@ const form = useForm({
     surname: page.props.company.surname,
     cnpj: page.props.company.cnpj,
     payment_plan: page.props.company.payment_plan_id,
+    active: page.props.company.active,
     photo: null,
 });
 
 function update() {
     form.transform((data) => ({
         ...data,
+        _method: 'put',
         id: page.props.company.id,
     })).post(route('adm.company.update'));
 }

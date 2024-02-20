@@ -21,7 +21,7 @@ Route::group(['prefix' => 'admin/', 'middleware' => 'auth:admin'], function () {
         Route::get('/list', [CompanyController::class, 'index'])->name('adm.company.index');
         Route::get('/edit/{company}', [CompanyController::class, 'editView'])->name('adm.company.editView');
         Route::post('/create', [CompanyController::class, 'create'])->name('adm.company.create');
-        Route::post('/update', [CompanyController::class, 'update'])->name('adm.company.update');
+        Route::put('/update', [CompanyController::class, 'update'])->name('adm.company.update');
         Route::patch('/deleteImage', [CompanyController::class, 'deleteImage'])->name('adm.company.deleteImage');
         Route::delete('/delete/{id}', [CompanyController::class, 'delete'])->name('adm.company.delete');
     });
@@ -32,6 +32,7 @@ Route::group(['prefix' => 'admin/', 'middleware' => 'auth:admin'], function () {
         Route::post('/create', [UserController::class, 'create'])->name('adm.user.create');
         Route::patch('/update', [UserController::class, 'update'])->name('adm.user.update');
         Route::patch('/update-password', [UserController::class, 'updatePassword'])->name('adm.user.updatePassword');
-
+        Route::delete('/delete/{user}', [UserController::class, 'delete'])->name('adm.user.delete');
+        Route::delete('/delete/disable-company/{user}', [UserController::class, 'deleteAndDisableCompany'])->name('adm.user.deleteAndDisableCompany');
     });
 });

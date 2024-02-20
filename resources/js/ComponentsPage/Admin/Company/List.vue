@@ -10,7 +10,10 @@
                     <span class="flex w-full gap-2 align-items-center">
 
                         <span class="font-bold white-space-nowrap">{{ value.name }}</span>
-                        <Badge value="05/02 - PAGO" class="ml-auto mr-2" />
+                        <div class="ml-auto mr-2">
+                            <Badge value="INATIVA" severity="danger" class="mr-2" v-if="!value.active"/>
+                            <Badge value="05/02 - PAGO"  />
+                        </div>
                     </span>
                 </template>
                 <div class="flex justify-start w-full">

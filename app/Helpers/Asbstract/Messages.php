@@ -1,12 +1,14 @@
 <?php
+
 namespace App\Helpers\Asbstract;
+
 abstract class Messages
 {
     protected array $queque = [];
 
     public function hasQueque()
     {
-        return count($this->queque) > 1 ? true:false;
+        return count($this->queque) > 1 ? true : false;
     }
     public function getFirstValue()
     {
@@ -16,8 +18,5 @@ abstract class Messages
     {
         return $this->queque;
     }
-    public function generate()
-    {
-        session()->flash('flash_toast', $this->getQueque());
-    }
+    public abstract function generate(): void;
 }

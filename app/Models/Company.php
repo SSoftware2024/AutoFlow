@@ -40,18 +40,25 @@ class Company extends Model
     public function logoUrl(): Attribute
     {
         return Attribute::make(
-            get: function ($value, $attributes){
-                if(empty($attributes['logo'])){
+            get: function ($value, $attributes) {
+                if (empty($attributes['logo'])) {
                     return null;
-                }else{
+                } else {
                     return (object)[
-                        'default' => Storage::url('company/brand_logo/'.$attributes['logo']),
-                        'thumbmail' => Storage::url('company/brand_logo/thumbmail/'.$attributes['logo'])
+                        'default' => Storage::url('company/brand_logo/' . $attributes['logo']),
+                        'thumbmail' => Storage::url('company/brand_logo/thumbmail/' . $attributes['logo'])
                     ];
                 }
             },
         );
     }
+    public function active(): Attribute
+     {
+         return Attribute::make(
+             get: fn ($value, $attributes) => filter_var($value, FILTER_VALIDATE_BOOLEAN)
+
+         );
+     }
     /** ============================ Relationship =============================*/
     /** ==== 1 ==== */
     public function paymentPlan(): BelongsTo
@@ -120,14 +127,20 @@ class Company extends Model
     {
         return $this->hasMany(Sale::class);
     }
+    /** ============================ ESCOPOS =============================*/
 
     /** ==========================================METODOS ESTATICOS============================================= */
+    public static function staticWcount(int $id, string $relation)
+    {
+        $company = Company::where('id', $id)->withCount($relation)->first()->toArray();
+        return $company["{$relation}_count"];
+    }
     /**
      * Retorna uma coleção de empresas que contem um responsável
      *
      * @return LazyCollection
      */
-    public static function companiesWithResponsible():LazyCollection
+    public static function companiesWithResponsible(): LazyCollection
     {
         return Company::select('id', 'name')->whereHas('users', function ($query) {
             $query->where('responsible', 1);
@@ -138,7 +151,7 @@ class Company extends Model
      *
      * @return Collection
      */
-    public static function companiesWithoutResponsible():Collection
+    public static function companiesWithoutResponsible(): Collection
     {
         $companies = Company::select('id', 'name')->withCount([
             'users' => function (Builder $query) {
@@ -152,4 +165,8 @@ class Company extends Model
         return $companies;
     }
     /** ==========================================METODOS============================================= */
+    public function wcount(string $relation)
+    {
+        return self::staticWcount($this->id, $relation);
+    }
 }
