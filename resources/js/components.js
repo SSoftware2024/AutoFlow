@@ -29,6 +29,7 @@ import InputMask from 'primevue/inputmask';
 import Password from 'primevue/password';
 import Checkbox from 'primevue/checkbox';
 import InputSwitch from 'primevue/inputswitch';
+import RadioButton from 'primevue/radiobutton';
 import FileUpload from 'primevue/fileupload';
 //data
 import DataTable from 'primevue/datatable';
@@ -98,7 +99,8 @@ let primevue = {
         FileUpload,
         Password,
         Checkbox,
-        InputSwitch
+        InputSwitch,
+        RadioButton
     },
     menu: {
         PanelMenu,

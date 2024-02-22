@@ -2,19 +2,21 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Facade\MessagesFactory;
 use Closure;
+use App\Models\User;
 use Inertia\Inertia;
 use App\Models\Company;
-use  App\Models\Financial\PaymentPlan;;
 use App\Trait\UploadStorage;
 use Illuminate\Http\Request;
+use App\Facade\MessagesFactory;
 use App\Facade\NavigateFactory;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\MessageBag;
 use App\Http\Controllers\Controller;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Validation\Rules\File;
+use  App\Models\Financial\PaymentPlan;;
+
+use Illuminate\Database\Eloquent\Collection;
 
 class CompanyController extends Controller
 {
@@ -28,7 +30,9 @@ class CompanyController extends Controller
         $breadcrumb =  NavigateFactory::breadcrumb()
             ->setLink('Empresa')
             ->setLink('Lista');
-        $companys = Company::with('paymentPlan')->paginate(10);
+        $companys = Company::with(['paymentPlan' => function ($query) {
+            $query->select('id', 'title');
+        }])->withCount('users')->paginate(10);
         return Inertia::render('Admin/Company/List', [
             'breadcrumb' => $breadcrumb->generate(),
             'companys' => $companys
@@ -61,6 +65,24 @@ class CompanyController extends Controller
             'images' => [
                 'company' => asset('img/company-94.png')
             ]
+        ]);
+    }
+    public function listResponsiblesView(Company $company)
+    {
+        $breadcrumb =  NavigateFactory::breadcrumb()
+            ->setLink('Empresa')
+            ->setLink('Lista', route: route('adm.company.index'))
+            ->setLink('Controle responsável');
+        ds($company);
+        return Inertia::render('Admin/Company/ListResponsible', [
+            'breadcrumb' => $breadcrumb->generate(),
+            'images' => [
+                'company' => asset('img/company-94.png')
+            ],
+            'company' => $company,
+            'user_responsible' => $company?->getUserResponsible(),
+            'users_company' => $company?->getUsersWithoutResponsible(),
+            'companies' => Company::select('id', 'name')->cursor()
         ]);
     }
     /**===================================METODOS ROUTES=================================== */
@@ -188,12 +210,40 @@ class CompanyController extends Controller
     {
         try {
             DB::transaction(function () use ($id) {
-                $company = Company::where('id',$id)->select('id','logo')->first();
+                $company = Company::where('id', $id)->select('id', 'logo')->first();
                 $this->deleteStorage($this->company_paths['brand_logo'], $company->logo);
                 $company->delete();
                 MessagesFactory::toast()
-                ->success('Registro deletado com sucesso')
-                ->generate();
+                    ->success('Registro deletado com sucesso')
+                    ->generate();
+            });
+        } catch (\Exception $e) {
+            $errors = new MessageBag();
+            $errors->add('catch', $e->getMessage());
+            return redirect()->back()->withErrors($errors);
+        } catch (\Error $e) {
+            $errors = new MessageBag();
+            $errors->add('catch', $e->getMessage());
+            return redirect()->back()->withErrors($errors);
+        }
+    }
+    public function newResponsible(Request $request)
+    {
+        $request->validate([
+            'new_responsible' => ['required', 'integer', 'bigger_then'],
+            'old_responsible' => ['required', 'integer', 'bigger_then'],
+        ]);
+        try {
+            DB::transaction(function () use ($request) {
+                User::where('id', $request->old_responsible)->update([
+                    'responsible' => false,
+                ]);
+                User::where('id', $request->new_responsible)->update([
+                    'responsible' => true,
+                ]);
+                MessagesFactory::toast()
+                    ->success('Operação concluída com sucesso')
+                    ->generate();
             });
         } catch (\Exception $e) {
             $errors = new MessageBag();
@@ -207,10 +257,8 @@ class CompanyController extends Controller
     }
     /**===================================METODOS ROUTES AXIOS=================================== */
     /**===================================METODOS VARIADOS=================================== */
-    public function getPaymentPlans():Collection
+    public function getPaymentPlans(): Collection
     {
         return PaymentPlan::select('id', 'title')->get();
     }
-
-
 }

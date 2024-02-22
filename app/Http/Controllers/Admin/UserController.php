@@ -60,9 +60,9 @@ class UserController extends Controller
         $responsible = filter_var($request->responsible ?? false, FILTER_VALIDATE_BOOLEAN);
         $companies = null;
         if ($responsible) { //caso usuario resposanvel, busca empresas sem responsaveis
-            $companies = Company::companiesWithoutResponsible();
+            $companies = Company::staticCompaniesWithoutResponsible();
         } else {
-            $companies = Company::companiesWithResponsible();
+            $companies = Company::staticCompaniesWithResponsible();
         }
         return Inertia::render('Admin/User/Create', [
             'breadcrumb' => $breadcrumb->generate(),
@@ -83,7 +83,7 @@ class UserController extends Controller
             ->setLink('Lista', route: route('adm.user.index'))
             ->setLink('Editar');
 
-        $companies = Company::companiesWithResponsible();
+        $companies = Company::staticCompaniesWithResponsible();
         return Inertia::render('Admin/User/Edit', [
             'breadcrumb' => $breadcrumb->generate(),
             'companies' => $companies,

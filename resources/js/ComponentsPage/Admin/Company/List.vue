@@ -42,7 +42,7 @@
                             <span class="font-bold">Plano de pagamento:</span> {{ value.payment_plan.title }}
                         </li>
                         <li>
-                            <span class="font-bold">Clientes:</span> 0
+                            <span class="font-bold">Clientes:</span> {{ value.users_count }}
                         </li>
                     </ul>
                 </div>
@@ -64,7 +64,7 @@
                         Clientes
                         </Link>
                         <span class="mx-3 font-bold"> / </span>
-                        <Link href="#"
+                        <Link :href="route('adm.company.listResponsibleView', {company: value.id})"
                             class="transition duration-150 ease-in-out text-success hover:text-success-600 hover:underline focus:text-success-600 active:text-success-700">
                         Controle Responsável
                         </Link>

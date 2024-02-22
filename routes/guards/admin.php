@@ -19,11 +19,13 @@ Route::group(['prefix' => 'admin/', 'middleware' => 'auth:admin'], function () {
     Route::group(['prefix' => 'company/'], function () {
         Route::get('/create', [CompanyController::class, 'createView'])->name('adm.company.createView');
         Route::get('/list', [CompanyController::class, 'index'])->name('adm.company.index');
+        Route::get('/list-responsible/{company?}', [CompanyController::class, 'listResponsiblesView'])->name('adm.company.listResponsibleView');
         Route::get('/edit/{company}', [CompanyController::class, 'editView'])->name('adm.company.editView');
         Route::post('/create', [CompanyController::class, 'create'])->name('adm.company.create');
         Route::put('/update', [CompanyController::class, 'update'])->name('adm.company.update');
         Route::patch('/deleteImage', [CompanyController::class, 'deleteImage'])->name('adm.company.deleteImage');
         Route::delete('/delete/{id}', [CompanyController::class, 'delete'])->name('adm.company.delete');
+        Route::post('/new-responsible', [CompanyController::class, 'newResponsible'])->name('adm.company.newResponsible');
     });
     Route::group(['prefix' => 'user/'], function () {
         Route::get('/create', [UserController::class, 'createView'])->name('adm.user.createView');

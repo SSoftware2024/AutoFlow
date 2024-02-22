@@ -54,6 +54,7 @@ createInertiaApp({
             .component('Checkbox', Components.primevue.form.Checkbox)
             .component('InputSwitch', Components.primevue.form.InputSwitch)
             .component('InputNumber', Components.primevue.form.InputNumber)
+            .component('RadioButton', Components.primevue.form.RadioButton)
             .component('InputMask', Components.primevue.form.InputMask)
             .component('Dropdown', Components.primevue.form.Dropdown)
             .component('FileUpload', Components.primevue.form.FileUpload)
