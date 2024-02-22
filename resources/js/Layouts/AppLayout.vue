@@ -4,6 +4,7 @@
     <!-- Primevue -->
     <Toast />
     <ConfirmDialog></ConfirmDialog>
+    <SweetAlert></SweetAlert>
     <div class="relative min-h-screen bg-gray-100 dark:bg-zinc-800">
         <sidebar :links="links" :isOpen="sidebar_isOpen" @click:close="closeSidebar"></sidebar>
         <navbar icon="fa-solid fa-bars" @click:icon="openSidebar">
@@ -87,12 +88,14 @@
 import { ref, onMounted, onUnmounted } from 'vue';
 import { Head, Link, router, usePage } from '@inertiajs/vue3';
 import { useToast } from "primevue/usetoast";
+import { alert } from '@/Src/Utils/functions';
 import Banner from '@/Components/Banner.vue';
 import Navbar from "@/Components/Navigate/NavBar.vue";
 import Sidebar from "@/Components/Navigate/Sidebar.vue";
 import IconButtonDropdown from "@/Components/DropDown/IconButton.vue";
 import LinkDropdown from "@/Components/DropDown/Link.vue";
 import SidebarGuard from '../Src/SidebarGuards.js';
+import SweetAlert from '@/Components/Custom/SweetAlert.vue';
 const page = usePage();
 const toast = useToast();
 const links = ref(SidebarGuard.generateForGuard(page.props.auth_more.guard));
@@ -157,6 +160,21 @@ function _flash_toast(queque_toast) {
     }
 }
 
+function _listenCheckSweetAlert(element, index, callback) {
+    if (index < element.length) {
+        alert.alert(element[index].title, element[index].text, element[index].type, () => _listenCheckSweetAlert(element, index + 1, callback));
+    } else {
+        callback();
+    }
+}
+function _showSweetAlert(flash_alert) {
+    if (flash_alert) {
+        _listenCheckSweetAlert(flash_alert, 0, () => {
+            // Código a ser executado após todos os alertas serem exibidos
+        });
+    }
+}
+
 
 onMounted(() => {
     _startTheme();
@@ -164,6 +182,7 @@ onMounted(() => {
 onUnmounted(
     router.on('success', (event) => {
         _flash_toast(event.detail.page.props.flash.flash_toast);
+        _showSweetAlert(event.detail.page.props.flash.alert_swal);
     })
 )
 onUnmounted(

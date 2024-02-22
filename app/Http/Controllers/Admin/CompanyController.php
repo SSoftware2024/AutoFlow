@@ -73,7 +73,6 @@ class CompanyController extends Controller
             ->setLink('Empresa')
             ->setLink('Lista', route: route('adm.company.index'))
             ->setLink('Controle responsável');
-        ds($company);
         return Inertia::render('Admin/Company/ListResponsible', [
             'breadcrumb' => $breadcrumb->generate(),
             'images' => [

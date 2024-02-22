@@ -7,26 +7,6 @@ const navigation = {
     }
 };
 
-const pv_question = {
-    confirms: (header, question, accept_callback, reject_callback) => {
-        confirm.require({
-            message: question,
-            header: header,
-            icon: 'pi pi-question-circle',
-            rejectClass: 'p-button-danger p-button-text',
-            acceptClass: 'p-button-text p-button-text',
-            rejectLabel: 'Aceitar',
-            acceptLabel: 'Rejeitar',
-            accept: () => {
-                reject_callback();
-            },
-            reject: () => {
-                accept_callback();
-
-            }
-        });
-    }
-}
 
 const alert = {
     questionDeleteInvert: (confirm_callback) => { //sim faz função do não, não faz função do sim
@@ -60,6 +40,21 @@ const alert = {
         }).then((result) => {
             if (result.isDenied) {
                 confirm_callback();
+            }
+        });
+    },
+    alert: (title,text, icon, callback) => { //sim faz função do não, não faz função do sim
+        Swal.fire({
+            title: title,
+            text: text,
+            icon: icon,
+            showCancelButton: false,
+            showDenyButton: false,
+            confirmButtonColor: "#3085d6",
+            confirmButtonText: "OK",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                callback();
             }
         });
     }

@@ -6,6 +6,7 @@
         <div class="options">
             <slot></slot>
         </div>
+
     </div>
 </template>
 
@@ -17,8 +18,7 @@ defineProps({
     },
 });
 
-const emit = defineEmits(['click:icon']);
 
+const emit = defineEmits(['click:icon']);
 </script>
-<style scoped lang="scss">
-</style>
+<style scoped lang="scss"></style>

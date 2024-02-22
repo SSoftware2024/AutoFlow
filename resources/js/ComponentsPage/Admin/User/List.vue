@@ -56,8 +56,8 @@
 import { onMounted, ref } from 'vue';
 import { router, usePage } from '@inertiajs/vue3';
 import { useToast } from "primevue/usetoast";
-import { useConfirm } from "primevue/useconfirm";
-import { alert } from '@/Src/Utils/functions'
+import { alert } from '@/Src/Utils/functions';
+import { emitter } from '@/Src/Utils/globalEvents';
 // const confirm = useConfirm();
 const props = defineProps({
     filter_method: {
@@ -92,7 +92,7 @@ function questionDelete(id) {
     alert.questionDeleteInvert(() => {
         router.delete(route('adm.user.delete', { user: id }), {
             onSuccess: () => {
-                alert[page.props.flash.alert_swal.type](page.props.flash.alert_swal.title, page.props.flash.alert_swal.data, () => {
+                emitter.emit('sw-alert-generic-question', () => {
                     router.delete(route('adm.user.deleteAndDisableCompany', { user: id }));
                 });
             }

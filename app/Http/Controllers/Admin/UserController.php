@@ -170,10 +170,11 @@ class UserController extends Controller
         try {
             DB::transaction(function () use ($user) {
                 $toast = MessagesFactory::toast();
-                $alert = MessagesFactory::alertSwal();
                 $count_users = $user->company->wcount('users');
                 if ($count_users == 1 && $user->responsible) { //usuario pode ser deletado e empresa desativada
-                    $alert->deleteQuestion('Exclusão', 'Caso usuário deletado a empresa será desativada, pois o mesmo é o único usuário e responsável da empresa, deseja continuar?')->generate();
+                    MessagesFactory::alertSwal()
+                        ->deleteQuestion('Caso usuário deletado a empresa será desativada, pois o mesmo é o único usuário e responsável da empresa, deseja continuar?')
+                        ->generate();
                 } else if ($count_users > 1 && $user->responsible) { //usuario não pode ser deletado ate vc escolher outro responsavel ou deletar todos responsaveis
                     $toast->warning('Usuário não pode ser deletado ate ser escolhido outro responsável ou deletar todos integrantes da empresa');
                 } else { //pode ser deletado
@@ -195,8 +196,8 @@ class UserController extends Controller
                 $user->company->update(['active' => false]);
                 $user->delete();
                 MessagesFactory::toast()
-                ->success('Usuário deletado')
-                ->success("Empresa: {$user->company->name} desativada")->generate();
+                    ->success('Usuário deletado')
+                    ->success("Empresa: {$user->company->name} desativada")->generate();
             });
         } catch (\Exception $e) {
             $errors = new MessageBag();
