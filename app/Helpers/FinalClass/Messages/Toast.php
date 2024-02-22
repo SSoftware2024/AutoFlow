@@ -41,4 +41,9 @@ final class Toast extends Messages implements InterfaceToastType
     {
         return $this->create($title, $message, ToastType::ERROR);
     }
+
+    public function generate(): void
+    {
+        session()->flash('flash_toast', $this->getQueque());
+    }
 }

@@ -22,7 +22,7 @@
     </div>
 </template>
 <script setup>
-import { ref, watch } from 'vue';
+defineEmits(['click:close']);
 const props = defineProps({
     links: {
         type: [Array, Object],
@@ -33,7 +33,5 @@ const props = defineProps({
         default: false
     },
 });
-defineEmits(['click:close']);
-
 </script>
 <style scoped lang="scss"></style>

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('surname', 100)->nullable();
             $table->string('cnpj', 30)->nullable();
             $table->string('logo', 100)->nullable();
+            $table->boolean('active')->default(true);
             $table->timestamps();
             $table->softDeletes();
         });

@@ -40,16 +40,23 @@ class Company extends Model
     public function logoUrl(): Attribute
     {
         return Attribute::make(
-            get: function ($value, $attributes){
-                if(empty($attributes['logo'])){
+            get: function ($value, $attributes) {
+                if (empty($attributes['logo'])) {
                     return null;
-                }else{
+                } else {
                     return (object)[
-                        'default' => Storage::url('company/brand_logo/'.$attributes['logo']),
-                        'thumbmail' => Storage::url('company/brand_logo/thumbmail/'.$attributes['logo'])
+                        'default' => Storage::url('company/brand_logo/' . $attributes['logo']),
+                        'thumbmail' => Storage::url('company/brand_logo/thumbmail/' . $attributes['logo'])
                     ];
                 }
             },
+        );
+    }
+    public function active(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value, $attributes) => filter_var($value, FILTER_VALIDATE_BOOLEAN)
+
         );
     }
     /** ============================ Relationship =============================*/
@@ -120,14 +127,55 @@ class Company extends Model
     {
         return $this->hasMany(Sale::class);
     }
+    /** ============================ ESCOPOS =============================*/
 
     /** ==========================================METODOS ESTATICOS============================================= */
+
+    /**
+     * Retorna uma lista de usuarios da empresa sem o responsavel
+     *
+     * @param integer|null $id
+     * @return LazyCollection|null
+     * LazyCollection tipo User
+     */
+    public function staticGetUsersWithoutResponsible(?int $id): LazyCollection|null
+    {
+        if (empty($id)) {
+            return null;
+        } else {
+            return User::where('company_id', $id)->where('responsible', 0)->cursor();
+        }
+    }
+    /**
+     * Retorno usuário responsável da empresa
+     *
+     * @param integer $id
+     * @return User|null
+     */
+    public function staticGetUserResponsible(?int $id): User|null
+    {
+        return empty($id) ?
+            null :
+            User::where('company_id', $id)->where('responsible', true)->first();
+    }
+    /**
+     * Retorna apenas a contagem de uma relação
+     *
+     * @param integer $id
+     * @param string $relation
+     * @return int
+     */
+    public static function staticWcount(int $id, string $relation): int
+    {
+        $company = Company::where('id', $id)->withCount($relation)->first()->toArray();
+        return $company["{$relation}_count"];
+    }
     /**
      * Retorna uma coleção de empresas que contem um responsável
      *
      * @return LazyCollection
      */
-    public static function companiesWithResponsible():LazyCollection
+    public static function staticCompaniesWithResponsible(): LazyCollection
     {
         return Company::select('id', 'name')->whereHas('users', function ($query) {
             $query->where('responsible', 1);
@@ -138,7 +186,7 @@ class Company extends Model
      *
      * @return Collection
      */
-    public static function companiesWithoutResponsible():Collection
+    public static function staticCompaniesWithoutResponsible(): Collection
     {
         $companies = Company::select('id', 'name')->withCount([
             'users' => function (Builder $query) {
@@ -152,4 +200,35 @@ class Company extends Model
         return $companies;
     }
     /** ==========================================METODOS============================================= */
+    /**
+     * Retorna apenas a contagem de uma relação
+     *
+     * @param string $relation
+     * @return int
+     */
+    public function wcount(string $relation): int
+    {
+        return self::staticWcount($this->id, $relation);
+    }
+
+    /**
+     * Retorna usuário responsavel da empresa
+     *
+     * @return User|null
+     */
+    public function getUserResponsible(): User|null
+    {
+        return self::staticGetUserResponsible($this->id);
+    }
+
+    /**
+     * Retorna uma lista de usuarios da empresa sem o responsavel
+     *
+     * @return LazyCollection|null
+     * LazyCollection tipo User
+     */
+    public function getUsersWithoutResponsible(): LazyCollection|null
+    {
+        return self::staticGetUsersWithoutResponsible($this->id);
+    }
 }

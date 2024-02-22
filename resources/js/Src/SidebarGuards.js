@@ -71,6 +71,7 @@ let admin = [
             {
                 label: 'Controle responsável',
                 icon: 'fa-solid fa-users-gear',
+                command: () => router.get(window.route('adm.company.listResponsibleView'))
             }
         ]
     },

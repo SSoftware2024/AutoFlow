@@ -50,7 +50,8 @@ class HandleInertiaRequests extends Middleware
                 'isAdmin' => $request->isAdmin()
             ],
             'flash' => [
-                'flash_toast' => session('flash_toast')
+                'flash_toast' => session('flash_toast'),
+                'alert_swal' => session('alert_swal'),
             ],
             'toast' => [
                 'time' => 1000 * 7,

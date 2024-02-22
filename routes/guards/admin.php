@@ -19,19 +19,22 @@ Route::group(['prefix' => 'admin/', 'middleware' => 'auth:admin'], function () {
     Route::group(['prefix' => 'company/'], function () {
         Route::get('/create', [CompanyController::class, 'createView'])->name('adm.company.createView');
         Route::get('/list', [CompanyController::class, 'index'])->name('adm.company.index');
+        Route::get('/list-responsible/{company?}', [CompanyController::class, 'listResponsiblesView'])->name('adm.company.listResponsibleView');
         Route::get('/edit/{company}', [CompanyController::class, 'editView'])->name('adm.company.editView');
         Route::post('/create', [CompanyController::class, 'create'])->name('adm.company.create');
-        Route::post('/update', [CompanyController::class, 'update'])->name('adm.company.update');
+        Route::put('/update', [CompanyController::class, 'update'])->name('adm.company.update');
         Route::patch('/deleteImage', [CompanyController::class, 'deleteImage'])->name('adm.company.deleteImage');
         Route::delete('/delete/{id}', [CompanyController::class, 'delete'])->name('adm.company.delete');
+        Route::post('/new-responsible', [CompanyController::class, 'newResponsible'])->name('adm.company.newResponsible');
     });
     Route::group(['prefix' => 'user/'], function () {
         Route::get('/create', [UserController::class, 'createView'])->name('adm.user.createView');
-        Route::get('/list', [UserController::class, 'index'])->name('adm.user.index');
+        Route::match(['get', 'post'],'/list', [UserController::class, 'index'])->name('adm.user.index');
         Route::get('/edit/{user}', [UserController::class, 'editView'])->name('adm.user.editView');
         Route::post('/create', [UserController::class, 'create'])->name('adm.user.create');
         Route::patch('/update', [UserController::class, 'update'])->name('adm.user.update');
         Route::patch('/update-password', [UserController::class, 'updatePassword'])->name('adm.user.updatePassword');
-
+        Route::delete('/delete/{user}', [UserController::class, 'delete'])->name('adm.user.delete');
+        Route::delete('/delete/disable-company/{user}', [UserController::class, 'deleteAndDisableCompany'])->name('adm.user.deleteAndDisableCompany');
     });
 });
