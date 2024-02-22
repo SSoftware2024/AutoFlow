@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Admin\CompanyController;
@@ -8,6 +9,9 @@ use App\Http\Controllers\Financial\PaymentPlanController;
 
 Route::group(['prefix' => 'admin/', 'middleware' => 'auth:admin'], function () {
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('admin.dashboard');
+
+    Route::get('/list', [AdminController::class, 'index'])->name('admin.index');
+
     Route::group(['prefix' => 'payment_plan/'], function () {
         Route::get('/create', [PaymentPlanController::class, 'createView'])->name('payment_plan.createView');
         Route::get('/edit/{paymentPlan}', [PaymentPlanController::class, 'editView'])->name('payment_plan.editView');
