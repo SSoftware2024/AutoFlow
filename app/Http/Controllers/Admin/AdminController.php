@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Team;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Models\Administrator;
@@ -12,9 +13,10 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\MessageBag;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use App\Enum\Database\LevelAccessAdmin;
-use App\Actions\Fortify\PasswordValidationRules;
 use Illuminate\Support\Facades\Hash;
+use App\Enum\Database\LevelAccessAdmin;
+use Laravel\Jetstream\Contracts\DeletesTeams;
+use App\Actions\Fortify\PasswordValidationRules;
 
 class AdminController extends Controller
 {
@@ -132,7 +134,11 @@ class AdminController extends Controller
     {
         try {
             DB::transaction(function () use ($id) {
-                MessagesFactory::toast()->success("Registro deletado com sucesso, id: $id")
+                $user = Administrator::find($id);
+                $user->deleteProfilePhoto();
+                $user->tokens->each->delete();
+                $user->delete();
+                MessagesFactory::toast()->success("Registro deletado com sucesso")
                     ->generate();
             });
         } catch (\Exception $e) {
