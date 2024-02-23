@@ -42,6 +42,18 @@ class AdminController extends Controller
             'level_access_admin' => LevelAccessAdmin::getArrayObject()
         ]);
     }
+    public function editView(Administrator $administrator)
+    {
+        $breadcrumb =  NavigateFactory::breadcrumb()
+        ->setLink('Administrador')
+        ->setLink('Lista', route: route('admin.index'))
+        ->setLink('Editar');
+        return Inertia::render('Admin/Edit', [
+            'breadcrumb' => $breadcrumb->generate(),
+            'level_access_admin' => LevelAccessAdmin::getArrayObject(),
+            'administrator' => $administrator
+        ]);
+    }
     /**===================================METODOS ROUTES=================================== */
     public function create(Request $request)
     {
@@ -64,6 +76,46 @@ class AdminController extends Controller
                 ]);
                 MessagesFactory::toast()
                     ->success('Registro criado com sucesso')
+                    ->generate();
+            });
+        } catch (\Exception $e) {
+            $errors = new MessageBag();
+            $errors->add('catch', $e->getMessage());
+            return redirect()->back()->withErrors($errors);
+        } catch (\Error $e) {
+            $errors = new MessageBag();
+            $errors->add('catch', $e->getMessage());
+            return redirect()->back()->withErrors($errors);
+        }
+    }
+    public function update(Request $request)
+    {
+        $request->validate([
+            'name' => ['required', 'min:5'],
+            'email' => ['required','email',Rule::unique('administrators','email')->ignore($request->id)],
+            'password' => $this->passwordRulesExists(),
+            'level_access' => ['required', Rule::enum(LevelAccessAdmin::class)],
+        ], [], [
+            'level_access' => 'nível de acesso',
+        ]);
+        try {
+            DB::transaction(function () use ($request) {
+                $id = $request->id;
+                $toast = MessagesFactory::toast();
+                Administrator::where('id', $id)->update([
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'password' => Hash::make($request->password),
+                    'level_access' => $request->level_access,
+                    'email_verified_at' => now()
+                ]);
+                if(!empty($request->password)){
+                    Administrator::where('id', $id)->update([
+                        'password' => Hash::make($request->password),
+                    ]);
+                    $toast->success('Senha atualizada com sucesso');
+                }
+                    $toast->success('Registro atualizado com sucesso')
                     ->generate();
             });
         } catch (\Exception $e) {

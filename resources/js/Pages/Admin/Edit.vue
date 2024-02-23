@@ -1,8 +1,8 @@
 <template>
-    <AppLayout title="Administrador" title_page="Novo administrador">
+    <AppLayout title="Administrador" title_page="Editar administrador">
         <template #center>
-            <Panel header="Cadastro">
-                <admin.Create></admin.Create>
+            <Panel header="Editar">
+                <admin.Edit></admin.Edit>
             </Panel>
         </template>
     </AppLayout>

@@ -22,7 +22,7 @@
                                 <i class="mr-2 fa-solid fa-ellipsis-vertical"></i>
                             </template>
                             <link-dropdown title="Editar" icon="fa fa-edit"
-                                :href="route('adm.user.editView', { user: slotProps.data.id })"></link-dropdown>
+                                :href="route('admin.editView', { administrator: slotProps.data.id })"></link-dropdown>
                             <link-button-dropdown title="Ver foto" icon="fa-solid fa-image"
                                 @click=""></link-button-dropdown>
                             <link-button-dropdown title="Revogar 2FA" icon="fa fa-lock-open" class="text-yellow-500"
