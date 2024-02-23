@@ -11,6 +11,8 @@ Route::group(['prefix' => 'admin/', 'middleware' => 'auth:admin'], function () {
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('admin.dashboard');
 
     Route::get('/list', [AdminController::class, 'index'])->name('admin.index');
+    Route::get('/create', [AdminController::class, 'createView'])->name('admin.createView');
+    Route::post('/create', [AdminController::class, 'create'])->name('admin.create');
 
     Route::group(['prefix' => 'payment_plan/'], function () {
         Route::get('/create', [PaymentPlanController::class, 'createView'])->name('payment_plan.createView');

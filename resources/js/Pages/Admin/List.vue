@@ -3,7 +3,7 @@
         <template #center>
             <div class="flex justify-end">
                 <Button label="Novo" link icon="fa-solid fa-plus" iconPos="right"
-                    @click="$toRoute(route('adm.user.createView'))" />
+                    @click="$toRoute(route('admin.createView'))" />
                 <div class="flex justify-end mb-2">
                     <SplitButton label="Recarregar" icon="pi pi-refresh" severity="info" @click="reload" :model="options" />
                 </div>
@@ -24,7 +24,7 @@ const page = usePage();
 const options = [
     {
         label: 'Resetar filtro',
-        icon: 'pi pi-close',
+        icon: 'pi pi-refresh',
         command: () => {
             resetFilter();
         }
@@ -38,9 +38,6 @@ function reload() {
     });
 }
 function resetFilter() {
-    router.visit(route('adm.user.index'), {
-        method: 'GET',
-        preserveState: false,
-    });
+
 }
 </script>

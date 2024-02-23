@@ -4,21 +4,76 @@ namespace App\Http\Controllers\Admin;
 
 use Inertia\Inertia;
 use Illuminate\Http\Request;
-use App\Facade\NavigateFactory;
-use App\Http\Controllers\Controller;
 use App\Models\Administrator;
+use App\Facade\MessagesFactory;
+use App\Facade\NavigateFactory;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\MessageBag;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use App\Enum\Database\LevelAccessAdmin;
+use App\Actions\Fortify\PasswordValidationRules;
+use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
+    use PasswordValidationRules;
+    /**==========================================VIEWS=================================== */
     public function index(Request $request)
     {
         $breadcrumb =  NavigateFactory::breadcrumb()
         ->setLink('Administrador')
         ->setLink('Lista');
-        $administrators = Administrator::paginate(10);
+        $administrators = Administrator::where('id','!=', Auth::id())->paginate(10);
         return Inertia::render('Admin/List', [
             'breadcrumb' => $breadcrumb->generate(),
             'administrators' => $administrators
         ]);
+    }
+    public function createView(Request $request)
+    {
+        $breadcrumb =  NavigateFactory::breadcrumb()
+        ->setLink('Administrador')
+        ->setLink('Lista', route: route('admin.index'))
+        ->setLink('Novo');
+        return Inertia::render('Admin/Create', [
+            'breadcrumb' => $breadcrumb->generate(),
+            'level_access_admin' => LevelAccessAdmin::getArrayObject()
+        ]);
+    }
+    /**===================================METODOS ROUTES=================================== */
+    public function create(Request $request)
+    {
+        $request->validate([
+            'name' => ['required', 'min:5'],
+            'email' => ['required','email','unique:administrators'],
+            'password' => $this->passwordRules(),
+            'level_access' => ['required', Rule::enum(LevelAccessAdmin::class)],
+        ], [], [
+            'level_access' => 'nível de acesso',
+        ]);
+        try {
+            DB::transaction(function () use ($request) {
+                Administrator::create([
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'password' => Hash::make($request->password),
+                    'level_access' => $request->level_access,
+                    'email_verified_at' => now()
+                ]);
+                MessagesFactory::toast()
+                    ->success('Registro criado com sucesso')
+                    ->generate();
+            });
+        } catch (\Exception $e) {
+            $errors = new MessageBag();
+            $errors->add('catch', $e->getMessage());
+            return redirect()->back()->withErrors($errors);
+        } catch (\Error $e) {
+            $errors = new MessageBag();
+            $errors->add('catch', $e->getMessage());
+            return redirect()->back()->withErrors($errors);
+        }
     }
 }

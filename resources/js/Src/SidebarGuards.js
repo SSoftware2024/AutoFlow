@@ -23,6 +23,7 @@ let admin = [
             {
                 label: 'Novo',
                 icon: 'fa-solid fa-user-plus',
+                command: () => router.get(window.route('admin.createView'))
             },
             {
                 label: 'Lista',
