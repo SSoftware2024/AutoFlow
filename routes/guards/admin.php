@@ -15,6 +15,7 @@ Route::group(['prefix' => 'admin/', 'middleware' => 'auth:admin'], function () {
     Route::get('/edit/{administrator}', [AdminController::class, 'editView'])->name('admin.editView');
     Route::put('/edit', [AdminController::class, 'update'])->name('admin.update');
     Route::post('/create', [AdminController::class, 'create'])->name('admin.create');
+    Route::delete('/delete/{id}', [AdminController::class, 'delete'])->name('admin.delete');
 
     Route::group(['prefix' => 'payment_plan/'], function () {
         Route::get('/create', [PaymentPlanController::class, 'createView'])->name('payment_plan.createView');

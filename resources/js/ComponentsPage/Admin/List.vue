@@ -28,8 +28,10 @@
                             <link-button-dropdown title="Revogar 2FA" icon="fa fa-lock-open" class="text-yellow-500"
                                 @click=""></link-button-dropdown>
                             <link-button-dropdown title="Deletar foto" icon="fa fa-trash" @click=""></link-button-dropdown>
-                            <link-button-dropdown title="Deletar usuário" icon="fa fa-trash" class="text-red-500"
-                                @click=""></link-button-dropdown>
+                            <ConfirmsPassword :always-password="true" @confirmed="deleteAdministrator(slotProps.data.id)">
+                                <link-button-dropdown title="Deletar usuário" icon="fa fa-trash" class="text-red-500"></link-button-dropdown>
+                            </ConfirmsPassword>
+
                         </icon-button-dropdown>
                     </div>
                 </template>
@@ -41,6 +43,7 @@
     </div>
 </template>
 <script setup>
+import ConfirmsPassword from '@/Components/ConfirmsPassword.vue';
 import { onMounted, ref } from 'vue';
 import { router, usePage } from '@inertiajs/vue3';
 import { useToast } from "primevue/usetoast";
@@ -55,5 +58,9 @@ function paginate(page_link) {
         },
         preserveState: true
     });
+}
+
+function deleteAdministrator(id) {
+    router.delete(route('admin.delete', [id]));
 }
 </script>

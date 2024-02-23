@@ -8,7 +8,7 @@ import TextInput from './TextInput.vue';
 
 const emit = defineEmits(['confirmed']);
 
-defineProps({
+const props = defineProps({
     title: {
         type: String,
         default: 'Confirmar senha',
@@ -21,6 +21,10 @@ defineProps({
         type: String,
         default: 'Confirmar',
     },
+    alwaysPassword: {
+        type: Boolean,
+        default: false
+    }
 });
 
 const confirmingPassword = ref(false);
@@ -35,12 +39,12 @@ const passwordInput = ref(null);
 
 const startConfirmingPassword = () => {
     axios.get(route('password.confirmation')).then(response => {
-        if (response.data.confirmed) {
-            emit('confirmed');
-        } else {
+        if (props.alwaysPassword || !response.data.confirmed) {
             confirmingPassword.value = true;
 
             setTimeout(() => passwordInput.value.focus(), 250);
+        }else if (response.data.confirmed) {
+            emit('confirmed');
         }
     });
 };
@@ -85,15 +89,9 @@ const closeModal = () => {
                 {{ content }}
 
                 <div class="mt-4">
-                    <TextInput
-                        ref="passwordInput"
-                        v-model="form.password"
-                        type="password"
-                        class="block w-3/4 mt-1 dark:bg-transparent"
-                        placeholder="Senha atual"
-                        autocomplete="current-password"
-                        @keyup.enter="confirmPassword"
-                    />
+                    <TextInput ref="passwordInput" v-model="form.password" type="password"
+                        class="block w-3/4 mt-1 dark:bg-transparent" placeholder="Senha atual"
+                        autocomplete="current-password" @keyup.enter="confirmPassword" />
 
                     <InputError :message="form.error" class="mt-2" />
                 </div>
@@ -104,12 +102,8 @@ const closeModal = () => {
                     Cancelar
                 </SecondaryButton>
 
-                <PrimaryButton
-                    class="ms-3"
-                    :class="{ 'opacity-25': form.processing }"
-                    :disabled="form.processing"
-                    @click="confirmPassword"
-                >
+                <PrimaryButton class="ms-3" :class="{ 'opacity-25': form.processing }" :disabled="form.processing"
+                    @click="confirmPassword">
                     {{ button }}
                 </PrimaryButton>
             </template>

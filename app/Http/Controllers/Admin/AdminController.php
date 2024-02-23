@@ -23,9 +23,9 @@ class AdminController extends Controller
     public function index(Request $request)
     {
         $breadcrumb =  NavigateFactory::breadcrumb()
-        ->setLink('Administrador')
-        ->setLink('Lista');
-        $administrators = Administrator::where('id','!=', Auth::id())->paginate(10);
+            ->setLink('Administrador')
+            ->setLink('Lista');
+        $administrators = Administrator::where('id', '!=', Auth::id())->paginate(10);
         return Inertia::render('Admin/List', [
             'breadcrumb' => $breadcrumb->generate(),
             'administrators' => $administrators
@@ -34,9 +34,9 @@ class AdminController extends Controller
     public function createView(Request $request)
     {
         $breadcrumb =  NavigateFactory::breadcrumb()
-        ->setLink('Administrador')
-        ->setLink('Lista', route: route('admin.index'))
-        ->setLink('Novo');
+            ->setLink('Administrador')
+            ->setLink('Lista', route: route('admin.index'))
+            ->setLink('Novo');
         return Inertia::render('Admin/Create', [
             'breadcrumb' => $breadcrumb->generate(),
             'level_access_admin' => LevelAccessAdmin::getArrayObject()
@@ -45,9 +45,9 @@ class AdminController extends Controller
     public function editView(Administrator $administrator)
     {
         $breadcrumb =  NavigateFactory::breadcrumb()
-        ->setLink('Administrador')
-        ->setLink('Lista', route: route('admin.index'))
-        ->setLink('Editar');
+            ->setLink('Administrador')
+            ->setLink('Lista', route: route('admin.index'))
+            ->setLink('Editar');
         return Inertia::render('Admin/Edit', [
             'breadcrumb' => $breadcrumb->generate(),
             'level_access_admin' => LevelAccessAdmin::getArrayObject(),
@@ -59,7 +59,7 @@ class AdminController extends Controller
     {
         $request->validate([
             'name' => ['required', 'min:5'],
-            'email' => ['required','email','unique:administrators'],
+            'email' => ['required', 'email', 'unique:administrators'],
             'password' => $this->passwordRules(),
             'level_access' => ['required', Rule::enum(LevelAccessAdmin::class)],
         ], [], [
@@ -92,7 +92,7 @@ class AdminController extends Controller
     {
         $request->validate([
             'name' => ['required', 'min:5'],
-            'email' => ['required','email',Rule::unique('administrators','email')->ignore($request->id)],
+            'email' => ['required', 'email', Rule::unique('administrators', 'email')->ignore($request->id)],
             'password' => $this->passwordRulesExists(),
             'level_access' => ['required', Rule::enum(LevelAccessAdmin::class)],
         ], [], [
@@ -109,13 +109,30 @@ class AdminController extends Controller
                     'level_access' => $request->level_access,
                     'email_verified_at' => now()
                 ]);
-                if(!empty($request->password)){
+                if (!empty($request->password)) {
                     Administrator::where('id', $id)->update([
                         'password' => Hash::make($request->password),
                     ]);
                     $toast->success('Senha atualizada com sucesso');
                 }
-                    $toast->success('Registro atualizado com sucesso')
+                $toast->success('Registro atualizado com sucesso')
+                    ->generate();
+            });
+        } catch (\Exception $e) {
+            $errors = new MessageBag();
+            $errors->add('catch', $e->getMessage());
+            return redirect()->back()->withErrors($errors);
+        } catch (\Error $e) {
+            $errors = new MessageBag();
+            $errors->add('catch', $e->getMessage());
+            return redirect()->back()->withErrors($errors);
+        }
+    }
+    public function delete(int $id)
+    {
+        try {
+            DB::transaction(function () use ($id) {
+                MessagesFactory::toast()->success("Registro deletado com sucesso, id: $id")
                     ->generate();
             });
         } catch (\Exception $e) {
