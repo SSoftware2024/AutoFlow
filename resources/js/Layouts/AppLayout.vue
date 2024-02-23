@@ -32,10 +32,10 @@
             <icon-button-dropdown id="dropdownMenuButton3">
                 <template #icon>
                     <!-- :src="$page.props.auth.user.profile_photo_url" :alt="$page.props.auth.user.name" -->
-                    <img class="w-[40px] rounded-full border border-purple-600"
+                    <img class="border border-purple-600 rounded-full w-[40px] h-[40px]"
                         v-if="$page.props.jetstream.managesProfilePhotos && $page.props.auth.user.profile_photo_path"
                         :src="`/storage/${$page.props.auth.user.profile_photo_path}`" />
-                    <img class="w-[40px] rounded-full border border-purple-600"
+                    <img class="w-[40px] h-[40px] rounded-full border border-purple-600"
                         src="../../../public/img/profile-default.png" v-else />
                 </template>
                 <link-dropdown title="Perfil" :href="route('profile.show')"></link-dropdown>

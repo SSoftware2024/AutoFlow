@@ -9,12 +9,10 @@ use Illuminate\Http\Request;
 use App\Facade\MessagesFactory;
 use App\Facade\NavigateFactory;
 use Illuminate\Validation\Rule;
-use Laravel\Jetstream\Jetstream;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\MessageBag;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
-use App\Actions\Fortify\CreateNewUser;
 use Illuminate\Support\Facades\Validator;
 use App\Actions\Fortify\PasswordValidationRules;
 use App\Http\Controllers\Admin\CompanyController;
@@ -108,14 +106,18 @@ class UserController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'company_id' => ['required', 'bigger_then'],
             'password' => $this->passwordRules(),
-            'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
         ], [], [
             'company_id' => 'empresa'
         ])->validate();
         try {
             DB::transaction(function () use ($request, $data) {
-                $user = new CreateNewUser();
-                $user->create($data, false);
+                User::create([
+                    'name' => $data['name'],
+                    'email' => $data['email'],
+                    'password' => Hash::make($data['password']),
+                    'company_id' => $data['company_id'],
+                    'responsible' => $data['responsible'],
+                ]);
                 $message = $request->responsible ? 'Usuário responsável cadastrado com sucesso' : 'Usuário afiliado cadastrado com sucesso';
                 MessagesFactory::toast()
                     ->success($message)

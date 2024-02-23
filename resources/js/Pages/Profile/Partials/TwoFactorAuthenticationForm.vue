@@ -223,7 +223,7 @@ const disableTwoFactorAuthentication = () => {
                             v-if="recoveryCodes.length === 0 && ! confirming"
                             class="me-3"
                         >
-                            Mostrar cósigos de recuperação
+                            Mostrar códigos de recuperação
                         </SecondaryButton>
                     </ConfirmsPassword>
 
