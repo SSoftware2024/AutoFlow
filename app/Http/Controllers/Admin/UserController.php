@@ -117,6 +117,7 @@ class UserController extends Controller
                     'password' => Hash::make($data['password']),
                     'company_id' => $data['company_id'],
                     'responsible' => $data['responsible'],
+                    'email_verified_at' => now(),
                 ]);
                 $message = $request->responsible ? 'Usuário responsável cadastrado com sucesso' : 'Usuário afiliado cadastrado com sucesso';
                 MessagesFactory::toast()
