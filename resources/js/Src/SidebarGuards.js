@@ -11,9 +11,22 @@ let common = [
 ];
 let web = [
     {
-        label: 'web guard',
-        icon: 'fa-solid fa-money-bill',
+        label: 'Alunos',
+        icon: 'fa-solid fa-user',
+        items: [
+            {
+                label: 'Novo',
+                icon: 'fa-solid fa-user-plus',
+                command: () => null
+            },
+            {
+                label: 'Lista',
+                icon: 'fa-solid fa-list',
+                command: () => null
+            },
+        ]
     }
+
 ];
 
 let admin_first = [
