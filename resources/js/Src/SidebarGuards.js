@@ -15,7 +15,8 @@ let web = [
         icon: 'fa-solid fa-money-bill',
     }
 ];
-let admin = [
+
+let admin_first = [
     {
         label: 'Administrdores',
         icon: 'fa-solid fa-user-tie',
@@ -32,6 +33,8 @@ let admin = [
             },
         ]
     },
+];
+let admin = [
     {
         label: 'Plano de pagamento',
         icon: 'fa-solid fa-credit-card',
@@ -96,12 +99,18 @@ let admin = [
 ];
 
 let guard = {
-    generateForGuard: (guard) => {
+    generateForGuard: (guard, level = null) => {
         switch (guard) {
             case 'web':
                 return [...common, ...web];
             case 'admin':
-                return [...common, ...admin];
+                if(level == 'first'){
+                    return [...common,...admin_first, ...admin];
+                }else{
+                    return [...common, ...admin];
+                }
+            case 'operator_cashier':
+                return [];
         }
     }
 }

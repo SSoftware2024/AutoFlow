@@ -5,14 +5,14 @@ namespace App\Http\Controllers;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Facade\NavigateFactory;
+use Illuminate\Support\Facades\Auth;
 
 
 class DashboardController extends Controller
 {
     public function index(Request $request)
     {
-
-        switch ($request->guardName()) {
+        switch (guardName()) { //retorna nome do guard
             case 'web':
                 return $this->dashboard($request);
                 break;
@@ -21,11 +21,11 @@ class DashboardController extends Controller
                 break;
 
             default:
-                # code...
+
                 break;
         }
 
-        return Inertia::render('Dashboard');
+        // return Inertia::render('Dashboard');
     }
 
     public function dashboard(Request $request)

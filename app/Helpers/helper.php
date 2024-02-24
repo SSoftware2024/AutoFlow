@@ -12,10 +12,15 @@ if (!function_exists('guardName')) {
     {
         $guards = config('auth.guards');
         unset($guards['sanctum']);
+        $guard = '';
         foreach ($guards as $guardName => $guardConfig) {
             $user = Auth::guard($guardName)->user();
-            return !empty($user) ? $guardName : '';
+            if(!empty($user)){
+                $guard = $guardName;
+                break;
+            }
         }
+        return $guard;
     }
 }
 if (!function_exists('getArrayRequestReplaceNull')) {

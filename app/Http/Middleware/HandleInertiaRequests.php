@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Laravel\Fortify\Features;
 use App\Facade\NavigateFactory;
 use Laravel\Jetstream\Jetstream;
+use Illuminate\Support\Facades\Auth;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -46,7 +47,7 @@ class HandleInertiaRequests extends Middleware
                 'local' => app()->environment('local')
             ],
             'auth_more' => [
-                'guard' => $request->guardName(),
+                'guard' => guardName(),
                 'isAdmin' => $request->isAdmin()
             ],
             'flash' => [

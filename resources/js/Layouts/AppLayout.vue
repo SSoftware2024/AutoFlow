@@ -98,7 +98,7 @@ import SidebarGuard from '../Src/SidebarGuards.js';
 import SweetAlert from '@/Components/Custom/SweetAlert.vue';
 const page = usePage();
 const toast = useToast();
-const links = ref(SidebarGuard.generateForGuard(page.props.auth_more.guard));
+const links = ref(SidebarGuard.generateForGuard(page.props.auth_more.guard, page.props.auth.user?.level_access ?? null));
 const sidebar_isOpen = ref(false);
 
 let breadcrumb = ref(null);
