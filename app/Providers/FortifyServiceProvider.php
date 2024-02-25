@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\RateLimiter;
 use App\Actions\Fortify\Admin\UpdateAdminPassword;
 use App\Actions\Fortify\UpdateUserProfileInformation;
 use App\Actions\Fortify\Admin\UpdateAdminProfileInformation;
+use App\Facade\AuthManager;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -48,6 +49,10 @@ class FortifyServiceProvider extends ServiceProvider
             Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);
             // Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
         }
+
+        Fortify::authenticateUsing(function (Request $request) {
+            return AuthManager::login($request);
+        });
 
 
 
