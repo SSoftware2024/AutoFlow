@@ -41,7 +41,6 @@ final class AuthManager
             if($this->companyIsActive($user->company_id)){
                 if($request->remember){
                     // cookies here
-                    ds('here');
                 }
                 return $user;
             }else{
