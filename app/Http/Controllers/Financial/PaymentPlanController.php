@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Financial;
 
+use App\Facade\MessagesFactory;
 use Closure;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
@@ -62,13 +63,19 @@ class PaymentPlanController extends Controller
         ], [], [
             'money' => 'valor mensal'
         ]);
+        $arrayValid = $this->validPermissionsArray($request->permissions);
+        if(!$arrayValid){
+            return redirect()->back()->withErrors(['catch' => 'Selecione pelo menos uma permissão para o plano de pagamento'] );
+        }
         try {
             DB::transaction(function () use ($request) {
                 PaymentPlan::create([
                     'title' => $request->title,
                     'price' => $request->money,
+                    'permissions' => json_encode($request->permissions)
                 ]);
             });
+            MessagesFactory::toast()->success('Operação realizada com sucesso')->generate();
         } catch (\Exception $e) {
             $errors = new MessageBag();
             $errors->add('catch', $e->getMessage());
@@ -87,11 +94,16 @@ class PaymentPlanController extends Controller
         ], [], [
             'money' => 'valor mensal'
         ]);
+        $arrayValid = $this->validPermissionsArray($request->permissions);
+        if(!$arrayValid){
+            return redirect()->back()->withErrors(['catch' => 'Selecione pelo menos uma permissão para o plano de pagamento'] );
+        }
         try {
             DB::transaction(function () use ($request) {
                 PaymentPlan::where('id', $request->id)->update([
                     'title' => $request->title,
                     'price' => $request->money,
+                    'permissions' => json_encode($request->permissions)
                 ]);
             });
         } catch (\Exception $e) {
@@ -112,5 +124,23 @@ class PaymentPlanController extends Controller
             return redirect()->back()->withErrors($errors);
         }
 
+    }
+    /**===============================================PRIVADOS==============================================================*/
+
+    private function validPermissionsArray(array $array):bool
+    {
+        $arrayValid = false;
+        foreach ($array as $key => $options) {
+            foreach ($options as $key2 => $value) {
+                if($value['value']){
+                    $arrayValid = true;
+                    break;
+                }
+            }
+            if($arrayValid){
+                break;
+            }
+        }
+        return $arrayValid;
     }
 }

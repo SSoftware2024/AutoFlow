@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enum\Database\LevelAccessAdmin;
 use App\Models\Administrator;
 use App\Models\Team;
 use Illuminate\Support\Str;
@@ -20,6 +21,7 @@ class AdministratorFactory extends Factory
      */
     public function definition(): array
     {
+        $level_access = LevelAccessAdmin::getArrayObject();
         return [
             'name' => $this->faker->name(),
             'email' => $this->faker->unique()->safeEmail(),
@@ -30,7 +32,7 @@ class AdministratorFactory extends Factory
             'remember_token' => Str::random(10),
             'profile_photo_path' => null,
             'current_team_id' => null,
-            'level_access' => 'first'
+            'level_access' => $level_access[array_rand($level_access)]
         ];
     }
 

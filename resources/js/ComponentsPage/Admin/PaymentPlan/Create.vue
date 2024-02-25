@@ -21,6 +21,30 @@
                 </span>
             </div>
         </div>
+        <div class="mt-5">
+            <Fieldset legend="Permissões">
+                <div class="flex flex-wrap">
+                    <div class="border border-gray-400 p-2 min-w-[300px]">
+                        <h3 class="text-center">Agendamento</h3>
+                        <div v-for="(value, key, index) in form.permissions.schedulling">
+                            <div>
+                                <Checkbox v-model="value.value" :binary="true" :inputId="`a${index}`"/>
+                                <label :for="`a${index}`" class="ml-1 cursor-pointer">{{ value.name }}</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="border border-gray-400 p-2 min-w-[300px]">
+                        <h3 class="text-center">Vendas</h3>
+                        <div v-for="(value, key, index) in form.permissions.sale">
+                            <div>
+                                <Checkbox v-model="value.value" :binary="true" :inputId="`b${index}`"/>
+                                <label :for="`b${index}`" class="ml-1 cursor-pointer">{{ value.name }}</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </Fieldset>
+        </div>
         <div class="flex justify-end mt-2">
             <Button label="Cadastrar" type="submit" icon="fa-solid fa-plus" iconPos="right" severity="success"
                 :loading="form.processing" />
@@ -28,23 +52,47 @@
     </form>
 </template>
 <script setup>
-import { onMounted, inject } from 'vue';
+import { onMounted } from 'vue';
 import { useForm, usePage } from '@inertiajs/vue3';
 import { useToast } from "primevue/usetoast";
 const emit = defineEmits(['close:modal']);
-// const alert = inject('Swal');
 
 const toast = useToast();
 const page = usePage();
 const form = useForm({
     title: '',
-    money: null
+    money: null,
+    permissions: {
+        schedulling:{
+            common: {
+                name: 'Comum',
+                value: false
+            },
+            driving_scholl: {
+                name: 'Auto Escola',
+                value: false
+            },
+        },
+        sale:{
+            erp: {
+                name: 'ERP',
+                value: false
+            },
+            pdv: {
+                name: 'PDV',
+                value: false
+            },
+            financial: {
+                name: 'Financeiro',
+                value: false
+            },
+        }
+    }
 });
 
 function create() {
     form.post(route('payment_plan.create'), {
         onSuccess: () => {
-            toast.add({ severity: 'success', summary: 'Sucesso', detail: 'Cadastro realizado com sucesso', life: page.props.toast.time });
             form.reset();
             emit('close:modal');
         },

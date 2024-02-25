@@ -21,6 +21,30 @@
                 </span>
             </div>
         </div>
+        <div class="mt-5">
+            <Fieldset legend="Permissões">
+                <div class="flex flex-wrap">
+                    <div class="border border-gray-400 p-2 min-w-[300px]">
+                        <h3 class="text-center">Agendamento</h3>
+                        <div v-for="(value, key, index) in form.permissions.schedulling">
+                            <div>
+                                <Checkbox v-model="value.value" :binary="true" :inputId="`a${index}`"/>
+                                <label :for="`a${index}`" class="ml-1 cursor-pointer">{{ value.name }}</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="border border-gray-400 p-2 min-w-[300px]">
+                        <h3 class="text-center">Vendas</h3>
+                        <div v-for="(value, key, index) in form.permissions.sale">
+                            <div>
+                                <Checkbox v-model="value.value" :binary="true" :inputId="`b${index}`"/>
+                                <label :for="`b${index}`" class="ml-1 cursor-pointer">{{ value.name }}</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </Fieldset>
+        </div>
         <div class="flex justify-end mt-2">
             <Button label="Salvar" type="submit" icon="fa-solid fa-save" iconPos="right" severity="success"
                 :loading="form.processing" />
@@ -36,7 +60,8 @@ const toast = useToast();
 const page = usePage();
 const form = useForm({
     title: page.props.payment_plan.title,
-    money: page.props.payment_plan.price
+    money: page.props.payment_plan.price,
+    permissions:page.props.payment_plan.permissions
 });
 
 function create() {
