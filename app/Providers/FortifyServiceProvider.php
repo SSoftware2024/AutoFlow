@@ -3,9 +3,11 @@
 namespace App\Providers;
 
 
+use App\Facade\AuthManager;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Laravel\Fortify\Fortify;
+use App\Facade\MessagesFactory;
 use App\Actions\Fortify\CreateNewUser;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Cache\RateLimiting\Limit;
@@ -15,7 +17,6 @@ use Illuminate\Support\Facades\RateLimiter;
 use App\Actions\Fortify\Admin\UpdateAdminPassword;
 use App\Actions\Fortify\UpdateUserProfileInformation;
 use App\Actions\Fortify\Admin\UpdateAdminProfileInformation;
-use App\Facade\AuthManager;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -58,8 +59,10 @@ class FortifyServiceProvider extends ServiceProvider
 
         RateLimiter::for('login', function (Request $request) {
             $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())) . '|' . $request->ip());
-
-            return Limit::perMinute(5)->by($throttleKey);
+            return Limit::perMinute(5)->by($throttleKey)->response(function(){
+                MessagesFactory::alertSwal()->warning('Limite de tentativas excedido, aguarde para tentar novamente!')->generate();
+                return back();
+            });
         });
 
         RateLimiter::for('two-factor', function (Request $request) {

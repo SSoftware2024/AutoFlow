@@ -33,7 +33,7 @@ function _showSweetAlert(flash_alert) {
 }
 
 onUnmounted(
-    router.on('error', (event) => {
+    router.on('finish', (event) => {
         _showSweetAlert(page.props.flash.alert_swal);
     })
 )

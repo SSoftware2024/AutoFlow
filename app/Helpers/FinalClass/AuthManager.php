@@ -39,6 +39,10 @@ final class AuthManager
 
         if ($user && Hash::check($request->password, $user->password)) {
             if($this->companyIsActive($user->company_id)){
+                if($request->remember){
+                    // cookies here
+                    ds('here');
+                }
                 return $user;
             }else{
                 MessagesFactory::alertSwal()->warning('Empresa não está mais ativa, por favor contate seu suporte!')->generate();
