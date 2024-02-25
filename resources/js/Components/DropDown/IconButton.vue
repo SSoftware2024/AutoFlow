@@ -1,6 +1,6 @@
 <template>
     <!-- Usando TW-elements -->
-    <div class="relative" data-te-dropdown-ref>
+    <div class="relative" data-te-dropdown-ref  data-te-dropdown-position="dropstart" >
         <button type="button" :id="id ?? 'dropdown'" data-te-dropdown-toggle-ref aria-expanded="false" data-te-ripple-init
             data-te-ripple-color="light">
             <slot name="icon"></slot>

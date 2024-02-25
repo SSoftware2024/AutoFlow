@@ -16,6 +16,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->double('price',7,2);
+            $table->json('permissions');
             $table->timestamps();
             $table->softDeletes();
         });

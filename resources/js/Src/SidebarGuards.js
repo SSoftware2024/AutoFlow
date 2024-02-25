@@ -11,11 +11,25 @@ let common = [
 ];
 let web = [
     {
-        label: 'web guard',
-        icon: 'fa-solid fa-money-bill',
+        label: 'Alunos',
+        icon: 'fa-solid fa-user',
+        items: [
+            {
+                label: 'Novo',
+                icon: 'fa-solid fa-user-plus',
+                command: () => null
+            },
+            {
+                label: 'Lista',
+                icon: 'fa-solid fa-list',
+                command: () => null
+            },
+        ]
     }
+
 ];
-let admin = [
+
+let admin_first = [
     {
         label: 'Administrdores',
         icon: 'fa-solid fa-user-tie',
@@ -23,13 +37,17 @@ let admin = [
             {
                 label: 'Novo',
                 icon: 'fa-solid fa-user-plus',
+                command: () => router.get(window.route('admin.createView'))
             },
             {
                 label: 'Lista',
                 icon: 'fa-solid fa-list',
+                command: () => router.get(window.route('admin.index'))
             },
         ]
     },
+];
+let admin = [
     {
         label: 'Plano de pagamento',
         icon: 'fa-solid fa-credit-card',
@@ -94,12 +112,18 @@ let admin = [
 ];
 
 let guard = {
-    generateForGuard: (guard) => {
+    generateForGuard: (guard, level = null) => {
         switch (guard) {
             case 'web':
                 return [...common, ...web];
             case 'admin':
-                return [...common, ...admin];
+                if(level == 'first'){
+                    return [...common,...admin_first, ...admin];
+                }else{
+                    return [...common, ...admin];
+                }
+            case 'operator_cashier':
+                return [];
         }
     }
 }

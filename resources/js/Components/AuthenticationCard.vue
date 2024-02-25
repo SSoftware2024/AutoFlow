@@ -9,3 +9,32 @@
         </div>
     </div>
 </template>
+
+<script setup>
+import { onUnmounted } from 'vue';
+import { router, usePage } from '@inertiajs/vue3';
+import { alert } from '@/Src/Utils/functions';
+
+const page = usePage();
+
+function _listenCheckSweetAlert(element, index, callback) {
+    if (index < element.length) {
+        alert.alert(element[index].title, element[index].text, element[index].type, () => _listenCheckSweetAlert(element, index + 1, callback));
+    } else {
+        callback();
+    }
+}
+function _showSweetAlert(flash_alert) {
+    if (flash_alert) {
+        _listenCheckSweetAlert(flash_alert, 0, () => {
+            // Código a ser executado após todos os alertas serem exibidos
+        });
+    }
+}
+
+onUnmounted(
+    router.on('finish', (event) => {
+        _showSweetAlert(page.props.flash.alert_swal);
+    })
+)
+</script>

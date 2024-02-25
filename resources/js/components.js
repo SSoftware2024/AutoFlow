@@ -28,6 +28,7 @@ import Dropdown from 'primevue/dropdown';
 import InputMask from 'primevue/inputmask';
 import Password from 'primevue/password';
 import Checkbox from 'primevue/checkbox';
+import TriStateCheckbox from 'primevue/tristatecheckbox';
 import InputSwitch from 'primevue/inputswitch';
 import RadioButton from 'primevue/radiobutton';
 import FileUpload from 'primevue/fileupload';
@@ -99,6 +100,7 @@ let primevue = {
         FileUpload,
         Password,
         Checkbox,
+        TriStateCheckbox,
         InputSwitch,
         RadioButton
     },

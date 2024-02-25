@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Admin\CompanyController;
@@ -8,6 +9,16 @@ use App\Http\Controllers\Financial\PaymentPlanController;
 
 Route::group(['prefix' => 'admin/', 'middleware' => 'auth:admin'], function () {
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('admin.dashboard');
+
+    Route::group(['middleware' => 'admin_first'], function () {
+        Route::get('/list', [AdminController::class, 'index'])->name('admin.index');
+        Route::get('/create', [AdminController::class, 'createView'])->name('admin.createView');
+        Route::get('/edit/{administrator}', [AdminController::class, 'editView'])->name('admin.editView');
+        Route::put('/edit', [AdminController::class, 'update'])->name('admin.update');
+        Route::post('/create', [AdminController::class, 'create'])->name('admin.create');
+        Route::delete('/delete/{id}', [AdminController::class, 'delete'])->name('admin.delete');
+    });
+
     Route::group(['prefix' => 'payment_plan/'], function () {
         Route::get('/create', [PaymentPlanController::class, 'createView'])->name('payment_plan.createView');
         Route::get('/edit/{paymentPlan}', [PaymentPlanController::class, 'editView'])->name('payment_plan.editView');
@@ -29,7 +40,7 @@ Route::group(['prefix' => 'admin/', 'middleware' => 'auth:admin'], function () {
     });
     Route::group(['prefix' => 'user/'], function () {
         Route::get('/create', [UserController::class, 'createView'])->name('adm.user.createView');
-        Route::match(['get', 'post'],'/list', [UserController::class, 'index'])->name('adm.user.index');
+        Route::match(['get', 'post'], '/list', [UserController::class, 'index'])->name('adm.user.index');
         Route::get('/edit/{user}', [UserController::class, 'editView'])->name('adm.user.editView');
         Route::post('/create', [UserController::class, 'create'])->name('adm.user.create');
         Route::patch('/update', [UserController::class, 'update'])->name('adm.user.update');

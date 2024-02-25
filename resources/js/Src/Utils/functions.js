@@ -9,23 +9,7 @@ const navigation = {
 
 
 const alert = {
-    questionDeleteInvert: (confirm_callback) => { //sim faz função do não, não faz função do sim
-        Swal.fire({
-            title: "Exclusão",
-            text: "Deseja prosseguir com a ação?",
-            icon: "question",
-            showCancelButton: false,
-            showDenyButton: true,
-            confirmButtonColor: "#3085d6",
-            denyButtonColor: "#d33",
-            confirmButtonText: "Não",
-            denyButtonText: "Sim!",
-        }).then((result) => {
-            if (result.isDenied) {
-                confirm_callback();
-            }
-        });
-    },
+    //back-end
     delete_question: (title,text,confirm_callback) => { //sim faz função do não, não faz função do sim
         Swal.fire({
             title: title,
@@ -43,6 +27,7 @@ const alert = {
             }
         });
     },
+    //apenas front-end
     alert: (title,text, icon, callback) => { //sim faz função do não, não faz função do sim
         Swal.fire({
             title: title,
@@ -57,7 +42,24 @@ const alert = {
                 callback();
             }
         });
-    }
+    },
+    questionDeleteInvert: (confirm_callback) => { //sim faz função do não, não faz função do sim
+        Swal.fire({
+            title: "Exclusão",
+            text: "Deseja prosseguir com a ação?",
+            icon: "question",
+            showCancelButton: false,
+            showDenyButton: true,
+            confirmButtonColor: "#3085d6",
+            denyButtonColor: "#d33",
+            confirmButtonText: "Não",
+            denyButtonText: "Sim!",
+        }).then((result) => {
+            if (result.isDenied) {
+                confirm_callback();
+            }
+        });
+    },
 };
 
 export {

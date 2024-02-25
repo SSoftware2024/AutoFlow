@@ -38,12 +38,12 @@ final class AlertSwal extends Messages
        $this->queque[] = $this->createAlert($title, $text, AlertSwalType::WARNING);
        return $this;
     }
-    public function success(string $text, string $title = 'Erro!')
+    public function success(string $text, string $title = 'Sucesso!')
     {
        $this->queque[] = $this->createAlert($title, $text, AlertSwalType::SUCCESS);
        return $this;
     }
-    public function error(string $text, string $title = 'Sucesso!')
+    public function error(string $text, string $title = 'Erro!')
     {
        $this->queque[] = $this->createAlert($title, $text, AlertSwalType::ERROR);
        return $this;
