@@ -1,16 +1,31 @@
 <template>
     <div class="flex justify-center flex-col items-center
-        pt-2 pb-1 min-w-[100px] max-w-[200px] my-1
+        pt-2 pb-1 min-w-[100px] w-[200px] my-1
         rounded-md cursor-pointer
         bg-[#e0e0e0] border border-[#cecece] transform
-        sm:mx-1">
+        dark:bg-transparent dark:border-white
+        sm:mx-1"
+        @click="toRoute">
         <h1>
-            <i class="fa-solid fa-store fa-5x"></i>
+            <i :class="`${props.icon} fa-5x`"></i>
         </h1>
-        <h1 class="mt-2 text-4xl text-center">Caixa Eletrônico</h1>
+        <h1 class="mt-2 text-4xl text-center">{{ props.title }}</h1>
     </div>
 </template>
 <script setup>
+import { getCurrentInstance  } from 'vue'
+const { appContext } = getCurrentInstance();
+
+const props = defineProps({
+    icon: String,
+    title: String,
+    url: String,
+});
+
+function toRoute(url) {
+    // console.log(appContext.config.globalProperties.$toRoute(url));
+    console.log('teste');
+}
 </script>
 <style scoped  lang="scss">
 .transform {

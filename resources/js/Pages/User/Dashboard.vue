@@ -2,11 +2,7 @@
     <AppLayout title="Dashboard">
         <Fieldset legend="Sistemas">
             <div class="flex flex-wrap justify-center sm:justify-start">
-                <CardLink></CardLink>
-                <CardLink></CardLink>
-                <CardLink></CardLink>
-                <CardLink></CardLink>
-                <CardLink></CardLink>
+                <CardLink icon="fa-solid fa-store" title="PDV" url="teste"></CardLink>
             </div>
         </Fieldset>
     </AppLayout>
