@@ -1,12 +1,8 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Inertia\Inertia;
 use Illuminate\Http\Request;
-use App\Facade\NavigateFactory;
-use Illuminate\Support\Facades\Auth;
-
 
 class DashboardController extends Controller
 {
@@ -30,6 +26,6 @@ class DashboardController extends Controller
 
     public function dashboard(Request $request)
     {
-        return Inertia::render('Dashboard');
+        return Inertia::render('User/Dashboard');
     }
 }

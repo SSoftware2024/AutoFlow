@@ -1,14 +1,15 @@
 <?php
 
-use App\Http\Controllers\Admin\AdminController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\Admin\CompanyController;
 use App\Http\Controllers\Admin\UserController;
+
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\CompanyController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Financial\PaymentPlanController;
 
 Route::group(['prefix' => 'admin/', 'middleware' => 'auth:admin'], function () {
-    Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('admin.dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 
     Route::group(['middleware' => 'admin_first'], function () {
         Route::get('/list', [AdminController::class, 'index'])->name('admin.index');
