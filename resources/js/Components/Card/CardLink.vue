@@ -1,6 +1,6 @@
 <template>
     <div class="flex justify-center flex-col items-center
-        pt-2 pb-1 min-w-[100px] w-[200px] my-1
+        pt-2 pb-1 px-2 min-w-[200px]  my-1
         rounded-md cursor-pointer
         bg-[#e0e0e0] border border-[#cecece] transform
         dark:bg-transparent dark:border-white
@@ -32,9 +32,9 @@ function toRoute(url) {
     transition: .3s;
     position: relative;
     &:hover {
-        transform: scale(1.1);
+        transform: scale(1.05);
         transition: all .3s;
-        margin: 0 15px;
+        margin: 0 10px;
     }
 }
 </style>

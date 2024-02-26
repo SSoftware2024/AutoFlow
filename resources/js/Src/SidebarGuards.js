@@ -9,23 +9,239 @@ let common = [
     },
 
 ];
+let web_responsible = [
+    {
+        label: 'Integrantes',
+        icon: 'fa-solid fa-users',
+    },
+];
 let web = [
     {
-        label: 'Alunos',
-        icon: 'fa-solid fa-user',
+        label: 'Financeiro',
+        icon: 'fa-solid fa-money-bill-1',
         items: [
             {
-                label: 'Novo',
-                icon: 'fa-solid fa-user-plus',
-                command: () => null
+                label: 'Dashboard',
+                icon: 'fa-solid fa-gauge',
+                command: () => {
+
+                }
             },
             {
-                label: 'Lista',
-                icon: 'fa-solid fa-list',
-                command: () => null
+                label: 'Fazer links',
+                icon: 'fa-solid fa-user',
+                items: [
+                    {
+                        label: 'Novo',
+                        icon: 'fa-solid fa-user-plus',
+                        command: () => null
+                    },
+                    {
+                        label: 'Lista',
+                        icon: 'fa-solid fa-list',
+                        command: () => null
+                    },
+                ]
+            }
+        ]
+    },
+    {
+        label: 'ERP',
+        icon: 'fa-solid fa-store',
+        items: [
+            {
+                label: 'Dashboard',
+                icon: 'fa-solid fa-gauge',
+                command: () => {
+
+                }
+            },
+            {
+                label: 'Operador de caixa',
+                icon: 'fa-solid fa-user',
+                items: [
+                    {
+                        label: 'Novo',
+                        icon: 'fa-solid fa-user-plus',
+                        command: () => null
+                    },
+                    {
+                        label: 'Lista',
+                        icon: 'fa-solid fa-list',
+                        command: () => null
+                    },
+                ]
+            },
+            {
+                label: 'Clientes',
+                icon: 'fa-solid fa-users',
+                items: [
+                    {
+                        label: 'Novo',
+                        icon: 'fa-solid fa-user-plus',
+                        command: () => null
+                    },
+                    {
+                        label: 'Lista',
+                        icon: 'fa-solid fa-list',
+                        command: () => null
+                    },
+                ]
             },
         ]
-    }
+    },
+    {
+        label: 'PDV',
+        icon: 'fa-solid fa-cash-register',
+        items: [
+            {
+                label: 'Dashboard',
+                icon: 'fa-solid fa-gauge',
+                command: () => {
+
+                }
+            },
+            {
+                label: 'Fazer ainda',
+                icon: 'fa-solid fa-user',
+                items: [
+                    {
+                        label: 'Novo',
+                        icon: 'fa-solid fa-user-plus',
+                        command: () => null
+                    },
+                    {
+                        label: 'Lista',
+                        icon: 'fa-solid fa-list',
+                        command: () => null
+                    },
+                ]
+            }
+        ]
+    },
+    {
+        label: 'Agendamentos',
+        icon: 'fa-solid fa-calendar-days',
+        items: [
+            {
+                label: 'Dashboard',
+                icon: 'fa-solid fa-gauge',
+                command: () => {
+
+                }
+            },
+            {
+                label: 'Fazer ainda',
+                icon: 'fa-solid fa-user',
+                items: [
+                    {
+                        label: 'Novo',
+                        icon: 'fa-solid fa-user-plus',
+                        command: () => null
+                    },
+                    {
+                        label: 'Lista',
+                        icon: 'fa-solid fa-list',
+                        command: () => null
+                    },
+                ]
+            }
+        ]
+    },
+    {
+        label: 'Auto Escola',
+        icon: 'fa-solid fa-car',
+        items: [
+            {
+                label: 'Dashboard',
+                icon: 'fa-solid fa-gauge',
+                command: () => {
+
+                }
+            },
+            {
+                label: 'Agendamentos',
+                icon: 'fa-solid fa-calendar',
+                items: [
+                    {
+                        label: 'Novo',
+                        icon: 'fa-solid fa-user-plus',
+                        command: () => null
+                    },
+                    {
+                        label: 'Lista',
+                        icon: 'fa-solid fa-list',
+                        command: () => null
+                    },
+                ]
+            },
+            {
+                label: 'Veículos',
+                icon: 'fa-solid fa-car',
+                items: [
+                    {
+                        label: 'Novo',
+                        icon: 'fa-solid fa-user-plus',
+                        command: () => null
+                    },
+                    {
+                        label: 'Lista',
+                        icon: 'fa-solid fa-list',
+                        command: () => null
+                    },
+                ]
+            },
+            {
+                label: 'Alunos',
+                icon: 'fa-solid fa-users',
+                items: [
+                    {
+                        label: 'Novo',
+                        icon: 'fa-solid fa-user-plus',
+                        command: () => null
+                    },
+                    {
+                        label: 'Lista',
+                        icon: 'fa-solid fa-list',
+                        command: () => null
+                    },
+                ]
+            },
+            {
+                label: 'Professores',
+                icon: 'fa-solid fa-users',
+                items: [
+                    {
+                        label: 'Novo',
+                        icon: 'fa-solid fa-user-plus',
+                        command: () => null
+                    },
+                    {
+                        label: 'Lista',
+                        icon: 'fa-solid fa-list',
+                        command: () => null
+                    },
+                ]
+            },
+            {
+                label: 'Balconista', //mesmo operador de caixa
+                icon: 'fa-solid fa-user',
+                items: [
+                    {
+                        label: 'Novo',
+                        icon: 'fa-solid fa-user-plus',
+                        command: () => null
+                    },
+                    {
+                        label: 'Lista',
+                        icon: 'fa-solid fa-list',
+                        command: () => null
+                    },
+                ]
+            }
+        ]
+    },
+
 
 ];
 
@@ -115,11 +331,14 @@ let guard = {
     generateForGuard: (guard, level = null) => {
         switch (guard) {
             case 'web':
+                if(level){
+                    return [...common, ...web_responsible,...web]
+                }
                 return [...common, ...web];
             case 'admin':
-                if(level == 'first'){
-                    return [...common,...admin_first, ...admin];
-                }else{
+                if (level == 'first') {
+                    return [...common, ...admin_first, ...admin];
+                } else {
                     return [...common, ...admin];
                 }
             case 'operator_cashier':

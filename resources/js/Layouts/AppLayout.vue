@@ -9,26 +9,27 @@
         <sidebar :links="links" :isOpen="sidebar_isOpen" @click:close="closeSidebar"></sidebar>
         <navbar icon="fa-solid fa-bars" @click:icon="openSidebar">
             <span ref="theme" @click="changeTheme">
-                <i class="fa-solid fa-moon"></i>
+                <i class="fa-solid fa-lightbulb"></i>
             </span>
-            <icon-button-dropdown id="dropdownMenuButton1">
+            <!-- SINO DE NOTIFICAÇÕS -->
+            <!-- <icon-button-dropdown id="dropdownMenuButton1">
                 <template #icon>
                     <i class="fa-solid fa-bell"></i>
                 </template>
                 <div class="p-4">
                     Content here
                 </div>
-            </icon-button-dropdown>
+            </icon-button-dropdown> -->
 
-            <icon-button-dropdown id="dropdownMenuButton2">
+            <!-- Icone de engrangem, ferrmenta, configurações -->
+            <!-- <icon-button-dropdown id="dropdownMenuButton2">
                 <template #icon>
                     <i class="fa-solid fa-gear"></i>
                 </template>
-                <link-dropdown title="Escuro/Claro"></link-dropdown>
-                <link-dropdown title="Escuro/Claro"></link-dropdown>
-                <link-dropdown title="Escuro/Claro"></link-dropdown>
-                <link-dropdown title="Escuro/Claro"></link-dropdown>
-            </icon-button-dropdown>
+                <div v-if="$page.props.auth_more.guard == 'web' && $page.props.auth.user?.responsible">
+                    <link-dropdown title="Editar Empresa"></link-dropdown>
+                </div>
+            </icon-button-dropdown> -->
             <icon-button-dropdown id="dropdownMenuButton3">
                 <template #icon>
                     <!-- :src="$page.props.auth.user.profile_photo_url" :alt="$page.props.auth.user.name" -->
@@ -98,7 +99,7 @@ import SidebarGuard from '../Src/SidebarGuards.js';
 import SweetAlert from '@/Components/Custom/SweetAlert.vue';
 const page = usePage();
 const toast = useToast();
-const links = ref(SidebarGuard.generateForGuard(page.props.auth_more.guard, page.props.auth.user?.level_access ?? null));
+const links = ref(SidebarGuard.generateForGuard(page.props.auth_more.guard, page.props.auth.user?.level_access ?? page.props.auth.user?.responsible));
 const sidebar_isOpen = ref(false);
 
 let breadcrumb = ref(null);
@@ -126,18 +127,18 @@ const theme = ref(null);
 function _startTheme() {
     theme.value.innerHTML = (
         localStorage.getItem('theme') && localStorage.getItem('theme') == 'dark'
-    ) ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
+    ) ? '<i class="fa-solid fa-lightbulb text-yellow-500"></i>' : '<i class="fa-solid fa-lightbulb"></i>';
 
 }
 function changeTheme() {
     if (document.documentElement.classList.contains('dark')) {
         document.documentElement.classList.remove('dark');
         localStorage.setItem('theme', 'light');
-        theme.value.innerHTML = '<i class="fa-solid fa-moon"></i>';
+        theme.value.innerHTML = '<i class="fa-solid fa-lightbulb"></i>';
     } else {
         document.documentElement.classList.add('dark');
         localStorage.setItem('theme', 'dark');
-        theme.value.innerHTML = '<i class="fa-solid fa-sun"></i>';
+        theme.value.innerHTML = '<i class="fa-solid fa-lightbulb text-yellow-500"></i>';
     }
     window.location.reload();
 }

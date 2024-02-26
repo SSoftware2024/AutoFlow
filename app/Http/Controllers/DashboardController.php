@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use Inertia\Inertia;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
@@ -26,6 +27,11 @@ class DashboardController extends Controller
 
     public function dashboard(Request $request)
     {
-        return Inertia::render('User/Dashboard');
+        return Inertia::render('User/Dashboard', [
+            'company' => Auth::user()->company,
+            'users_members_count' => Auth::user()->company->wcount('users') - 1,
+            'payment_plan' => Auth::user()->company->paymentPlan,
+            'user_responsible_name' => Auth::user()->company->getUserResponsible()->name,
+        ]);
     }
 }
