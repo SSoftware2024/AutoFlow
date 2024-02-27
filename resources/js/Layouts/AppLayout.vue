@@ -99,8 +99,25 @@ import SidebarGuard from '../Src/SidebarGuards.js';
 import SweetAlert from '@/Components/Custom/SweetAlert.vue';
 const page = usePage();
 const toast = useToast();
-const links = ref(SidebarGuard.generateForGuard(page.props.auth_more.guard, page.props.auth.user?.level_access ?? page.props.auth.user?.responsible));
+// const links = ref(SidebarGuard.generateForGuard(page.props.auth_more.guard, page.props.auth.user?.level_access ?? page.props.auth.user?.responsible));
 const sidebar_isOpen = ref(false);
+
+let links = ref([]);
+function _startSidebar() {
+    switch (page.props.auth_more.guard) {
+        case 'web':
+        links.value = SidebarGuard.generateForWeb(page.props.auth.user?.responsible, page.props.permissions?.payment_plan);
+            break;
+        case 'admin':
+        links.value = SidebarGuard.generateForAdmin(page.props.auth.user?.level_access);
+
+            break;
+
+        default:
+            break;
+    }
+
+}
 
 let breadcrumb = ref(null);
 try {
@@ -179,6 +196,7 @@ function _showSweetAlert(flash_alert) {
 
 onMounted(() => {
     _startTheme();
+    _startSidebar();
 })
 onUnmounted(
     router.on('success', (event) => {
