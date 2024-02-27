@@ -2,11 +2,16 @@
     <AppLayout title="Dashboard">
         <Fieldset legend="Sistemas">
             <div class="flex flex-wrap justify-center sm:justify-start">
-                <CardLink icon="fa-solid fa-cash-register" title="PDV" url="teste"></CardLink>
-                <CardLink icon="fa-solid fa-store" title="ERP" url="teste"></CardLink>
-                <CardLink icon="fa-solid fa-money-bill-1" title="Financeiro" url="teste"></CardLink>
-                <CardLink icon="fa-solid fa-calendar-days" title="Agendamentos" url="teste"></CardLink>
-                <CardLink icon="fa-solid fa-car" title="Auto Escola" url="teste"></CardLink>
+                <CardLink icon="fa-solid fa-cash-register" title="PDV" url="teste"
+                v-if="page.props.permissions.payment_plan?.sale.pdv.value"></CardLink>
+                <CardLink icon="fa-solid fa-store" title="ERP" url="teste"
+                v-if="page.props.permissions.payment_plan?.sale.erp.value"></CardLink>
+                <CardLink icon="fa-solid fa-money-bill-1" title="Financeiro" url="teste"
+                v-if="page.props.permissions.payment_plan?.sale.financial.value"></CardLink>
+                <CardLink icon="fa-solid fa-calendar-days" title="Agendamentos" url="teste"
+                v-if="page.props.permissions.payment_plan?.schedulling.common.value"></CardLink>
+                <CardLink icon="fa-solid fa-car" title="Auto Escola" :url="route('user.driving_school.dashboard')"
+                v-if="page.props.permissions.payment_plan?.schedulling.driving_school.value"></CardLink>
             </div>
         </Fieldset>
         <div class="mt-3">

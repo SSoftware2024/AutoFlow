@@ -164,9 +164,7 @@ let web = {
                 {
                     label: 'Dashboard',
                     icon: 'fa-solid fa-gauge',
-                    command: () => {
-
-                    }
+                    command: () => router.get(window.route('user.driving_school.dashboard'))
                 },
                 {
                     label: 'Agendamentos',
@@ -346,22 +344,22 @@ let guard = {
         }
     },
     generateForWeb: (responsible = false, permissions_payment_plan) => {//users
-        const sale = permissions_payment_plan.sale;
-        const schedulling = permissions_payment_plan.schedulling;
+        const sale = permissions_payment_plan?.sale;
+        const schedulling = permissions_payment_plan?.schedulling;
         let links = [];
-        if(sale.erp.value){
+        if(sale && sale.erp.value){
             links.push(...web.erp);
         }
-        if(sale.pdv.value){
+        if(sale && sale.pdv.value){
             links.push(...web.pdv);
         }
-        if(sale.financial.value){
+        if(sale && sale.financial.value){
             links.push(...web.financial);
         }
-        if(schedulling.common.value){
+        if(schedulling && schedulling.common.value){
             links.push(...web.schedulling);
         }
-        if(schedulling.driving_school.value){
+        if(schedulling && schedulling.driving_school.value){
             links.push(...web.driving_school);
         }
         if (responsible) {

@@ -106,7 +106,7 @@ let links = ref([]);
 function _startSidebar() {
     switch (page.props.auth_more.guard) {
         case 'web':
-        links.value = SidebarGuard.generateForWeb(page.props.auth.user?.responsible, page.props.permissions?.payment_plan);
+        links.value = SidebarGuard.generateForWeb(page.props.auth.user?.responsible, page.props.permissions.payment_plan);
             break;
         case 'admin':
         links.value = SidebarGuard.generateForAdmin(page.props.auth.user?.level_access);

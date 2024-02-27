@@ -22,9 +22,8 @@ const props = defineProps({
     url: String,
 });
 
-function toRoute(url) {
-    // console.log(appContext.config.globalProperties.$toRoute(url));
-    console.log('teste');
+function toRoute() {
+    appContext.config.globalProperties.$toRoute(props.url);
 }
 </script>
 <style scoped  lang="scss">
