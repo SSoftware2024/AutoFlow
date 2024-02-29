@@ -20,6 +20,9 @@ return new class extends Migration
             $table->string('type', 100)->nullable();
             $table->string('surname', 100)->nullable();
             $table->string('plate', 100)->nullable();
+            $table->enum('category', ['ACC','A','B','C','D','E'])->default('A');
+            $table->date('ipva_generate')->nullable();
+            $table->double('ipva_value', 8,2)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
