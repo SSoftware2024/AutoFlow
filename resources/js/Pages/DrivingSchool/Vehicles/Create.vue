@@ -10,3 +10,4 @@
 <script setup>
 import * as driving_school from '@/ComponentsPage/js/driving_school.js';
 </script>
+

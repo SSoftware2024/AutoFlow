@@ -20,8 +20,12 @@ class VehiclesController extends Controller
         return Inertia::render('DrivingSchool/Vehicles/Create', [
             'breadcrumb' => $breadcrumb->generate(),
         ]);
-        /**===================================METODOS ROUTES=================================== */
-        /**===================================METODOS ROUTES AXIOS=================================== */
-        /**===================================METODOS VARIADOS=================================== */
     }
+    /**===================================METODOS ROUTES=================================== */
+    public function create(Request $request)
+    {
+        ds($request->all(), strtoupper($request->plate));
+    }
+    /**===================================METODOS ROUTES AXIOS=================================== */
+    /**===================================METODOS VARIADOS=================================== */
 }

@@ -32,6 +32,8 @@ import TriStateCheckbox from 'primevue/tristatecheckbox';
 import InputSwitch from 'primevue/inputswitch';
 import RadioButton from 'primevue/radiobutton';
 import FileUpload from 'primevue/fileupload';
+import MultiSelect from 'primevue/multiselect';
+import Calendar from 'primevue/calendar';
 //data
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
@@ -102,7 +104,9 @@ let primevue = {
         Checkbox,
         TriStateCheckbox,
         InputSwitch,
-        RadioButton
+        RadioButton,
+        MultiSelect,
+        Calendar
     },
     menu: {
         PanelMenu,
