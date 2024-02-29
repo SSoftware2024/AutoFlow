@@ -4,7 +4,10 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DrivingSchool\VehiclesController;
 use App\Http\Controllers\DrivingSchool\DrivingSchoolController;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +32,10 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 
 Route::group(['prefix' => 'driving-school/', 'middleware' => 'auth'], function () {
     Route::get('/dashboard', [DrivingSchoolController::class, 'index'])->name('user.driving_school.dashboard');
+
+    Route::group(['prefix' => 'vehicles/'], function () {
+        Route::get('/create', [VehiclesController::class, 'viewCreate'])->name('user.driving_school.vehicles.viewCreate');
+    });
 });
 
 // Route::middleware([

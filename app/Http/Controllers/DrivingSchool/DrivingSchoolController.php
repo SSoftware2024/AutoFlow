@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\DrivingSchool;
 
 use App\Http\Controllers\Controller;
