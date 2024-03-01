@@ -189,7 +189,7 @@ let web = {
                         {
                             label: 'Novo',
                             icon: 'fa-solid fa-user-plus',
-                            command: () => router.get(window.route('user.driving_school.vehicles.viewCreate'))
+                            command: () => router.get(window.route('user.driving_school.vehicles.createView'))
                         },
                         {
                             label: 'Lista',
