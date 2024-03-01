@@ -35,6 +35,7 @@ Route::group(['prefix' => 'driving-school/', 'middleware' => 'auth'], function (
 
     Route::group(['prefix' => 'vehicles/'], function () {
         Route::get('/create', [VehiclesController::class, 'viewCreate'])->name('user.driving_school.vehicles.viewCreate');
+        Route::get('/list', [VehiclesController::class, 'index'])->name('user.driving_school.vehicles.index');
         Route::post('/create', [VehiclesController::class, 'create'])->name('user.driving_school.vehicles.create');
     });
 });

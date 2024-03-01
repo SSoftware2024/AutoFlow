@@ -1,7 +1,9 @@
-import VehicleCreate from '@/ComponentsPage/DrivingSchool/Vehicles/Create.vue';
+import Create from '@/ComponentsPage/DrivingSchool/Vehicles/Create.vue';
+import List from '@/ComponentsPage/DrivingSchool/Vehicles/List.vue';
 
 const vehicles = {
-     VehicleCreate
+     Create,
+     List
 };
 export{
     vehicles

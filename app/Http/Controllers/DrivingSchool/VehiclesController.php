@@ -10,6 +10,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\MessageBag;
 use App\Enum\Database\DrivingWallet;
+use App\Facade\MoneyConvert;
 use App\Http\Controllers\Controller;
 use App\Models\DrivingSchool\Vehicles;
 use Illuminate\Support\Facades\Auth;
@@ -17,12 +18,30 @@ use Illuminate\Support\Facades\Auth;
 class VehiclesController extends Controller
 {
     /**==========================================VIEWS=================================== */
+    public function index()
+    {
+        $breadcrumb =  NavigateFactory::breadcrumb()
+            ->setLink('Auto Escola', route: route('user.driving_school.dashboard'))
+            ->setLink('Veículos')
+            ->setLink('Lista');
+        $vehicles = Vehicles::where('company_id', Auth::user()->company_id)->paginate(10);
+
+        $vehicles->getCollection()->transform(function ($value) {
+            $value->ipva_value = MoneyConvert::getDbMoney($value->ipva_value);
+            $value->ipva_generate = date('d/m/Y',strtotime($value->ipva_generate));
+            return $value;
+        });
+        return Inertia::render('DrivingSchool/Vehicles/List', [
+            'breadcrumb' => $breadcrumb->generate(),
+            'vehicles' => $vehicles
+        ]);
+    }
     public function viewCreate()
     {
         $breadcrumb =  NavigateFactory::breadcrumb()
             ->setLink('Auto Escola', route: route('user.driving_school.dashboard'))
             ->setLink('Veículos')
-            ->setLink('Lista')
+            ->setLink('Lista', route: route('user.driving_school.vehicles.index'))
             ->setLink('Novo');
         return Inertia::render('DrivingSchool/Vehicles/Create', [
             'breadcrumb' => $breadcrumb->generate(),

@@ -10,4 +10,6 @@ class Vehicles extends Model
 {
     use HasFactory, SoftDeletes;
     protected $guarded = [];
+    /** =============================MUTATORS================================ */
+    /** ==========================================METODOS ESTATICOS============================================= */
 }
