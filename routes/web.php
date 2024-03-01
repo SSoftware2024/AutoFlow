@@ -39,6 +39,7 @@ Route::group(['prefix' => 'driving-school/', 'middleware' => 'auth'], function (
         Route::get('/edit/{vehicle}', [VehiclesController::class, 'editView'])->name('user.driving_school.vehicles.editView');
         Route::post('/create', [VehiclesController::class, 'create'])->name('user.driving_school.vehicles.create');
         Route::put('/update', [VehiclesController::class, 'update'])->name('user.driving_school.vehicles.update');
+        Route::delete('/delete/{id}', [VehiclesController::class, 'delete'])->name('user.driving_school.vehicles.delete');
     });
 });
 

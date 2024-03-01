@@ -19,9 +19,10 @@
                                 <template #icon>
                                     <i class="mr-2 fa-solid fa-ellipsis-vertical"></i>
                                 </template>
-                                <link-dropdown title="Editar" icon="fa fa-edit" :href="route('user.driving_school.vehicles.editView', {vehicle: slotProps.data.id})"></link-dropdown>
+                                <link-dropdown title="Editar" icon="fa fa-edit"
+                                    :href="route('user.driving_school.vehicles.editView', { vehicle: slotProps.data.id })"></link-dropdown>
                                 <link-button-dropdown title="Deletar" class="text-red-500" icon="fa fa-trash"
-                                    @click=""></link-button-dropdown>
+                                    @click="deleteVehicle(slotProps.data.id)"></link-button-dropdown>
 
                             </icon-button-dropdown>
                         </div>
@@ -36,7 +37,7 @@
 </template>
 <script setup>
 import { router, usePage } from '@inertiajs/vue3';
-
+import { alert } from '@/Src/Utils/functions.js';
 const page = usePage();
 function paginate(page_link) {
     router.visit(page.url, {
@@ -47,4 +48,9 @@ function paginate(page_link) {
     });
 }
 
+function deleteVehicle(id){
+    alert.questionDeleteInvert(() => {
+        router.delete(route('user.driving_school.vehicles.delete',[id]));
+    });
+}
 </script>
