@@ -34,9 +34,11 @@ Route::group(['prefix' => 'driving-school/', 'middleware' => 'auth'], function (
     Route::get('/dashboard', [DrivingSchoolController::class, 'index'])->name('user.driving_school.dashboard');
 
     Route::group(['prefix' => 'vehicles/'], function () {
-        Route::get('/create', [VehiclesController::class, 'viewCreate'])->name('user.driving_school.vehicles.viewCreate');
+        Route::get('/create', [VehiclesController::class, 'createView'])->name('user.driving_school.vehicles.createView');
         Route::get('/list', [VehiclesController::class, 'index'])->name('user.driving_school.vehicles.index');
+        Route::get('/edit/{vehicle}', [VehiclesController::class, 'editView'])->name('user.driving_school.vehicles.editView');
         Route::post('/create', [VehiclesController::class, 'create'])->name('user.driving_school.vehicles.create');
+        Route::put('/update', [VehiclesController::class, 'update'])->name('user.driving_school.vehicles.update');
     });
 });
 

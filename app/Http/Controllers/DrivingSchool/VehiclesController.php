@@ -36,7 +36,7 @@ class VehiclesController extends Controller
             'vehicles' => $vehicles
         ]);
     }
-    public function viewCreate()
+    public function createView()
     {
         $breadcrumb =  NavigateFactory::breadcrumb()
             ->setLink('Auto Escola', route: route('user.driving_school.dashboard'))
@@ -46,6 +46,19 @@ class VehiclesController extends Controller
         return Inertia::render('DrivingSchool/Vehicles/Create', [
             'breadcrumb' => $breadcrumb->generate(),
             'driving_wallet' => DrivingWallet::getArrayObjectSelect(),
+        ]);
+    }
+    public function editView(Vehicles $vehicle)
+    {
+        $breadcrumb =  NavigateFactory::breadcrumb()
+            ->setLink('Auto Escola', route: route('user.driving_school.dashboard'))
+            ->setLink('Veículos')
+            ->setLink('Lista', route: route('user.driving_school.vehicles.index'))
+            ->setLink('Editar');
+        return Inertia::render('DrivingSchool/Vehicles/Edit', [
+            'breadcrumb' => $breadcrumb->generate(),
+            'driving_wallet' => DrivingWallet::getArrayObjectSelect(),
+            'vehicle' => $vehicle,
         ]);
     }
     /**===================================METODOS ROUTES=================================== */
@@ -71,6 +84,45 @@ class VehiclesController extends Controller
                 $data['plate'] = strtoupper($data['plate']);
                 $user = Auth::user();
                 Vehicles::create([
+                    ...$data,
+                    'company_id' => $user->company_id,
+                    'user_id' => $user->id,
+                ]);
+                MessagesFactory::toast()->success('Operação concluída com sucesso')
+                ->generate();
+            });
+        } catch (\Exception $e) {
+            $errors = new MessageBag();
+            $errors->add('catch', $e->getMessage());
+            return redirect()->back()->withErrors($errors);
+        }catch (\Error $e) {
+            $errors = new MessageBag();
+            $errors->add('catch', $e->getMessage());
+            return redirect()->back()->withErrors($errors);
+        }
+    }
+    public function update(Request $request)
+    {
+        $request->validate([
+            'surname' => ['required','min:5'],
+            'plate' => ['required'],
+            'category' => ['required', Rule::enum(DrivingWallet::class)],
+            'ipva_generate' => ['required', 'date','after_or_equal:today'], //validar para data ser maior ou igual a hoje
+            'ipva_value' => ['required', 'numeric'],
+        ],[
+            'after_or_equal' => "O campo :attribute deve ser uma data posterior ou igual a ".date('d/m/Y')
+        ],[
+            'surname' => 'modelo carro',
+            'plate' => 'placa',
+            'ipva_generate' => 'IPVA data',
+            'ipva_value' => 'IPVA valor',
+        ]);
+        try {
+            DB::transaction(function () use ($request) {
+                $data = $request->all();
+                $data['plate'] = strtoupper($data['plate']);
+                $user = Auth::user();
+                Vehicles::where('id', $request->id)->update([
                     ...$data,
                     'company_id' => $user->company_id,
                     'user_id' => $user->id,

@@ -19,7 +19,7 @@
                                 <template #icon>
                                     <i class="mr-2 fa-solid fa-ellipsis-vertical"></i>
                                 </template>
-                                <link-dropdown title="Editar" icon="fa fa-edit"></link-dropdown>
+                                <link-dropdown title="Editar" icon="fa fa-edit" :href="route('user.driving_school.vehicles.editView', {vehicle: slotProps.data.id})"></link-dropdown>
                                 <link-button-dropdown title="Deletar" class="text-red-500" icon="fa fa-trash"
                                     @click=""></link-button-dropdown>
 
