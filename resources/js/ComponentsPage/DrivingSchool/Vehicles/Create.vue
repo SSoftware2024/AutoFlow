@@ -37,8 +37,13 @@
         </div>
         <div class="row sm:space-x-1">
             <div class="row-col">
-                <label>IPVA data</label>
-                <Calendar v-model="form.ipva_generate" dateFormat="dd/mm" showIcon iconDisplay="input" :class="{
+                <label>
+                    IPVA data
+                    <button type="button" v-tooltip.top="'Como preencho?'" @click="_infoIPVAdate">
+                        <i class="fa-solid fa-circle-info"></i>
+                    </button>
+                </label>
+                <Calendar v-model="form.ipva_generate" dateFormat="dd/mm/yy" :minDate="new Date()" showIcon iconDisplay="input" :class="{
                     'p-invalid': form.errors.ipva_generate
                 }" />
                 <span class="text-danger-500" v-if="form.errors.ipva_generate">{{ form.errors.ipva_generate }}</span>
@@ -61,7 +66,7 @@
 <script setup>
 import { ref, computed } from "vue";
 import { useForm } from '@inertiajs/vue3';
-
+import {alert} from '@/Src/Utils/functions.js';
 const form = useForm({
     surname: '',
     plate: '',
@@ -87,6 +92,9 @@ const changeMask = computed({
     },
 });
 
+function _infoIPVAdate() {
+    alert.info("O campo IPVA data deve ser colocado a próxima data do IPVA <br> O sistema cuidará de atualizar as próximas datas automaticamente.");
+}
 
 function create() {
     form.post(route('user.driving_school.vehicles.create'), {

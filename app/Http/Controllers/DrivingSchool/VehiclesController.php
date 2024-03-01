@@ -55,9 +55,11 @@ class VehiclesController extends Controller
             'surname' => ['required','min:5'],
             'plate' => ['required'],
             'category' => ['required', Rule::enum(DrivingWallet::class)],
-            'ipva_generate' => ['required', 'date'],
+            'ipva_generate' => ['required', 'date','after_or_equal:today'], //validar para data ser maior ou igual a hoje
             'ipva_value' => ['required', 'numeric'],
-        ],[],[
+        ],[
+            'after_or_equal' => "O campo :attribute deve ser uma data posterior ou igual a ".date('d/m/Y')
+        ],[
             'surname' => 'modelo carro',
             'plate' => 'placa',
             'ipva_generate' => 'IPVA data',
