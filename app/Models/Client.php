@@ -66,9 +66,4 @@ class Client extends Authenticatable
     {
         return $this->belongsTo(User::class);
     }
-
-    public function typeClient(): HasMany
-    {
-        return $this->hasMany(TypeClient::class);
-    }
 }

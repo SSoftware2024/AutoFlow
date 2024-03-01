@@ -18,7 +18,7 @@ return new class extends Migration
         Schema::create('clients', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(User::class)->nullable()->constrained();
-            $table->foreignIdFor(Company::class)->nullable()->constrained();
+            $table->foreignIdFor(Company::class)->nullable()->constrained();//apenas caso professor ou aluno
             $table->foreignId('responsible_id')->nullable()->constrained('clients');
             $table->string('name', 100);
             $table->string('email')->unique();
