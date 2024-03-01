@@ -19,7 +19,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(User::class)->nullable()->constrained();
             $table->foreignIdFor(Company::class)->nullable()->constrained();
-            $table->foreignIdFor(TypeClient::class)->constrained();
+            $table->foreignId('responsible_id')->nullable()->constrained('clients');
             $table->string('name', 100);
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
@@ -34,7 +34,9 @@ return new class extends Migration
             $table->string('cpf',30)->nullable();
             $table->string('rg',30)->nullable();
             $table->string('cellphone',30)->nullable();
+            $table->date('birth_date')->nullable();
             $table->text('description')->nullable();
+            $table->string('type_client', 255); //enum, veja enum type_client
             $table->timestamps();
             $table->softDeletes();
         });

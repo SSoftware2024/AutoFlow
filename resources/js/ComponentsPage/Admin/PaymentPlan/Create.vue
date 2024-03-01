@@ -68,7 +68,7 @@ const form = useForm({
                 name: 'Comum',
                 value: false
             },
-            driving_scholl: {
+            driving_school: {
                 name: 'Auto Escola',
                 value: false
             },

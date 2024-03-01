@@ -17,9 +17,11 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(Company::class)->nullable()->constrained();
             $table->foreignIdFor(User::class)->nullable()->constrained();
-            $table->string('type', 100)->nullable();
             $table->string('surname', 100)->nullable();
             $table->string('plate', 100)->nullable();
+            $table->enum('category', ['ACC','A','B','C','D','E'])->nullable();
+            $table->date('ipva_generate')->nullable();
+            $table->double('ipva_value', 8,2)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

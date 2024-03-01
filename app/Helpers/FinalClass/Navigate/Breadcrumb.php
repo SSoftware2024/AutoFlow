@@ -11,6 +11,7 @@ final class Breadcrumb extends Navigate
     private array $routes_except = [
         'dashboard',
         'admin.dashboard',
+        'user.driving_school.dashboard'
     ];
     public function __construct()
     {

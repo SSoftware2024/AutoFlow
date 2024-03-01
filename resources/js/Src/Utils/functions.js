@@ -43,6 +43,19 @@ const alert = {
             }
         });
     },
+    info: (text) => {
+        Swal.fire({
+            title: 'Informação',
+            html: text,
+            icon: 'info',
+            showCancelButton: false,
+            showDenyButton: false,
+            confirmButtonColor: "#3085d6",
+            confirmButtonText: "OK",
+        }).then((result) => {
+
+        });
+    },
     questionDeleteInvert: (confirm_callback) => { //sim faz função do não, não faz função do sim
         Swal.fire({
             title: "Exclusão",

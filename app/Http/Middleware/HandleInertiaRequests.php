@@ -48,7 +48,7 @@ class HandleInertiaRequests extends Middleware
             ],
             'auth_more' => [
                 'guard' => guardName(),
-                'isAdmin' => $request->isAdmin()
+                'isAdmin' => $request->isAdmin(),
             ],
             'flash' => [
                 'flash_toast' => session('flash_toast'),
@@ -56,6 +56,9 @@ class HandleInertiaRequests extends Middleware
             ],
             'toast' => [
                 'time' => 1000 * 7,
+            ],
+            'permissions' => [
+                'payment_plan' => ($request->isAdmin() || !Auth::check()) ? null:Auth::user()->company->paymentPlan->permissions
             ]
         ]);
     }

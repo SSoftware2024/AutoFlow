@@ -11,7 +11,7 @@ import { createInertiaApp, Link, router } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
 import PrimeVue from 'primevue/config';
-import * as PrimeVueLocale from '@/Src/primevue-locale.js';
+import  pt_br from '@/Src/primevue-locale.js';
 import Ripple from 'primevue/ripple';
 import Swal from 'sweetalert2'
 import * as Components from './components';
@@ -25,7 +25,7 @@ createInertiaApp({
 
             app.use(plugin)
             .use(PrimeVue, {
-                locale: PrimeVueLocale.pt
+                locale:pt_br
             })
             .use(Components.primevue.messages.ToastService)
             .use(Components.primevue.overlay.ConfirmationService)
@@ -56,8 +56,10 @@ createInertiaApp({
             .component('InputSwitch', Components.primevue.form.InputSwitch)
             .component('InputNumber', Components.primevue.form.InputNumber)
             .component('RadioButton', Components.primevue.form.RadioButton)
+            .component('MultiSelect', Components.primevue.form.MultiSelect)
             .component('InputMask', Components.primevue.form.InputMask)
             .component('Dropdown', Components.primevue.form.Dropdown)
+            .component('Calendar', Components.primevue.form.Calendar)
             .component('FileUpload', Components.primevue.form.FileUpload)
             .component('Toast', Components.primevue.messages.Toast)
             .component('Paginator', Components.primevue.data.Paginator)
