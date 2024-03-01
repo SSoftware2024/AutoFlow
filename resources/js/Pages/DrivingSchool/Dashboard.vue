@@ -26,7 +26,7 @@
                 sm:justify-start sm:flex-row">
                     <CardCount icon="fa-solid fa-user" title="PROFESSORES" :count="10"></CardCount>
                     <CardCount icon="fa-solid fa-users" title="ALUNOS" :count="10"></CardCount>
-                    <CardCount icon="fa-solid fa-car" title="VEÍCULOS" :count="10"></CardCount>
+                    <CardCount icon="fa-solid fa-car" title="VEÍCULOS" :count="page.props.counts.vehicles" :link="true" :url="route('user.driving_school.vehicles.index')"></CardCount>
                     <CardCount icon="fa-solid fa-user" title="BALCONISTA" :count="10"></CardCount>
                 </div>
             </Fieldset>
@@ -45,6 +45,7 @@ import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction';
 import ptbrLocale from '@fullcalendar/core/locales/pt-br';
 //fim components
+const page = usePage();
 
 const calendarOptions = ref({
     plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
@@ -59,6 +60,4 @@ const calendarOptions = ref({
         right: 'dayGridDay,timeGridDay,timeGridWeek,dayGridWeek,dayGridMonth,dayGridYear' // user can switch between the two
     },
 });
-
-const page = usePage();
 </script>
