@@ -6,8 +6,7 @@ use Illuminate\Foundation\Application;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DrivingSchool\VehiclesController;
 use App\Http\Controllers\DrivingSchool\DrivingSchoolController;
-
-
+use App\Http\Controllers\DrivingSchool\StudentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,6 +39,10 @@ Route::group(['prefix' => 'driving-school/', 'middleware' => 'auth'], function (
         Route::post('/create', [VehiclesController::class, 'create'])->name('user.driving_school.vehicles.create');
         Route::put('/update', [VehiclesController::class, 'update'])->name('user.driving_school.vehicles.update');
         Route::delete('/delete/{id}', [VehiclesController::class, 'delete'])->name('user.driving_school.vehicles.delete');
+    });
+    Route::group(['prefix' => 'students/'], function () {
+        Route::get('/create', [StudentController::class, 'createView'])->name('user.driving_school.students.createView');
+
     });
 });
 
