@@ -27,7 +27,6 @@ return new class extends Migration
             $table->rememberToken();
             $table->foreignId('current_team_id')->nullable();
             $table->string('profile_photo_path', 2048)->nullable();
-            $table->boolean('company')->default(false);
             $table->string('street', 200)->nullable();
             $table->string('neighborhood', 200)->nullable();
             $table->string('number_house',10)->nullable();
@@ -37,6 +36,7 @@ return new class extends Migration
             $table->date('birth_date')->nullable();
             $table->text('description')->nullable();
             $table->string('type_client', 255); //enum, veja enum type_client
+            $table->boolean('active')->default(true);
             $table->timestamps();
             $table->softDeletes();
         });
