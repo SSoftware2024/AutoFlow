@@ -5,7 +5,7 @@ namespace App\Helpers\FinalClass\Messages;
 use App\Enum\ToastType;
 use App\Helpers\Asbstract\Messages;
 use App\Helpers\Interface\ToastType as InterfaceToastType;
-
+//facade
 final class Toast extends Messages implements InterfaceToastType
 {
     private string $message = '';

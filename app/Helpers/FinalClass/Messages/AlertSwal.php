@@ -9,7 +9,8 @@ use App\Helpers\Asbstract\Messages;
  * Criação de question e alertas informativos, só pode criar uma question por vez e tem q preparar o front.
  * Quando question é criada os alertas não são exebidos
  */
-final class AlertSwal extends Messages
+
+final class AlertSwal extends Messages //facade
 {
 
     private function createQuestion(string $title, string $text, AlertSwalType $type)

@@ -50,6 +50,7 @@ createInertiaApp({
             .component('Accordion', Components.primevue.panel.Accordion)
             .component('AccordionTab', Components.primevue.panel.AccordionTab)
             .component('InputText', Components.primevue.form.InputText)
+            .component('Textarea', Components.primevue.form.Textarea)
             .component('Password', Components.primevue.form.Password)
             .component('Checkbox', Components.primevue.form.Checkbox)
             .component('TriStateCheckbox', Components.primevue.form.TriStateCheckbox)

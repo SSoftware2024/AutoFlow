@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Helpers\FinalClass\Rules;
 use Closure;
 use App\Rules\BiggerThen;
 use Illuminate\Http\Request;
@@ -44,15 +45,7 @@ class AppServiceProvider extends ServiceProvider
 
     private function rules()
     {
-        Validator::extend('bigger_then', function ($attribute, $value, $parameters, $validator) {
-            $parameters[0] = $parameters[0] ?? 0;
-            return $value > $parameters[0];
-        }, 'O campo :attribute deve ter o valor maior que :ct_minimum.');
-
-        Validator::replacer('bigger_then', function ($message, $attribute, $rule, $parameters) {
-            $message = str_replace(':attribute', $attribute, $message);
-            $message = str_replace(':ct_minimum', $parameters[0] ?? 0, $message);
-            return $message;
-        });
+        $rules = new Rules();
+        $rules->execute();
     }
 }

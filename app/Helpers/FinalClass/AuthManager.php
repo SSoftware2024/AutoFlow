@@ -9,6 +9,7 @@ use App\Models\OperatorCashier;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
+//facade
 final class AuthManager
 {
     public function login(Request $request)

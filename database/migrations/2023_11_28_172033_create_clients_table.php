@@ -37,6 +37,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->string('type_client', 255); //enum, veja enum type_client
             $table->boolean('active')->default(true);
+            $table->string('responsible_anonymous',100)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

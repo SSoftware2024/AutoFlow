@@ -4,7 +4,7 @@ namespace App\Helpers\FinalClass\Navigate;
 
 use App\Helpers\Asbstract\Navigate;
 use Illuminate\Support\Facades\Route;
-
+//facade
 final class Breadcrumb extends Navigate
 {
     private array $links = [];

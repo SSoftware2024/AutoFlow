@@ -51,7 +51,7 @@
                     CPF
                     <sup><i class="fa-solid fa-asterisk fa-sm"></i></sup>
                 </label>
-                <InputMask  v-model="form.cpf" mask="999.999.999-99" placeholder="999.999.999-99" :class="{
+                <InputMask v-model="form.cpf" mask="999.999.999-99" placeholder="999.999.999-99" :class="{
                     'p-invalid': form.errors.cpf
                 }" />
                 <span class="text-danger-500" v-if="form.errors.cpf">{{ form.errors.cpf }}</span>
@@ -101,7 +101,7 @@
                 <label>
                     Celular
                 </label>
-                <InputText v-model="form.cellphone" :class="{
+                <InputMask v-model="form.cellphone" mask="(99) 9 9999-9999" placeholder="(99) 9 9999-9999" :class="{
                     'p-invalid': form.errors.cellphone
                 }" />
                 <span class="text-danger-500" v-if="form.errors.cellphone">{{ form.errors.cellphone }}</span>
@@ -109,11 +109,48 @@
             <div class="row-col">
                 <label>
                     Data de nascimento
+                    <sup><i class="fa-solid fa-asterisk fa-sm"></i></sup>
                 </label>
                 <Calendar v-model="form.birth_date" dateFormat="dd/mm/yy" showIcon iconDisplay="input" :class="{
                     'p-invalid': form.errors.birth_date
                 }" />
                 <span class="text-danger-500" v-if="form.errors.birth_date">{{ form.errors.birth_date }}</span>
+            </div>
+        </div>
+        <div class="row-lg sm:space-x-1 mt-2">
+            <div class="row-col">
+                <div class="flex align-items-center">
+                    <Checkbox v-model="responsible_isRegistered" inputId="c1" :binary="true" />
+                    <label for="c1" class="ml-2 cursor-pointer"> Responsável cadastrado </label>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="row-lg sm:space-x-1">
+                <div class="row-col" v-if="!responsible_isRegistered">
+                    <label>
+                        Responsável
+                    </label>
+                    <InputText v-model="form.responsible_anonymous" :class="{
+                        'p-invalid': form.errors.responsible_anonymous
+                    }" />
+                    <span class="text-danger-500" v-if="form.errors.responsible_anonymous">{{
+                        form.errors.responsible_anonymous
+                    }}</span>
+                </div>
+                <div class="row-col" v-else>
+                    <label>Responsável</label>
+                    <div class="card flex justify-center">
+                        <Dropdown v-model="form.responsible_id" :options="model_plate_list" optionLabel="name" optionValue="code"
+                            placeholder="Selecione o modelo" editable class="w-full md:w-14rem" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row-lg sm:space-x-1 mt-2">
+            <div class="row-col">
+                <label for="">Descrição</label>
+                <Textarea v-model="form.description" rows="5" cols="30" />
             </div>
         </div>
         <div class="justify-end mt-2 row">
@@ -123,7 +160,14 @@
     </form>
 </template>
 <script setup>
+import { ref } from 'vue';
 import { useForm, router, usePage } from '@inertiajs/vue3';
+
+const responsible_isRegistered = ref(false);
+const model_plate_list = ref([
+    { name: 'ANTIGO - 1990: AAA-9999', code: 0 },
+    { name: 'NOVO - 2018: AAA9A99', code: 1 },
+]);
 
 const form = useForm({
     name: '',
@@ -135,11 +179,18 @@ const form = useForm({
     street: '',
     neighborhood: '',
     number_house: '',
-    cellphone:'',
-    birth_date: null
+    cellphone: '',
+    birth_date: null,
+    responsible_anonymous: '',
+    responsible_id: null,
+    description: ''
 });
 
-function create(){
-    form.post(route('user.driving_school.students.create'));
+function create() {
+    form.post(route('user.driving_school.students.create'), {
+        onSuccess: () => {
+            form.reset();
+        }
+    });
 }
 </script>

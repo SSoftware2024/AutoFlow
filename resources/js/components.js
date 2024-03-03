@@ -33,6 +33,7 @@ import InputSwitch from 'primevue/inputswitch';
 import RadioButton from 'primevue/radiobutton';
 import FileUpload from 'primevue/fileupload';
 import MultiSelect from 'primevue/multiselect';
+import Textarea from 'primevue/textarea';
 import Calendar from 'primevue/calendar';
 //data
 import DataTable from 'primevue/datatable';
@@ -106,7 +107,8 @@ let primevue = {
         InputSwitch,
         RadioButton,
         MultiSelect,
-        Calendar
+        Calendar,
+        Textarea
     },
     menu: {
         PanelMenu,
