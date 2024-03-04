@@ -42,6 +42,7 @@ Route::group(['prefix' => 'driving-school/', 'middleware' => 'auth'], function (
     });
     Route::group(['prefix' => 'students/'], function () {
         Route::get('/create', [StudentController::class, 'createView'])->name('user.driving_school.students.createView');
+        Route::get('/ax-getResponsibles', [StudentController::class, 'getResponsibles'])->name('user.driving_school.students.ax.getResponsibles');
         Route::post('/create', [StudentController::class, 'create'])->name('user.driving_school.students.create');
 
     });
