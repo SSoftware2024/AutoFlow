@@ -47,6 +47,7 @@ Route::group(['prefix' => 'driving-school/', 'middleware' => 'auth'], function (
         Route::get('/ax-getResponsibles', [StudentController::class, 'getResponsibles'])->name('user.driving_school.students.ax.getResponsibles');
         Route::post('/create', [StudentController::class, 'create'])->name('user.driving_school.students.create');
         Route::put('/update', [StudentController::class, 'update'])->name('user.driving_school.students.update');
+        Route::delete('/delete/{id}', [StudentController::class, 'delete'])->name('user.driving_school.students.delete');
     });
 });
 

@@ -201,7 +201,6 @@ class StudentController extends Controller
     }
     public function delete(int $id)
     {
-
         try {
             DB::transaction(function () use ($id) {
                 Student::where('client_id', $id)->delete();

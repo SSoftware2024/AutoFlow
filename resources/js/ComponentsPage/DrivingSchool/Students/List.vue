@@ -6,7 +6,7 @@
                 class="m-1" v-for="value in $page.props.students.data">
                 <LinkDropdown title="Editar" icon="fa-solid fa-pen-to-square"
                     :href="route('user.driving_school.students.editView', [value.id])"></LinkDropdown>
-                <LinkButtonDropdown title="Deletar" icon="fa-solid fa-trash-can" class="text-red-500" @click="questionDelete(2)"></LinkButtonDropdown>
+                <LinkButtonDropdown title="Deletar" icon="fa-solid fa-trash-can" class="text-red-500" @click="questionDelete(value.id)"></LinkButtonDropdown>
             </CardProfile>
         </div>
         <div>
@@ -36,6 +36,8 @@ function paginate(page_link) {
 }
 
 function questionDelete(id) {
-    console.log(id);
+    alert.questionDeleteInvert(() => {
+        router.delete(route('user.driving_school.students.delete', [id]));
+    });
 }
 </script>
