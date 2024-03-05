@@ -30,11 +30,19 @@ class StudentController extends Controller
             ->setLink('Auto Escola', route: route('user.driving_school.dashboard'))
             ->setLink('Alunos')
             ->setLink('Lista');
-        $students = Client::where('company_id', Auth::user()->company_id)->select(
-            'id',
-            'name',
-            'profile_photo_path'
-        )->paginate(10);
+        if (isset($request->filter) && !empty($request->filter)) {
+            $filter = (object)$request->filter;
+            $students = Client::where('company_id', Auth::user()->company_id)
+                ->where(function ($query) use ($filter) {
+                    $query->where('name', 'like', "%" . $filter->value . "%");
+                    $query->orWhere('id',$filter->value);
+                })
+                ->select('id','name','profile_photo_path')->paginate(10);
+        } else {
+            $students = Client::where('company_id', Auth::user()->company_id)
+            ->select('id','name','profile_photo_path')
+            ->paginate(10);
+        }
         return Inertia::render('DrivingSchool/Students/List', [
             'breadcrumb' =>  $breadcrumb->generate(),
             'students' => $students,
@@ -63,7 +71,7 @@ class StudentController extends Controller
             ->setLink('Lista', route: route('user.driving_school.students.index'))
             ->setLink('Editar');
         $drinving_student = $student->student;
-        $drinving_student->driving_wallet = collect($drinving_student->driving_wallet)->map(function ($value){
+        $drinving_student->driving_wallet = collect($drinving_student->driving_wallet)->map(function ($value) {
             return [
                 'name' => $value,
                 'code' => $value
@@ -157,7 +165,7 @@ class StudentController extends Controller
             'driving_wallet' => 'carteira de habilitação',
             'course_price' => 'valor'
         ])->validate();
-        if(!empty($request->responsible_anonymous)){
+        if (!empty($request->responsible_anonymous)) {
             $responsible_id = null;
         }
         $new_data = [
@@ -169,10 +177,10 @@ class StudentController extends Controller
             DB::transaction(function () use ($request, $new_data) {
                 $toast = MessagesFactory::toast();
                 $data = $request->except('driving_wallet', 'course_price', 'password_confirmation');
-                if(!empty($request->password)){
+                if (!empty($request->password)) {
                     $data['password'] = Hash::make($data['password']);
                     $toast->info('Senha atualizada com sucesso');
-                }else{
+                } else {
                     unset($data['password']);
                 }
                 $user = Auth::user();
