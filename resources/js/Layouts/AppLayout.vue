@@ -12,25 +12,25 @@
                 <i class="fa-solid fa-lightbulb"></i>
             </span>
             <!-- SINO DE NOTIFICAÇÕS -->
-            <!-- <icon-button-dropdown id="dropdownMenuButton1">
+            <!-- <cs-dropdown id="dropdownMenuButton1">
                 <template #icon>
                     <i class="fa-solid fa-bell"></i>
                 </template>
                 <div class="p-4">
                     Content here
                 </div>
-            </icon-button-dropdown> -->
+            </cs-dropdown> -->
 
             <!-- Icone de engrangem, ferrmenta, configurações -->
-            <!-- <icon-button-dropdown id="dropdownMenuButton2">
+            <!-- <cs-dropdown id="dropdownMenuButton2">
                 <template #icon>
                     <i class="fa-solid fa-gear"></i>
                 </template>
                 <div v-if="$page.props.auth_more.guard == 'web' && $page.props.auth.user?.responsible">
                     <link-dropdown title="Editar Empresa"></link-dropdown>
                 </div>
-            </icon-button-dropdown> -->
-            <icon-button-dropdown id="dropdownMenuButton3">
+            </cs-dropdown> -->
+            <cs-dropdown id="dropdownMenuButton3">
                 <template #icon>
                     <!-- :src="$page.props.auth.user.profile_photo_url" :alt="$page.props.auth.user.name" -->
                     <img class="border border-purple-600 rounded-full w-[40px] h-[40px]"
@@ -46,7 +46,7 @@
                         Sair
                     </button>
                 </form>
-            </icon-button-dropdown>
+            </cs-dropdown>
         </navbar>
         <div class="mt-2 custom-container">
             <div class="px-2 py-2 rounded-md bg-gradient-to-r from-slate-700 to-zinc-800 dark:bg-none dark:p-0"

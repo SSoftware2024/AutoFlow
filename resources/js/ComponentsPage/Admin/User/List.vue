@@ -27,7 +27,7 @@
                 <Column header="Ações">
                     <template #body="slotProps">
                         <div class="flex justify-start">
-                            <icon-button-dropdown id="company-options" class="text-xl" :default-icon="false">
+                            <cs-dropdown id="company-options" class="text-xl" :default-icon="false">
                                 <template #icon>
                                     <i class="mr-2 fa-solid fa-ellipsis-vertical"></i>
                                 </template>
@@ -41,7 +41,7 @@
                                     @click=""></link-button-dropdown>
                                 <link-button-dropdown title="Deletar usuário" icon="fa fa-trash" class="text-red-500"
                                     @click="questionDelete(slotProps.data.id)"></link-button-dropdown>
-                            </icon-button-dropdown>
+                            </cs-dropdown>
                         </div>
                     </template>
                 </Column>

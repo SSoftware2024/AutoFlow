@@ -79,9 +79,17 @@ function pageShow(page, current_page, last_page) {
 
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 /* Mantive suas classes de estilo personalizadas */
-
+.dark{
+    .pagination-button{
+        background-color: transparent;
+        border: 1px solid white;
+    }
+    .pagination-button-active{
+        background-color: #021228;
+    }
+}
 .pagination-button {
     margin-top: 4px;
     background-color: #f2f2f2;

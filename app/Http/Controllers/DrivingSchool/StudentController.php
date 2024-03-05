@@ -24,12 +24,31 @@ class StudentController extends Controller
 {
     use PasswordValidationRules;
     /**==========================================VIEWS=================================== */
+    public function index(Request $request)
+    {
+        $breadcrumb = NavigateFactory::breadcrumb()
+            ->setLink('Auto Escola', route: route('user.driving_school.dashboard'))
+            ->setLink('Alunos')
+            ->setLink('Lista');
+        $students = Client::where('company_id', Auth::user()->company_id)->select(
+            'id',
+            'name',
+            'profile_photo_path'
+        )->paginate(10);
+        return Inertia::render('DrivingSchool/Students/List', [
+            'breadcrumb' =>  $breadcrumb->generate(),
+            'students' => $students,
+            'images' => [
+                'user_profile' => asset('img/profile-default.png')
+            ]
+        ]);
+    }
     public function createView(Request $request)
     {
         $breadcrumb = NavigateFactory::breadcrumb()
             ->setLink('Auto Escola', route: route('user.driving_school.dashboard'))
             ->setLink('Alunos')
-            ->setLink('Lista')
+            ->setLink('Lista', route: route('user.driving_school.students.index'))
             ->setLink('Novo');
         return Inertia::render('DrivingSchool/Students/Create', [
             'breadcrumb' =>  $breadcrumb->generate(),
@@ -44,7 +63,7 @@ class StudentController extends Controller
         $collect = collect($request->driving_wallet);
         $driving_wallet = $collect->pluck('code')->toArray();
         //valdiação
-        Validator::make([...$request->except('driving_wallet'), 'driving_wallet' => $driving_wallet],[
+        Validator::make([...$request->except('driving_wallet'), 'driving_wallet' => $driving_wallet], [
             'name' => ['required', 'min:5'],
             'email' => ['required', 'email', 'unique:clients'],
             'password' => $this->passwordRules(),
@@ -54,7 +73,7 @@ class StudentController extends Controller
             'driving_wallet' => ['required'],
             'driving_wallet.*' => [Rule::enum(DrivingWallet::class)],
             'course_price' => ['required', 'bigger_then'],
-        ],[],[
+        ], [], [
             'driving_wallet' => 'carteira de habilitação',
             'course_price' => 'valor'
         ])->validate();
@@ -65,7 +84,7 @@ class StudentController extends Controller
         ];
         try {
             DB::transaction(function () use ($request, $new_data) {
-                $data = $request->except('password_confirmation','driving_wallet','course_price');
+                $data = $request->except('password_confirmation', 'driving_wallet', 'course_price');
                 $user = Auth::user();
                 $client = Client::create([
                     ...$data,
@@ -101,7 +120,7 @@ class StudentController extends Controller
         if (!empty($request->responsible)) {
             $responsibles = User::where('id', $request->responsible)->orWhere('name', 'like', "%" . $request->responsible . "%")->select('id', 'name')->cursor();
             $selectOptions = $responsibles->map(function ($value) {
-                return [
+                return  [
                     'name' => $value->id . ' - ' . $value->name,
                     'code' => $value->id
                 ];

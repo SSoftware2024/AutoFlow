@@ -73,7 +73,7 @@ createInertiaApp({
             .component('Image', Components.primevue.media.Image)
             .component('Badge', Components.primevue.misc.Badge);
             //custom
-            app.component('IconButtonDropdown', Components.custom.dropdown.IconButtonDropdown)
+            app.component('CsDropdown', Components.custom.dropdown.CsDropdown)
             .component('LinkDropdown', Components.custom.dropdown.LinkDropdown)
             .component('LinkButtonDropdown', Components.custom.dropdown.LinkButtonDropdown)
             .component('Pagination', Components.custom.Pagination);

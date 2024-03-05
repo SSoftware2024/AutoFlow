@@ -41,6 +41,7 @@ Route::group(['prefix' => 'driving-school/', 'middleware' => 'auth'], function (
         Route::delete('/delete/{id}', [VehiclesController::class, 'delete'])->name('user.driving_school.vehicles.delete');
     });
     Route::group(['prefix' => 'students/'], function () {
+        Route::get('/list', [StudentController::class, 'index'])->name('user.driving_school.students.index');
         Route::get('/create', [StudentController::class, 'createView'])->name('user.driving_school.students.createView');
         Route::get('/ax-getResponsibles', [StudentController::class, 'getResponsibles'])->name('user.driving_school.students.ax.getResponsibles');
         Route::post('/create', [StudentController::class, 'create'])->name('user.driving_school.students.create');

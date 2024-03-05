@@ -49,7 +49,7 @@ import Image from 'primevue/image';
 //layouts
 import AppLayout from '@/Layouts/AppLayout.vue';
 //custom
-import IconButtonDropdown from '@/Components/DropDown/IconButton.vue';
+import CsDropdown from '@/Components/DropDown/IconButton.vue';
 import LinkDropdown from '@/Components/DropDown/Link.vue';
 import LinkButtonDropdown from '@/Components/DropDown/Button.vue';
 import Pagination from '@/Components/Navigate/Paginate.vue';
@@ -57,7 +57,7 @@ import Pagination from '@/Components/Navigate/Paginate.vue';
 import BadgeDirective from 'primevue/badgedirective';
 let custom = {
     dropdown: {
-        IconButtonDropdown,
+        CsDropdown,
         LinkDropdown,
         LinkButtonDropdown
     },

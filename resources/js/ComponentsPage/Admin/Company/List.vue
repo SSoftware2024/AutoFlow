@@ -48,7 +48,7 @@
                 </div>
                 <div class="relative flex flex-col justify-between p-3 border rounded-md sm:flex-row border-slate-300">
                     <div class="flex justify-start">
-                        <icon-button-dropdown id="company-options" class="bg-[#0EA5E9] w-auto text-white p-2 rounded-md"
+                        <cs-dropdown id="company-options" class="bg-[#0EA5E9] w-auto text-white p-2 rounded-md"
                             :default-icon="true">
                             <template #icon>
                                 <i class="mr-2 fa-solid fa-gear"></i>
