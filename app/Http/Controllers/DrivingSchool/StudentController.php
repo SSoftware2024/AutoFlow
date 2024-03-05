@@ -55,6 +55,29 @@ class StudentController extends Controller
             'driving_wallet_options' => DrivingWallet::getArrayObjectSelect()
         ]);
     }
+    public function editView(Client $student)
+    {
+        $breadcrumb = NavigateFactory::breadcrumb()
+            ->setLink('Auto Escola', route: route('user.driving_school.dashboard'))
+            ->setLink('Alunos')
+            ->setLink('Lista', route: route('user.driving_school.students.index'))
+            ->setLink('Editar');
+        $drinving_student = $student->student;
+        $drinving_student->driving_wallet = collect($drinving_student->driving_wallet)->map(function ($value){
+            return [
+                'name' => $value,
+                'code' => $value
+            ];
+        });
+        return Inertia::render('DrivingSchool/Students/Edit', [
+            'breadcrumb' =>  $breadcrumb->generate(),
+            'driving_wallet_options' => DrivingWallet::getArrayObjectSelect(),
+            'client' => [
+                'value' => $student,
+                'student' => $drinving_student
+            ]
+        ]);
+    }
     /**===================================METODOS ROUTES=================================== */
     public function create(Request $request)
     {
@@ -102,6 +125,88 @@ class StudentController extends Controller
                 ]);
                 MessagesFactory::toast()->success('Operação concluída com sucesso')
                     ->generate();
+            });
+        } catch (\Exception $e) {
+            $errors = new MessageBag();
+            $errors->add('catch', $e->getMessage());
+            return redirect()->back()->withErrors($errors);
+        } catch (\Error $e) {
+            $errors = new MessageBag();
+            $errors->add('catch', $e->getMessage());
+            return redirect()->back()->withErrors($errors);
+        }
+    }
+    public function update(Request $request)
+    {
+        $responsible_id = $request->responsible_id == 0 ? null : $request->responsible_id;
+        //transformando categorias de carteira de habilitação em array simples
+        $collect = collect($request->driving_wallet);
+        $driving_wallet = $collect->pluck('code')->toArray();
+        //valdiação
+        Validator::make([...$request->except('driving_wallet'), 'driving_wallet' => $driving_wallet], [
+            'name' => ['required', 'min:5'],
+            'email' => ['required', 'email', Rule::unique('clients')->ignore($request->id)],
+            'password' => $this->passwordRulesExists(),
+            'cpf' => ['required', 'cpf'],
+            'birth_date' => ['required', 'date_age:18'],
+            'responsible_id' => ['nullable', 'bigger_then'],
+            'driving_wallet' => ['required'],
+            'driving_wallet.*' => [Rule::enum(DrivingWallet::class)],
+            'course_price' => ['required', 'bigger_then'],
+        ], [], [
+            'driving_wallet' => 'carteira de habilitação',
+            'course_price' => 'valor'
+        ])->validate();
+        if(!empty($request->responsible_anonymous)){
+            $responsible_id = null;
+        }
+        $new_data = [
+            'responsible_id' => $responsible_id,
+            'driving_wallet' => $driving_wallet
+        ];
+        try {
+
+            DB::transaction(function () use ($request, $new_data) {
+                $toast = MessagesFactory::toast();
+                $data = $request->except('driving_wallet', 'course_price', 'password_confirmation');
+                if(!empty($request->password)){
+                    $data['password'] = Hash::make($data['password']);
+                    $toast->info('Senha atualizada com sucesso');
+                }else{
+                    unset($data['password']);
+                }
+                $user = Auth::user();
+                Client::where('id', $request->id)->update([
+                    ...$data,
+                    'responsible_id' => $new_data['responsible_id'],
+                    'company_id' => $user->company_id,
+                    'user_id' => $user->id,
+                ]);
+                Student::where('client_id', $request->id)->update([
+                    'driving_wallet' => $new_data['driving_wallet'],
+                    'course_price' => $request->course_price,
+                ]);
+                $toast->success('Operação concluída com sucesso')
+                    ->generate();
+            });
+        } catch (\Exception $e) {
+            $errors = new MessageBag();
+            $errors->add('catch', $e->getMessage());
+            return redirect()->back()->withErrors($errors);
+        } catch (\Error $e) {
+            $errors = new MessageBag();
+            $errors->add('catch', $e->getMessage());
+            return redirect()->back()->withErrors($errors);
+        }
+    }
+    public function delete(int $id)
+    {
+
+        try {
+            DB::transaction(function () use ($id) {
+                Student::where('client_id', $id)->delete();
+                Client::where('id', $id)->delete();
+                MessagesFactory::toast()->info('Operação concluída com sucesso')->generate();
             });
         } catch (\Exception $e) {
             $errors = new MessageBag();

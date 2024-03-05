@@ -5,6 +5,7 @@ import Edit from '@/ComponentsPage/DrivingSchool/Vehicles/Edit.vue';
 //students
 import StudentCreate from '@/ComponentsPage/DrivingSchool/Students/Create.vue';
 import StudentList from '@/ComponentsPage/DrivingSchool/Students/List.vue';
+import StudentEdit from '@/ComponentsPage/DrivingSchool/Students/Edit.vue';
 
 const vehicles = {
      Create,
@@ -13,7 +14,8 @@ const vehicles = {
 };
 const students = {
     StudentCreate,
-    StudentList
+    StudentList,
+    StudentEdit
 };
 export{
     vehicles,

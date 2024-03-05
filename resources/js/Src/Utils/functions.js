@@ -75,7 +75,19 @@ const alert = {
     },
 };
 
+const date_js = {
+    format_date: (date) => {
+        return new Date(date).toLocaleString('pt-BR', {
+            timeZone: 'UTC',
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric'
+        });
+    },
+}
+
 export {
     navigation,
-    alert
+    alert,
+    date_js
 }

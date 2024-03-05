@@ -4,9 +4,9 @@
         sm:flex-row sm:justify-start">
             <CardProfile :title="value.name" :thumbmail="value.profile_photo_path ?? $page.props.images.user_profile"
                 class="m-1" v-for="value in $page.props.students.data">
-                <LinkDropdown title="Editar"></LinkDropdown>
-                <LinkDropdown title="Deletar" icon="fa-solid fa-trash"></LinkDropdown>
-                <LinkDropdown title="Ver"></LinkDropdown>
+                <LinkDropdown title="Editar" icon="fa-solid fa-pen-to-square"
+                    :href="route('user.driving_school.students.editView', [value.id])"></LinkDropdown>
+                <LinkButtonDropdown title="Deletar" icon="fa-solid fa-trash-can" class="text-red-500" @click="questionDelete(2)"></LinkButtonDropdown>
             </CardProfile>
         </div>
         <div>
@@ -18,8 +18,8 @@
 </template>
 
 <script setup>
-import {router, usePage } from '@inertiajs/vue3';
-
+import { router, usePage } from '@inertiajs/vue3';
+import { alert } from '@/Src/Utils/functions.js';
 //components
 import CardProfile from '@/Components/Card/CardProfile.vue';
 //end components
@@ -33,5 +33,9 @@ function paginate(page_link) {
         },
         preserveState: true
     });
+}
+
+function questionDelete(id) {
+    console.log(id);
 }
 </script>
