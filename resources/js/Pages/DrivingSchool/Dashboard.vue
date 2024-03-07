@@ -24,7 +24,7 @@
             <Fieldset legend="Sua rede">
                 <div class="flex justify-center flex-col flex-wrap items-center
                 sm:justify-start sm:flex-row">
-                    <CardCount icon="fa-solid fa-user" title="PROFESSORES" :count="10"></CardCount>
+                    <CardCount icon="fa-solid fa-user" title="PROFESSORES" :count="page.props.counts.teachers" :link="true" :url="route('user.driving_school.teacher.index')"></CardCount>
                     <CardCount icon="fa-solid fa-users" title="ALUNOS" :count="page.props.counts.students" :link="true" :url="route('user.driving_school.students.index')"></CardCount>
                     <CardCount icon="fa-solid fa-car" title="VEÍCULOS" :count="page.props.counts.vehicles" :link="true" :url="route('user.driving_school.vehicles.index')"></CardCount>
                     <CardCount icon="fa-solid fa-user" title="BALCONISTA" :count="10"></CardCount>

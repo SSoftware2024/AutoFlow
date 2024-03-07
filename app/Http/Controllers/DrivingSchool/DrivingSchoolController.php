@@ -25,6 +25,7 @@ class DrivingSchoolController extends Controller
         $counts = [
             'vehicles' => Vehicles::where('company_id', Auth::user()->company_id)->count(),
             'students' => Client::where('company_id', Auth::user()->company_id)->where('type_client', TypeClient::DRIVING_SCHOOL_STUDENT->value)->count(),
+            'teachers' => Client::where('company_id', Auth::user()->company_id)->where('type_client', TypeClient::DRIVING_SCHOOL_TEACHER->value)->count(),
         ];
         return Inertia::render('DrivingSchool/Dashboard', [
             'counts' => $counts,
