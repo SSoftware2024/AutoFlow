@@ -1,5 +1,5 @@
 <template>
-    <form @submit.prevent="create">
+    <form @submit.prevent="save">
         <Fieldset legend="Login" class="mb-3">
             <div class="row sm:space-x-1">
                 <div class="row-col">
@@ -181,7 +181,7 @@
         </Fieldset>
 
         <div class="justify-end mt-2 row">
-            <Button label="Cadastrar" type="submit" icon="fa-solid fa-plus" iconPos="right" severity="success"
+            <Button label="Salvar" type="submit" icon="fa-solid fa-save" iconPos="right" severity="success"
                 :loading="form.processing" />
         </div>
     </form>
@@ -211,11 +211,14 @@ const form = useForm({
     day_payment:page.props.client.teacher.day_payment
 });
 
-function create() {
-    // form.post(route('user.driving_school.teacher.update'), {
-    //     onSuccess: () => {
-    //         form.reset();
-    //     }
-    // });
+function save() {
+    form.transform((data) => ({
+        id:page.props.client.value.id,
+        ...data
+    })).put(route('user.driving_school.teacher.update'), {
+        onSuccess: () => {
+            form.reset('password','password_confirmation');
+        }
+    });
 }
 </script>

@@ -55,6 +55,7 @@ Route::group(['prefix' => 'driving-school/', 'middleware' => ['auth',config('jet
         Route::get('/create', [TeacherController::class, 'createView'])->name('user.driving_school.teacher.createView');
         Route::get('/edit/{teacher}', [TeacherController::class, 'editView'])->name('user.driving_school.teacher.editView');
         Route::post('/create', [TeacherController::class, 'create'])->name('user.driving_school.teacher.create');
+        Route::put('/update', [TeacherController::class, 'update'])->name('user.driving_school.teacher.update');
     });
 });
 require 'guards/admin.php';
