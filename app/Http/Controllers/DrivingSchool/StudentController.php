@@ -30,19 +30,13 @@ class StudentController extends Controller
             ->setLink('Auto Escola', route: route('user.driving_school.dashboard'))
             ->setLink('Alunos')
             ->setLink('Lista');
+        $client = Client::query()->where('company_id', Auth::user()->company_id)
+            ->select('id', 'name', 'profile_photo_path');
         if (isset($request->filter) && !empty($request->filter)) {
             $filter = (object)$request->filter;
-            $students = Client::where('company_id', Auth::user()->company_id)
-                ->where(function ($query) use ($filter) {
-                    $query->where('name', 'like', "%" . $filter->value . "%");
-                    $query->orWhere('id',$filter->value);
-                })
-                ->select('id','name','profile_photo_path')->paginate(10);
-        } else {
-            $students = Client::where('company_id', Auth::user()->company_id)
-            ->select('id','name','profile_photo_path')
-            ->paginate(10);
+            !is_numeric($filter->value) ? $client->where('name', 'like', "%" . $filter->value . "%") : $client->where('id', $filter->value);
         }
+        $students = $client->paginate(10);
         return Inertia::render('DrivingSchool/Students/List', [
             'breadcrumb' =>  $breadcrumb->generate(),
             'students' => $students,

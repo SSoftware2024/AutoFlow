@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignIdFor(Client::class)->constrained();
             $table->json('driving_wallet');
             $table->double('wage', 7,2);
-            $table->date('day_payment');
+            $table->smallInteger('day_payment');
             $table->timestamps();
             $table->softDeletes();
         });

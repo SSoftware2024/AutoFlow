@@ -8,7 +8,7 @@ use App\Http\Controllers\Admin\CompanyController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Financial\PaymentPlanController;
 
-Route::group(['prefix' => 'admin/', 'middleware' => 'auth:admin'], function () {
+Route::group(['prefix' => 'admin/', 'middleware' => ['auth:admin',config('jetstream.auth_session')]], function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 
     Route::group(['middleware' => 'admin_first'], function () {

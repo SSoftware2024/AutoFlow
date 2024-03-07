@@ -7,6 +7,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DrivingSchool\VehiclesController;
 use App\Http\Controllers\DrivingSchool\DrivingSchoolController;
 use App\Http\Controllers\DrivingSchool\StudentController;
+use App\Http\Controllers\DrivingSchool\TeacherController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,7 +30,7 @@ Route::get('/', function () {
 });
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-Route::group(['prefix' => 'driving-school/', 'middleware' => 'auth'], function () {
+Route::group(['prefix' => 'driving-school/', 'middleware' => ['auth',config('jetstream.auth_session')]], function () {
     Route::get('/dashboard', [DrivingSchoolController::class, 'index'])->name('user.driving_school.dashboard');
 
     Route::group(['prefix' => 'vehicles/'], function () {
@@ -49,13 +50,9 @@ Route::group(['prefix' => 'driving-school/', 'middleware' => 'auth'], function (
         Route::put('/update', [StudentController::class, 'update'])->name('user.driving_school.students.update');
         Route::delete('/delete/{id}', [StudentController::class, 'delete'])->name('user.driving_school.students.delete');
     });
+    Route::group(['prefix' => 'teachers/'], function () {
+        Route::get('/create', [TeacherController::class, 'createView'])->name('user.driving_school.teacher.createView');
+        Route::post('/create', [TeacherController::class, 'create'])->name('user.driving_school.teacher.create');
+    });
 });
-
-// Route::middleware([
-//     'auth:sanctum',
-//     config('jetstream.auth_session'),
-//     'verified',
-// ])->group(function () {
-// });
-
 require 'guards/admin.php';
