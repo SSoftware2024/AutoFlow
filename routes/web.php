@@ -51,6 +51,7 @@ Route::group(['prefix' => 'driving-school/', 'middleware' => ['auth',config('jet
         Route::delete('/delete/{id}', [StudentController::class, 'delete'])->name('user.driving_school.students.delete');
     });
     Route::group(['prefix' => 'teachers/'], function () {
+        Route::get('/list', [TeacherController::class, 'index'])->name('user.driving_school.teacher.index');
         Route::get('/create', [TeacherController::class, 'createView'])->name('user.driving_school.teacher.createView');
         Route::post('/create', [TeacherController::class, 'create'])->name('user.driving_school.teacher.create');
     });

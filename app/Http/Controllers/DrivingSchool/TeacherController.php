@@ -23,12 +23,34 @@ class TeacherController extends Controller
 {
     use PasswordValidationRules;
     /**==========================================VIEWS=================================== */
+    public function index(Request $request)
+    {
+        $breadcrumb = NavigateFactory::breadcrumb()
+            ->setLink('Auto Escola', route: route('user.driving_school.dashboard'))
+            ->setLink('Professores')
+            ->setLink('Lista');
+        $client = Client::query()->where('company_id', Auth::user()->company_id)
+            ->where('type_client', TypeClient::DRIVING_SCHOOL_TEACHER->value)
+            ->select('id', 'name', 'profile_photo_path');
+        if (isset($request->filter) && !empty($request->filter)) {
+            $filter = (object)$request->filter;
+            !is_numeric($filter->value) ? $client->where('name', 'like', "%" . $filter->value . "%") : $client->where('id', $filter->value);
+        }
+        $teachers = $client->paginate(10);
+        return Inertia::render('DrivingSchool/Teacher/List', [
+            'breadcrumb' =>  $breadcrumb->generate(),
+            'teachers' => $teachers,
+            'images' => [
+                'user_profile' => asset('img/profile-default.png')
+            ]
+        ]);
+    }
     public function createView(Request $request)
     {
         $breadcrumb = NavigateFactory::breadcrumb()
             ->setLink('Auto Escola', route: route('user.driving_school.dashboard'))
             ->setLink('Professores')
-            ->setLink('Lista')
+            ->setLink('Lista', route: route('user.driving_school.teacher.index'))
             ->setLink('Novo');
         return Inertia::render('DrivingSchool/Teacher/Create', [
             'breadcrumb' =>  $breadcrumb->generate(),
@@ -50,7 +72,7 @@ class TeacherController extends Controller
             'birth_date' => ['required', 'date_age:18'],
             'driving_wallet' => ['required'],
             'driving_wallet.*' => [Rule::enum(DrivingWallet::class)],
-            'wage' => ['required','numeric'],
+            'wage' => ['required', 'numeric'],
             'day_payment' => ['required'],
         ], [], [
             'driving_wallet' => 'carteira de habilitação',
@@ -62,7 +84,7 @@ class TeacherController extends Controller
         ];
         try {
             DB::transaction(function () use ($request, $new_data) {
-                $data = $request->except('password_confirmation', 'driving_wallet', 'wage','day_payment');
+                $data = $request->except('password_confirmation', 'driving_wallet', 'wage', 'day_payment');
                 $user = Auth::user();
                 $client = Client::create([
                     ...$data,

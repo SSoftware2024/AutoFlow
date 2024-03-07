@@ -31,6 +31,7 @@ class StudentController extends Controller
             ->setLink('Alunos')
             ->setLink('Lista');
         $client = Client::query()->where('company_id', Auth::user()->company_id)
+            ->where('type_client', TypeClient::DRIVING_SCHOOL_STUDENT->value)
             ->select('id', 'name', 'profile_photo_path');
         if (isset($request->filter) && !empty($request->filter)) {
             $filter = (object)$request->filter;
