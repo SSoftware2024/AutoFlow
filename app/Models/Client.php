@@ -3,13 +3,12 @@
 namespace App\Models;
 use App\Models\Company;
 use App\Models\DrivingSchool\Student;
-use App\Models\TypeClient;
+use App\Models\DrivingSchool\Teacher;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Jetstream\HasProfilePhoto;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -75,5 +74,9 @@ class Client extends Authenticatable
     public function student(): HasOne
     {
         return $this->hasOne(Student::class);
+    }
+    public function teacher(): HasOne
+    {
+        return $this->hasOne(Teacher::class);
     }
 }

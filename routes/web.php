@@ -53,6 +53,7 @@ Route::group(['prefix' => 'driving-school/', 'middleware' => ['auth',config('jet
     Route::group(['prefix' => 'teachers/'], function () {
         Route::get('/list', [TeacherController::class, 'index'])->name('user.driving_school.teacher.index');
         Route::get('/create', [TeacherController::class, 'createView'])->name('user.driving_school.teacher.createView');
+        Route::get('/edit/{teacher}', [TeacherController::class, 'editView'])->name('user.driving_school.teacher.editView');
         Route::post('/create', [TeacherController::class, 'create'])->name('user.driving_school.teacher.create');
     });
 });

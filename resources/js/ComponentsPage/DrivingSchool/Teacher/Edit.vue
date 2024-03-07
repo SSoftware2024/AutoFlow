@@ -189,31 +189,33 @@
 <script setup>
 import { ref } from 'vue';
 import { useForm, router, usePage } from '@inertiajs/vue3';
+import { date_js } from '@/Src/Utils/functions.js';
+const page = usePage();
 
 const form = useForm({
-    name: '',
-    email: '',
+    name: page.props.client.value.name,
+    email: page.props.client.value.email,
     password: '',
     password_confirmation: '',
-    cpf: '',
-    rg: '',
-    street: '',
-    neighborhood: '',
-    number_house: '',
-    cellphone: '',
-    birth_date: null,
-    description: '',
+    cpf: page.props.client.value.cpf,
+    rg: page.props.client.value.rg,
+    street: page.props.client.value.street,
+    neighborhood: page.props.client.value.neighborhood,
+    number_house: page.props.client.value.number_house,
+    cellphone: page.props.client.value.cellphone,
+    birth_date: date_js.format_date(page.props.client.value.birth_date),
+    description: page.props.client.value.description,
     //client_teacher
-    wage: null,
-    driving_wallet: null,
-    day_payment:1
+    wage: page.props.client.teacher.wage,
+    driving_wallet: page.props.client.teacher.driving_wallet,
+    day_payment:page.props.client.teacher.day_payment
 });
 
 function create() {
-    form.post(route('user.driving_school.teacher.create'), {
-        onSuccess: () => {
-            form.reset();
-        }
-    });
+    // form.post(route('user.driving_school.teacher.update'), {
+    //     onSuccess: () => {
+    //         form.reset();
+    //     }
+    // });
 }
 </script>

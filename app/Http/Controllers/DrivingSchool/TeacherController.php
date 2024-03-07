@@ -57,6 +57,30 @@ class TeacherController extends Controller
             'driving_wallet_options' => DrivingWallet::getArrayObjectSelect()
         ]);
     }
+    public function editView(Client $teacher)
+    {
+        $breadcrumb = NavigateFactory::breadcrumb()
+            ->setLink('Auto Escola', route: route('user.driving_school.dashboard'))
+            ->setLink('Professores')
+            ->setLink('Lista', route: route('user.driving_school.teacher.index'))
+            ->setLink('Editar');
+
+        $drinving_teacher = $teacher->teacher;
+        $drinving_teacher->driving_wallet = collect($drinving_teacher->driving_wallet)->map(function ($value) {
+            return [
+                'name' => $value,
+                'code' => $value
+            ];
+        });
+        return Inertia::render('DrivingSchool/Teacher/Edit', [
+            'breadcrumb' =>  $breadcrumb->generate(),
+            'driving_wallet_options' => DrivingWallet::getArrayObjectSelect(),
+            'client' => [
+                'value' => $teacher,
+                'teacher' => $drinving_teacher
+            ]
+        ]);
+    }
     /**===================================METODOS ROUTES=================================== */
     public function create(Request $request)
     {

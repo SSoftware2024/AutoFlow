@@ -13,8 +13,8 @@
         sm:flex-row sm:justify-start">
             <CardProfile :title="value.name" :thumbmail="value.profile_photo_path ?? $page.props.images.user_profile"
                 class="m-1" v-for="value in $page.props.teachers.data">
-                <!-- <LinkDropdown title="Editar" icon="fa-solid fa-pen-to-square"
-                    :href="route('user.driving_school.teachers.editView', [value.id])"></LinkDropdown> -->
+                <LinkDropdown title="Editar" icon="fa-solid fa-pen-to-square"
+                    :href="route('user.driving_school.teacher.editView', [value.id])"></LinkDropdown>
                 <LinkButtonDropdown title="Deletar" icon="fa-solid fa-trash-can" class="text-red-500"
                     @click="questionDelete(value.id)"></LinkButtonDropdown>
             </CardProfile>
