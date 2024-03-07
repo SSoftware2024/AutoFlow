@@ -197,4 +197,23 @@ class TeacherController extends Controller
             return redirect()->back()->withErrors($errors);
         }
     }
+
+    public function delete(int $id)
+    {
+        try {
+            DB::transaction(function () use ($id) {
+                Teacher::where('client_id', $id)->delete();
+                Client::where('id', $id)->delete();
+                MessagesFactory::toast()->info('Operação concluída com sucesso')->generate();
+            });
+        } catch (\Exception $e) {
+            $errors = new MessageBag();
+            $errors->add('catch', $e->getMessage());
+            return redirect()->back()->withErrors($errors);
+        } catch (\Error $e) {
+            $errors = new MessageBag();
+            $errors->add('catch', $e->getMessage());
+            return redirect()->back()->withErrors($errors);
+        }
+    }
 }

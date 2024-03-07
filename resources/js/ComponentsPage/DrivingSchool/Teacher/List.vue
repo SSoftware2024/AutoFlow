@@ -63,7 +63,7 @@ function search() {
 
 function questionDelete(id) {
     alert.questionDeleteInvert(() => {
-        // router.delete(route('user.driving_school.teachers.delete', [id]));
+        router.delete(route('user.driving_school.teacher.delete', [id]));
     });
 }
 </script>
