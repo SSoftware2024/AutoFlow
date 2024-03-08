@@ -237,7 +237,7 @@ let web = {
                         {
                             label: 'Novo',
                             icon: 'fa-solid fa-user-plus',
-                            command: () => null
+                            command: () => router.get(window.route('user.driving_school.operator_cashier.createView'))
                         },
                         {
                             label: 'Lista',

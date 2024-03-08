@@ -56,7 +56,7 @@
                             <link-dropdown title="Editar" icon="fa fa-edit"
                                 :href="route('adm.company.editView', { company: value.id })"></link-dropdown>
                             <link-button-dropdown title="Deletar" icon="fa fa-trash" @click="toDelete(value.id, value.name)"></link-button-dropdown>
-                        </icon-button-dropdown>
+                        </cs-dropdown>
                     </div>
                     <div class="flex flex-wrap relative sm:top-[5px]">
                         <Link :href="route('adm.user.index', {company_id: value.id})"

@@ -6,6 +6,7 @@ use Illuminate\Foundation\Application;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DrivingSchool\VehiclesController;
 use App\Http\Controllers\DrivingSchool\DrivingSchoolController;
+use App\Http\Controllers\DrivingSchool\OperatorCashierController as DrivingOperatorCashierController;
 use App\Http\Controllers\DrivingSchool\StudentController;
 use App\Http\Controllers\DrivingSchool\TeacherController;
 
@@ -57,6 +58,10 @@ Route::group(['prefix' => 'driving-school/', 'middleware' => ['auth',config('jet
         Route::post('/create', [TeacherController::class, 'create'])->name('user.driving_school.teacher.create');
         Route::put('/update', [TeacherController::class, 'update'])->name('user.driving_school.teacher.update');
         Route::delete('/delete/{id}', [TeacherController::class, 'delete'])->name('user.driving_school.teacher.delete');
+    });
+    Route::group(['prefix' => 'operator_cashier/'], function () {
+        Route::get('/create', [DrivingOperatorCashierController::class, 'createView'])->name('user.driving_school.operator_cashier.createView');
+        Route::post('/create', [DrivingOperatorCashierController::class, 'create'])->name('user.driving_school.operator_cashier.create');
     });
 });
 require 'guards/admin.php';

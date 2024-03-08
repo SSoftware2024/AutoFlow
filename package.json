@@ -25,6 +25,7 @@
         "@fullcalendar/interaction": "^6.1.11",
         "@fullcalendar/timegrid": "^6.1.11",
         "@fullcalendar/vue3": "^6.1.11",
+        "@sweetalert2/theme-dark": "^5.0.16",
         "animate.css": "^4.1.1",
         "mitt": "^3.0.1",
         "primeicons": "^6.0.1",

@@ -100,7 +100,7 @@ class TeacherController extends Controller
             'day_payment' => ['required'],
         ], [], [
             'driving_wallet' => 'carteira de habilitação',
-            'wage' => 'slário mensal'
+            'wage' => 'salário mensal'
         ])->validate();
 
         $new_data = [
@@ -155,7 +155,7 @@ class TeacherController extends Controller
             'day_payment' => ['required'],
         ], [], [
             'driving_wallet' => 'carteira de habilitação',
-            'wage' => 'slário mensal'
+            'wage' => 'salário mensal'
         ])->validate();
 
         $new_data = [

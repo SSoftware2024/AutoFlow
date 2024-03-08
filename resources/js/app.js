@@ -1,7 +1,8 @@
 import './bootstrap';
 // import '../css/app.css';
 if(localStorage.getItem('theme') == 'dark'){
-    import ('primevue/resources/themes/lara-dark-green/theme.css')
+    import ('primevue/resources/themes/lara-dark-green/theme.css');
+    import ('@sweetalert2/theme-dark/dark.css');
 }else{
     import ('primevue/resources/themes/lara-light-green/theme.css')
 }
