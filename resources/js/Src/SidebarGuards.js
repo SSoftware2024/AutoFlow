@@ -242,7 +242,7 @@ let web = {
                         {
                             label: 'Lista',
                             icon: 'fa-solid fa-list',
-                            command: () => null
+                            command: () => router.get(window.route('user.driving_school.operator_cashier.index'))
                         },
                     ]
                 }

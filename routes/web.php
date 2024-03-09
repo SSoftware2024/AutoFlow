@@ -60,6 +60,7 @@ Route::group(['prefix' => 'driving-school/', 'middleware' => ['auth',config('jet
         Route::delete('/delete/{id}', [TeacherController::class, 'delete'])->name('user.driving_school.teacher.delete');
     });
     Route::group(['prefix' => 'operator_cashier/'], function () {
+        Route::get('/list', [DrivingOperatorCashierController::class, 'index'])->name('user.driving_school.operator_cashier.index');
         Route::get('/create', [DrivingOperatorCashierController::class, 'createView'])->name('user.driving_school.operator_cashier.createView');
         Route::post('/create', [DrivingOperatorCashierController::class, 'create'])->name('user.driving_school.operator_cashier.create');
     });
