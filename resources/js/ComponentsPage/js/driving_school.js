@@ -14,6 +14,7 @@ import TeacherEdit from '@/ComponentsPage/DrivingSchool/Teacher/Edit.vue';
 //operator_cashier
 import OperatorCashierCreate from '@/ComponentsPage/DrivingSchool/OperatorCashier/Create.vue';
 import OperatorCashierList from '@/ComponentsPage/DrivingSchool/OperatorCashier/List.vue';
+import OperatorCashierEdit from '@/ComponentsPage/DrivingSchool/OperatorCashier/Edit.vue';
 const vehicles = {
      Create,
      List,
@@ -33,7 +34,8 @@ const teachers = {
 
 const operator_cashier = {
     OperatorCashierCreate,
-    OperatorCashierList
+    OperatorCashierList,
+    OperatorCashierEdit
 }
 export{
     vehicles,

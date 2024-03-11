@@ -50,6 +50,18 @@ class OperatorCashierController extends Controller
             'breadcrumb' =>  $breadcrumb->generate(),
         ]);
     }
+    public function editView(OperatorCashier $operator_cashier)
+    {
+        $breadcrumb = NavigateFactory::breadcrumb()
+            ->setLink('Auto Escola', route: route('user.driving_school.dashboard'))
+            ->setLink('Balconista')
+            ->setLink('Lista', route: route('user.driving_school.operator_cashier.index'))
+            ->setLink('Editar');
+        return Inertia::render('DrivingSchool/OperatorCashier/Edit', [
+            'breadcrumb' =>  $breadcrumb->generate(),
+            'operator_cashier' => $operator_cashier
+        ]);
+    }
     /**===================================METODOS ROUTES=================================== */
     public function create(Request $request)
     {
